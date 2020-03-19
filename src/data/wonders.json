@@ -1,0 +1,153 @@
+{
+  "cards": [
+    {
+      "name": "The Appian Way",
+      "cost": {
+        "papyrus" : 1,
+        "clay": 2,
+        "stone": 2
+      },
+      "effect": {
+        "coin": 3,
+        "remove_coin": 3,
+        "repeat": 1,
+        "points": 3
+      }
+    },
+    {
+      "name": "The Sphinx",
+      "cost": {
+        "glass" : 2,
+        "clay": 1,
+        "stone": 1
+      },
+      "effect": {
+        "repeat": 1,
+        "points": 6
+      }
+    },
+    {
+      "name": "The Hanging Gardens",
+      "cost": {
+        "papyrus" : 1,
+        "glass" : 1,
+        "wood": 2
+      },
+      "effect": {
+        "coin": 6,
+        "repeat": 1,
+        "points": 3
+      }
+    },
+    {
+      "name": "The Pyramids",
+      "cost": {
+        "papyrus" : 1,
+        "stone" : 3
+      },
+      "effect": {
+        "points": 9
+      }
+    },
+    {
+      "name": "The Great Lighthouse",
+      "cost": {
+        "papyrus" : 2,
+        "stone" : 1,
+        "wood" : 1
+      },
+      "effect": {
+        "resource": [ "wood", "stone", "clay" ],
+        "points": 4
+      }
+    },
+    {
+      "name": "The Statue of Zeus",
+      "cost": {
+        "papyrus" : 2,
+        "clay" : 1,
+        "wood" : 1,
+        "stone" : 1
+      },
+      "effect": {
+        "destroy_resource_brown": 1,
+        "war": 1,
+        "points": 3
+      }
+    },
+    {
+      "name": "The Temple of Artemis",
+      "cost": {
+        "papyrus" : 1,
+        "glass" : 1,
+        "stone" : 1,
+        "wood" : 1
+      },
+      "effect": {
+        "coin": 12,
+        "repeat": 1
+      }
+    },
+    {
+      "name": "The Great Library",
+      "cost": {
+        "papyrus" : 1,
+        "glass" : 1,
+        "wood" : 3
+      },
+      "effect": {
+        "progress_token": 1,
+        "points": 4
+      }
+    },
+    {
+      "name": "The Mausoleum",
+      "cost": {
+        "papyrus" : 1,
+        "glass" : 2,
+        "clay" : 2
+      },
+      "effect": {
+        "revive_card": 1,
+        "points": 2
+      }
+    },
+    {
+      "name": "Circus Maximus",
+      "cost": {
+        "glass" : 1,
+        "wood" : 1,
+        "stone" : 2
+      },
+      "effect": {
+        "destroy_resource_silver": 1,
+        "war": 1,
+        "points": 3
+      }
+    },
+    {
+      "name": "Piraeus",
+      "cost": {
+        "clay": 1,
+        "stone": 1,
+        "wood": 2
+      },
+      "effect": {
+        "resource": [ "papyrus", "glass" ],
+        "repeat": 1,
+        "points": 2
+      }
+    },
+    {
+      "name": "The Colossus",
+      "cost": {
+        "glass": 1,
+        "clay": 3
+      },
+      "effect": {
+        "war": 2,
+        "points": 3
+      }
+    }
+  ]
+}

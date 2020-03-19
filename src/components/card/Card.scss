@@ -1,0 +1,33 @@
+$card-width: 100px;
+
+.card {
+  width: $card-width;
+  height: $card-width * 1.5;
+  padding: 10px;
+  display: inline-flex;
+  flex-direction: column;
+  position: absolute;
+
+  ul {
+    margin: 0;
+  }
+
+  &.-military {
+    background-color: red;
+  }
+  &.-civilian {
+    background-color: blue;
+  }
+  &.-commercial {
+    background-color: yellow;
+  }
+  &.-resouce_brown {
+    background-color: brown;
+  }
+  &.-resouce_grey {
+    background-color: grey;
+  }
+  &.-scientific {
+    background-color: green;
+  }
+}
