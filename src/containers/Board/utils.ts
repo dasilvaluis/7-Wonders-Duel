@@ -1,6 +1,5 @@
-import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, MAX_CARDS } from '../../contants';
+import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT } from '../../contants';
 import { Position } from '../../types';
-import { cards as cardsDb } from '../../data/cards.json';
 
 export const schemeFirstEra = [ 2, 3, 4, 5, 6 ];
 export const schemeSecondEra = [ 6, 5, 4, 3, 2 ];
@@ -19,11 +18,11 @@ const getRowOf = (howMany: number) => {
   return positions;
 };
 
-const extractPositions = (rows: Position[][]) => rows.reduce((acc, curr) => [ ...acc, ...curr ], []);
+export const flattenMultiLevelArray = <T>(rows: T[][]) => rows.reduce((acc, curr) => [ ...acc, ...curr ], []);
 
 const moveRowVertically = (row: Position[], rowIndex: number) => row.map((position) => ({
   ...position,
-  y: rowIndex * (CARD_HEIGHT / 3)
+  y: rowIndex * (CARD_HEIGHT / 3.5)
 }));
 
 const centerRow = (row: Position[], cardsQuantity: number) => row.map((position) => ({
@@ -46,14 +45,13 @@ export const getCardsPlacement = (scheme: number[]) => {
     return rowCentered;
   });
 
-  return extractPositions(rows);
+  return flattenMultiLevelArray<Position>(rows);
 };
 
-export const getCards = () => {
-  const cards = [ ...cardsDb ];
-  const shuffledCards = cards.sort(() => Math.random() - 0.5);
-  while (shuffledCards.length > MAX_CARDS) {
-    shuffledCards.splice(Math.round(Math.random() * shuffledCards.length), 1);
+export const shuffleAndLimitArray = <T>(elements: T[], limit: number) => {
+  const shuffledCards = [ ...elements ].sort(() => Math.random() - 0.5);
+  while (shuffledCards.length > limit) {
+    shuffledCards.pop();
   }
   
   return shuffledCards;

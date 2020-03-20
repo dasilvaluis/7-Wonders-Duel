@@ -2,11 +2,12 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Card } from '../../components/card/Card';
 import { CardInterface } from '../../types';
-import './Board.scss'
-import { getCardsPlacement, schemeFirstEra, movePositions, getCards } from './utils';
-import { BOARD_WIDTH } from '../../contants';
+import { getCardsPlacement, schemeFirstEra, movePositions, shuffleAndLimitArray } from './utils';
+import { BOARD_WIDTH, MAX_CARDS } from '../../contants';
 import PlayerArea from '../PlayerArea/PlayerArea';
 import { DraggingArea } from '../DraggingArea/DraggingArea';
+import { cards as cardsDb } from '../../data/cards.json';
+import './Board.scss'
 
 const Board = () => {
   const [ eraCards, setEraCards ] = useState<Array<CardInterface>>([]);
@@ -17,7 +18,7 @@ const Board = () => {
       y: 0
     });
 
-    const cards: CardInterface[] = getCards().map((card, index) => {
+    const cards: CardInterface[] = shuffleAndLimitArray(cardsDb, MAX_CARDS).map((card, index) => {
       const { name, type } = card;
       const { x, y } = typeof cardsPlacement[index] !== 'undefined'
         ? { x: cardsPlacement[index].x, y: cardsPlacement[index].y }
