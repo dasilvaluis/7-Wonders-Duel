@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux';
-import money from './money-reducer';
+import players, { Players } from './players-reducer';
 import militaryPoints from './military-points-reducer';
+import ageCards, { AgeCard } from './cards-reducer';
 
 export interface AppState {
-  money: number
-  militaryPoints: number
+  players: Players;
+  ageCards: Array<AgeCard>;
+  militaryPoints: number;
 }
 
 export default combineReducers<AppState>({
-  money,
+  players,
+  ageCards,
   militaryPoints
 });

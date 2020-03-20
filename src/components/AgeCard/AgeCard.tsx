@@ -1,19 +1,19 @@
 import React from "react";
-import { CardInterface } from "../../types";
 import Draggable from "react-draggable";
-import './Card.scss';
+import { AgeCard as AgeCardInterface } from "../../reducers/cards-reducer";
+import './AgeCard.scss';
 
 interface Props {
-  initialX: number;
-  initialY: number;
-  card: CardInterface;
+  x: number;
+  y: number;
+  card: AgeCardInterface;
 }
 
-export const Card = (props: Props) => {
+export const AgeCard = (props: Props) => {
   return (
     <Draggable 
       bounds="#draggingarea"
-      defaultPosition={{x: props.initialX, y: props.initialY}}
+      position={{x: props.x, y: props.y}}
     >
       <div className={`card -${props.card.type}`}>
         <span>{props.card.name}</span>

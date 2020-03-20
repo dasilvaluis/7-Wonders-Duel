@@ -1,37 +1,28 @@
 import React from 'react';
-import { AppState } from '../../reducers';
-import { getMoney } from '../../reducers/selectors';
-import { connect } from 'react-redux';
 import './PlayerArea.scss';
 
 interface OwnProps {
-  playerName: string
+  playerName: string;
+  money: number;
+  onSetMoney(value: number): void;
 }
 
-interface StateProps {
-  money: number
-}
+interface Props extends OwnProps {}
 
-interface Props extends OwnProps, Partial<StateProps> {}
-
-const PlayerArea: React.FC<Props> = (props: Props) => {
-
+export default (props: Props) => {
   return (
     <div className="playerarea">
-      <div>Money: {props.money}</div>
+      <div>Money:
+        <input
+          type="number"
+          value={props.money}
+          className="playerarea__money-input"
+          onChange={(e) => props.onSetMoney(parseInt(e.target.value, 10))}
+        />
+      </div>
       <div className="playerarea__tokens"></div>
       <div className="playerarea__wonders"></div>
       <div className="playerarea__deck"></div>
     </div>
   )
 };
-
-
-const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-  money: getMoney(state)
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(PlayerArea);

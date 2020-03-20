@@ -14,4 +14,13 @@
     height: $wonder-height;
     border: 1px solid black;
   }
+
+  &__money-input {
+    width: 50px;
+    font-size: 14px;
+    margin-left: 5px;
+    &:focus {
+      outline: none;
+    }
+  }
 }
