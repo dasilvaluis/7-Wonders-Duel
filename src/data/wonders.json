@@ -8,7 +8,7 @@
         "stone": 2
       },
       "effect": {
-        "coin": 3,
+        "money": 3,
         "remove_coin": 3,
         "repeat": 1,
         "points": 3
@@ -34,7 +34,7 @@
         "wood": 2
       },
       "effect": {
-        "coin": 6,
+        "money": 6,
         "repeat": 1,
         "points": 3
       }
@@ -84,7 +84,7 @@
         "wood" : 1
       },
       "effect": {
-        "coin": 12,
+        "money": 12,
         "repeat": 1
       }
     },

@@ -1,3 +1,3 @@
-export const ADD_COIN = 'ADD_COIN';
-export const TAKE_COIN = 'TAKE_COIN';
+export const ADD_MONEY = 'ADD_MONEY';
+export const TAKE_MONEY = 'TAKE_MONEY';
 export const SET_MILITARY_POINTS = 'SET_MILITARY_POINTS';

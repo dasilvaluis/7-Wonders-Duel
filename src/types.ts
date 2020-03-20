@@ -1,10 +1,15 @@
-export interface CardInterface {
+export interface CardInterface extends Position {
   name: string,
-  cost: { 
+  type: string,
+  cost?: { 
     [key: string ]: number
   },
-  effect: {
+  effect?: {
     [key: string ]: number | string
-  },
-  type: "military" | "civilian" | "commercial" | "resouce_brown" | "resouce_grey" | "scientific"
+  }
+}
+
+export interface Position {
+  x: number;
+  y: number;
 }

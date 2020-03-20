@@ -14,7 +14,7 @@
     {
       "name": "Palenque",
       "cost": {
-        "coin": 2
+        "money": 2
       },
       "effect": {
         "war": 1,
@@ -73,7 +73,7 @@
     {
       "name": "Reserva de Piedra",
       "cost": {
-        "coin": 3
+        "money": 3
       },
       "effect": {
         "stone": 1
@@ -84,14 +84,14 @@
       "name": "Taberna",
       "cost": {},
       "effect": {
-        "coin": 4
+        "money": 4
       },
       "type": "commercial"
     },
     {
       "name": "Reserva de Arcilla",
       "cost": {
-        "coin": 3
+        "money": 3
       },
       "effect": {
         "clay": 1
@@ -101,7 +101,7 @@
     {
       "name": "Reserva de Madera",
       "cost": {
-        "coin": 3
+        "money": 3
       },
       "effect": {
         "wood": 1
@@ -119,7 +119,7 @@
     {
       "name": "Almacém de Piedra",
       "cost": {
-        "coin": 1
+        "money": 1
       },
       "effect": {
         "stone": 1
@@ -129,7 +129,7 @@
     {
       "name": "Explotación de Arcilla",
       "cost": {
-        "coin": 1
+        "money": 1
       },
       "effect": {
         "clay": 1
@@ -155,7 +155,7 @@
     {
       "name": "Campo Maderero",
       "cost": {
-        "coin": 1
+        "money": 1
       },
       "effect": {
         "wood": 1
@@ -165,7 +165,7 @@
     {
       "name": "Prensa",
       "cost": {
-        "coin": 1
+        "money": 1
       },
       "effect": {
         "papyrus": 1
@@ -175,7 +175,7 @@
     {
       "name": "Cristalería",
       "cost": {
-        "coin": 1
+        "money": 1
       },
       "effect": {
         "glass": 1
@@ -207,7 +207,7 @@
     {
       "name": "Scriptorium",
       "cost": {
-        "coin": 2
+        "money": 2
       },
       "effect": {
         "C": 1,
@@ -218,7 +218,7 @@
     {
       "name": "Botica",
       "cost": {
-        "coin": 2
+        "money": 2
       },
       "effect": {
         "D": 1,

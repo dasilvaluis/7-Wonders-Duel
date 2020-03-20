@@ -12,7 +12,7 @@ interface Props {
 export const Card = (props: Props) => {
   return (
     <Draggable 
-      bounds=".board"
+      bounds="#draggingarea"
       defaultPosition={{x: props.initialX, y: props.initialY}}
     >
       <div className={`card -${props.card.type}`}>
