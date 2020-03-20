@@ -1,0 +1,17 @@
+@import '../../constants.scss';
+
+.playerarea {
+  width: 100%;
+
+  &__deck {
+    width: 100%;
+    height: $card-height * 1.5;
+    border: 1px solid black;
+  }
+
+  &__wonders {
+    width: 100%;
+    height: $wonder-height;
+    border: 1px solid black;
+  }
+}

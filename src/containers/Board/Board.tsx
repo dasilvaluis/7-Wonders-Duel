@@ -19,8 +19,10 @@ const Board = () => {
   
   return (
     <div className="board">
-      { eraCards.map((card, i) => <Card key={`${card.name}-${card.type}`} card={card} initialX={i} initialY={i} />) }
-    </div>
+        <div className="board__players">
+          <PlayerArea playerName="1" />
+          <PlayerArea playerName="2" />
+        </div>
   )
 };
 
