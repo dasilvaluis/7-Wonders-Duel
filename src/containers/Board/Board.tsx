@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { AgeCard } from '../../components/AgeCard/AgeCard';
-import { getCardsPlacement, schemeFirstEra, shuffleAndLimitArray } from './utils';
+import { getCardsPlacement, shuffleAndLimitArray, injectPositionsInCards, getAgeScheme } from './utils';
 import { MAX_CARDS } from '../../contants';
 import PlayerArea from '../PlayerArea/PlayerArea';
 import { cards as cardsDb } from '../../data/cards.json';
@@ -12,8 +12,8 @@ import { setMoney } from '../../actions/players-actions';
 import { AgeCard as AgeCardInterface } from '../../reducers/cards-reducer';
 import { setAgeCards, setAgeCardPosition } from '../../actions/cards-actions';
 import './Board.scss'
-import Selector from '../../components/Selector/Select';
 import { Position } from '../../types';
+import AgeSelect from '../../components/AgeSelect/AgeSelect';
 
 interface StateProps {
   ageCards: Array<AgeCardInterface>;
@@ -27,23 +27,16 @@ interface DispatchProps {
   onMoveAgeCard(cardIndex: number, position: Position): void;
 }
 
-interface Props extends StateProps, DispatchProps {}
+interface Props extends StateProps, DispatchProps {};
 
 const Board = (props: Props) => {
-  const [ age, setAge ] = useState<string>('1');
+  const [ age, setAge ] = useState<'I' | 'II' | 'III'>('I');
 
   useEffect(() => {
-    const cardsPlacement = getCardsPlacement(schemeFirstEra);
-
-    const cards: Array<AgeCardInterface> = shuffleAndLimitArray([ ...cardsDb ], MAX_CARDS)
-      .map((card, index) => {
-        const { name, type } = card;
-        const { x, y } = typeof cardsPlacement[index] !== 'undefined'
-          ? { x: cardsPlacement[index].x, y: cardsPlacement[index].y }
-          : { x: 0, y: 0 };
-
-        return { name, type, x, y };
-      });
+    const scheme = getAgeScheme(age);
+    const cardsPlacement = getCardsPlacement(scheme);
+    const shuffledCards = shuffleAndLimitArray(cardsDb, MAX_CARDS);
+    const cards = injectPositionsInCards(shuffledCards, cardsPlacement);
       
     props.onSetAgeCards(cards);
   }, [ age ]);
@@ -52,7 +45,7 @@ const Board = (props: Props) => {
     <>
       <div className="board" id="draggingarea">
         <div className="board__age-switcher">
-          <Selector value={age} onChange={setAge}/>
+          <AgeSelect value={age} onChange={setAge}/>
         </div>
         <div className="board__players">
           <PlayerArea

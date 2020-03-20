@@ -1,9 +1,21 @@
 import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, BOARD_WIDTH } from '../../contants';
 import { Position } from '../../types';
+import { AgeCard } from '../../reducers/cards-reducer';
 
-export const schemeFirstEra = [ 2, 3, 4, 5, 6 ];
-export const schemeSecondEra = [ 6, 5, 4, 3, 2 ];
-export const schemeThirdEra = [ 2, 3, 4, 3, 4, 2 ];
+export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
+export const schemeSecondAge = [ 6, 5, 4, 3, 2 ];
+export const schemeThirdAge = [ 2, 3, 4, 3, 4, 3, 2 ];
+
+export const getAgeScheme = (age: 'I' | 'II' | 'III') => {
+  switch (age) {
+    case "III":
+      return schemeThirdAge;
+    case "II":
+      return schemeSecondAge;
+    default:
+      return schemeFirstAge;
+  }
+}
 
 const getRowOf = (howMany: number) => {
   const positions = []
@@ -63,3 +75,13 @@ export const shuffleAndLimitArray = <T>(elements: T[], limit: number) => {
   
   return shuffledCards;
 };
+
+export const injectPositionsInCards = (cards: Array<any>, cardsPlacement: Array<Position>): Array<AgeCard> =>
+  cards.map((card, index) => {
+    const { name, type } = card;
+    const { x, y } = typeof cardsPlacement[index] !== 'undefined'
+      ? { x: cardsPlacement[index].x, y: cardsPlacement[index].y }
+      : { x: 0, y: 0 };
+  
+    return { name, type, x, y };
+  });
