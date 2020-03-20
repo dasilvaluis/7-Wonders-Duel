@@ -1,5 +1,6 @@
-import { SET_CARDS, MOVE_CARD } from "./types";
+import { SET_CARDS, SET_CARD_POSITION } from "./types";
 import { AgeCard } from "../reducers/cards-reducer";
+import { Position } from "../types";
 
 interface SetCardsAction {
   payload: Array<AgeCard>;
@@ -7,18 +8,24 @@ interface SetCardsAction {
 }
 
 interface MoveCardAction {
-  payload: AgeCard;
-  type: typeof MOVE_CARD;
+  payload: {
+    cardIndex: number,
+    position: Position
+  };
+  type: typeof SET_CARD_POSITION;
 }
 
-export const setCards = (cards: Array<AgeCard>): SetCardsAction => ({
+export const setAgeCards = (cards: Array<AgeCard>): SetCardsAction => ({
   payload: cards,
   type: SET_CARDS
 });
 
-export const moveCard = (card: AgeCard): MoveCardAction => ({
-  payload: card,
-  type: MOVE_CARD
+export const setAgeCardPosition = (cardIndex: number, position: Position): MoveCardAction => ({
+  payload: {
+    cardIndex,
+    position
+  },
+  type: SET_CARD_POSITION
 });
 
 

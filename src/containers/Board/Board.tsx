@@ -10,9 +10,10 @@ import { getPlayerAMoney, getPlayerBMoney, getAgeCards } from '../../reducers/se
 import { connect } from 'react-redux';
 import { setMoney } from '../../actions/players-actions';
 import { AgeCard as AgeCardInterface } from '../../reducers/cards-reducer';
-import { setCards } from '../../actions/cards-actions';
+import { setAgeCards, setAgeCardPosition } from '../../actions/cards-actions';
 import './Board.scss'
 import Selector from '../../components/Selector/Select';
+import { Position } from '../../types';
 
 interface StateProps {
   ageCards: Array<AgeCardInterface>;
@@ -21,8 +22,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setMoney(player: string, ammount: number): void;
-  setAgeCards(cards: Array<AgeCardInterface>): void;
+  onSetMoney(player: string, ammount: number): void;
+  onSetAgeCards(cards: Array<AgeCardInterface>): void;
+  onMoveAgeCard(cardIndex: number, position: Position): void;
 }
 
 interface Props extends StateProps, DispatchProps {}
@@ -43,7 +45,7 @@ const Board = (props: Props) => {
         return { name, type, x, y };
       });
       
-    props.setAgeCards(cards);
+    props.onSetAgeCards(cards);
   }, [ age ]);
   
   return (
@@ -56,21 +58,23 @@ const Board = (props: Props) => {
           <PlayerArea
             playerName="1"
             money={props.playerAMoney}
-            onSetMoney={(value) => props.setMoney('playerA', value)}
+            onSetMoney={(value) => props.onSetMoney('playerA', value)}
           />
           <PlayerArea
             playerName="2"
             money={props.playerBMoney}
-            onSetMoney={(value) => props.setMoney('playerB', value)}
+            onSetMoney={(value) => props.onSetMoney('playerB', value)}
           />
         </div>
         <div>
-          {props.ageCards.map((card) =>
+          {props.ageCards.map((card, index) =>
             <AgeCard 
               key={`${card.name}-${card.type}`}
+              index={index}
               card={card}
               x={card.x}
               y={card.y}
+              onMoveStop={props.onMoveAgeCard}
             />)}
         </div>
       </div>
@@ -85,8 +89,9 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 
 const mapDispatchToProps: DispatchProps = {
-  setMoney: (player: 'playerA' | 'playerB', ammount: number) => setMoney(player, ammount),
-  setAgeCards: (cards: Array<AgeCardInterface>) => setCards(cards)
+  onSetMoney: (player: 'playerA' | 'playerB', ammount: number) => setMoney(player, ammount),
+  onSetAgeCards: (cards: Array<AgeCardInterface>) => setAgeCards(cards),
+  onMoveAgeCard: (cardIndex: number, position: Position) => setAgeCardPosition(cardIndex, position)
 };
 
 export default connect(
