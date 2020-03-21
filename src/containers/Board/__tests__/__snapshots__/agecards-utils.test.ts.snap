@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getAgeCardsPlacement places first age cards 1`] = `
+Array [
+  Object {
+    "x": 705,
+    "y": 0,
+  },
+  Object {
+    "x": 850,
+    "y": 0,
+  },
+  Object {
+    "x": 632.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 777.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 922.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 560,
+    "y": 125,
+  },
+  Object {
+    "x": 705,
+    "y": 125,
+  },
+  Object {
+    "x": 850,
+    "y": 125,
+  },
+  Object {
+    "x": 995,
+    "y": 125,
+  },
+  Object {
+    "x": 487.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 632.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 777.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 922.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 1067.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 415,
+    "y": 250,
+  },
+  Object {
+    "x": 560,
+    "y": 250,
+  },
+  Object {
+    "x": 705,
+    "y": 250,
+  },
+  Object {
+    "x": 850,
+    "y": 250,
+  },
+  Object {
+    "x": 995,
+    "y": 250,
+  },
+  Object {
+    "x": 1140,
+    "y": 250,
+  },
+]
+`;
+
+exports[`getAgeCardsPlacement places second age cards 1`] = `
+Array [
+  Object {
+    "x": 415,
+    "y": 0,
+  },
+  Object {
+    "x": 560,
+    "y": 0,
+  },
+  Object {
+    "x": 705,
+    "y": 0,
+  },
+  Object {
+    "x": 850,
+    "y": 0,
+  },
+  Object {
+    "x": 995,
+    "y": 0,
+  },
+  Object {
+    "x": 1140,
+    "y": 0,
+  },
+  Object {
+    "x": 487.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 632.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 777.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 922.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 1067.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 560,
+    "y": 125,
+  },
+  Object {
+    "x": 705,
+    "y": 125,
+  },
+  Object {
+    "x": 850,
+    "y": 125,
+  },
+  Object {
+    "x": 995,
+    "y": 125,
+  },
+  Object {
+    "x": 632.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 777.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 922.5,
+    "y": 187.5,
+  },
+  Object {
+    "x": 705,
+    "y": 250,
+  },
+  Object {
+    "x": 850,
+    "y": 250,
+  },
+]
+`;
+
+exports[`getAgeCardsPlacement places third age cards 1`] = `
+Array [
+  Object {
+    "x": 705,
+    "y": 0,
+  },
+  Object {
+    "x": 850,
+    "y": 0,
+  },
+  Object {
+    "x": 632.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 777.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 922.5,
+    "y": 62.5,
+  },
+  Object {
+    "x": 560,
+    "y": 125,
+  },
+  Object {
+    "x": 705,
+    "y": 125,
+  },
+  Object {
+    "x": 850,
+    "y": 125,
+  },
+  Object {
+    "x": 995,
+    "y": 125,
+  },
+  Object {
+    "x": 705,
+    "y": 187.5,
+  },
+  Object {
+    "x": 850,
+    "y": 187.5,
+  },
+  Object {
+    "x": 560,
+    "y": 250,
+  },
+  Object {
+    "x": 705,
+    "y": 250,
+  },
+  Object {
+    "x": 850,
+    "y": 250,
+  },
+  Object {
+    "x": 995,
+    "y": 250,
+  },
+  Object {
+    "x": 632.5,
+    "y": 312.5,
+  },
+  Object {
+    "x": 777.5,
+    "y": 312.5,
+  },
+  Object {
+    "x": 922.5,
+    "y": 312.5,
+  },
+  Object {
+    "x": 705,
+    "y": 375,
+  },
+  Object {
+    "x": 850,
+    "y": 375,
+  },
+]
+`;

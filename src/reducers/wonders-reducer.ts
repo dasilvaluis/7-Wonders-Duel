@@ -1,14 +1,14 @@
-import { SET_CARDS, SET_CARD_POSITION } from '../actions/types';
-import { CardsActionType } from '../actions/cards-actions';
+import { SET_WONDERS, SET_WONDER_POSITION } from '../actions/types';
+import { WondersActionType } from '../actions/wonders-actions';
 import { GameElement } from '../types';
 
 const initialState: Array<GameElement> = [];
 
-export default (state = initialState, action: CardsActionType) => {
+export default (state = initialState, action: WondersActionType) => {
   switch (action.type) {
-    case SET_CARDS:
+    case SET_WONDERS:
       return action.payload;
-    case SET_CARD_POSITION:
+    case SET_WONDER_POSITION:
       const _state = [ ...state ];
       const { cardIndex, position: { x, y } } = action.payload;
 

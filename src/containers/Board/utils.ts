@@ -1,28 +1,12 @@
-import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, BOARD_WIDTH } from '../../contants';
+import { CARD_MARGIN, BOARD_WIDTH, BOARD_HEIGHT } from '../../contants';
 import { Position } from '../../types';
-import { AgeCard } from '../../reducers/cards-reducer';
 
-export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
-export const schemeSecondAge = [ 6, 5, 4, 3, 2 ];
-export const schemeThirdAge = [ 2, 3, 4, 2, 4, 3, 2 ];
-
-export const getAgeScheme = (age: 'I' | 'II' | 'III') => {
-  switch (age) {
-    case "III":
-      return schemeThirdAge;
-    case "II":
-      return schemeSecondAge;
-    default:
-      return schemeFirstAge;
-  }
-}
-
-const getRowOf = (howMany: number) => {
+export const getRowOf = (howMany: number, cardWidth: number): Array<Position> => {
   const positions = []
 
   for (let index = 0; index < howMany; index++) {
     positions.push({
-      x: (CARD_WIDTH + CARD_MARGIN) * index,
+      x: (cardWidth + CARD_MARGIN) * index,
       y: 0
     });
   }
@@ -32,20 +16,22 @@ const getRowOf = (howMany: number) => {
 
 export const flattenMultiLevelArray = <T>(rows: T[][]) => rows.reduce((acc, curr) => [ ...acc, ...curr ], []);
 
-const moveRowVertically = (row: Array<Position>, rowIndex: number) => row.map((position) => ({
-  ...position,
-  y: rowIndex * (CARD_HEIGHT / 3)
-}));
+export const centerRow = (row: Array<Position>, cardsQuantity: number, cardWidth: number) =>
+  row.map((position) => ({
+    ...position,
+    x: position.x - (cardsQuantity * cardWidth + (cardsQuantity - 1) * CARD_MARGIN) / 2
+  }));
 
-const centerRow = (row: Array<Position>, cardsQuantity: number) => row.map((position) => ({
-  ...position,
-  x: position.x - (cardsQuantity * CARD_WIDTH + (cardsQuantity - 1) * CARD_MARGIN) / 2
-}));
-
-const centerCards = (cards: Array<Position>) =>
-  movePositions(cards, {
+export const centerHorizontally = (positions: Array<Position>) =>
+  movePositions(positions, {
     x: BOARD_WIDTH / 2,
     y: 0
+  });
+
+export const centerVertically = (positions: Array<Position>, elementsHeight: number) =>
+  movePositions(positions, {
+    x: 0,
+    y: (BOARD_HEIGHT - elementsHeight)/ 2
   });
 
 export const movePositions = (positions: Array<Position>, offset: Position) => 
@@ -53,18 +39,6 @@ export const movePositions = (positions: Array<Position>, offset: Position) =>
     x: position.x + offset.x,
     y: position.y + offset.y
   }));
-
-export const getCardsPlacement = (scheme: Array<number>) => {
-  const rows = scheme.map((cardsQuantity, rowIndex) => {
-    const row = getRowOf(cardsQuantity);
-    const rowMovedVertically = moveRowVertically(row, rowIndex);
-    const rowCentered = centerRow(rowMovedVertically, cardsQuantity);
-
-    return rowCentered;
-  });
-
-  return centerCards(flattenMultiLevelArray<Position>(rows));
-};
 
 export const shuffleAndLimitArray = <T>(elements: T[], limit: number) => {
   const shuffledCards = [ ...elements ].sort(() => Math.random() - 0.5);
@@ -75,23 +49,20 @@ export const shuffleAndLimitArray = <T>(elements: T[], limit: number) => {
   return shuffledCards;
 };
 
-export const injectPositionsInCards = (cards: Array<any>, cardsPlacement: Array<Position>): Array<AgeCard> =>
-  cards.reduce((cards, card, index) => {
-    const { name, type } = card;
+export const injectPositions = <T>(elements: Array<T>, positions: Array<Position>) =>
+  elements.reduce((cards, card, index) => {
+    if (index < positions.length) {
+      const { x, y } = { x: positions[index].x, y: positions[index].y };
 
-    if (index < cardsPlacement.length) {
-      const { x, y } = { x: cardsPlacement[index].x, y: cardsPlacement[index].y };
-
-      return [ ...cards, { name, type, x, y } ];
+      return [ ...cards, { ...card, x, y } ];
     }
 
     return cards;
   }, []);
 
-export const fixThirdAgeCards = (cards: Array<AgeCard>) => {
-  const _cards = [ ...cards ];
-  _cards[9].x = cards[9].x - (CARD_WIDTH + CARD_MARGIN) / 2;
-  _cards[10].x = cards[10].x + (CARD_WIDTH + CARD_MARGIN) / 2;
+export const getRandomElements = <T>(elements: Array<T>, howMany: number) => {
+  const shuffledElements = [ ...elements ].sort(() => Math.random() - 0.5);
+  const limit = howMany < shuffledElements.length ? howMany : shuffledElements.length;
 
-  return _cards;
-}
+  return shuffledElements.slice(0, limit)
+};

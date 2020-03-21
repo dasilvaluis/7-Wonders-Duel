@@ -1,9 +1,8 @@
 import { SET_CARDS, SET_CARD_POSITION } from "./types";
-import { AgeCard } from "../reducers/cards-reducer";
-import { Position } from "../types";
+import { Position, GameElement } from "../types";
 
 interface SetCardsAction {
-  payload: Array<AgeCard>;
+  payload: Array<GameElement>;
   type: typeof SET_CARDS;
 }
 
@@ -15,7 +14,7 @@ interface MoveCardAction {
   type: typeof SET_CARD_POSITION;
 }
 
-export const setAgeCards = (cards: Array<AgeCard>): SetCardsAction => ({
+export const setAgeCards = (cards: Array<GameElement>): SetCardsAction => ({
   payload: cards,
   type: SET_CARDS
 });

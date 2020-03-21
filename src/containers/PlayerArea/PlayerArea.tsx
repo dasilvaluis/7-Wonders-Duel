@@ -21,7 +21,6 @@ export default (props: Props) => {
         />
       </div>
       <div className="playerarea__tokens"></div>
-      <div className="playerarea__wonders"></div>
       <div className="playerarea__deck"></div>
     </div>
   )

@@ -1,7 +1,7 @@
 import React from "react";
 import { Position, GameElement } from '../../types';
-import { BaseElement } from "../BaseElement/BaseElement";
-import './AgeCard.scss';
+import { BaseElement } from '../BaseElement/BaseElement';
+import './WonderCard.scss';
 
 interface Props {
   x: number;
@@ -11,13 +11,13 @@ interface Props {
   onMoveStop(index: number, position: Position): void;
 }
 
-export const AgeCard = (props: Props) => (
+export const WonderCard = (props: Props) => (
   <BaseElement
     id={props.index}
     position={{x: props.x, y: props.y}}
     onMoveStop={props.onMoveStop}
   >
-    <div className={`agecard -${props.card.type}`}>
+    <div className="wondercard">
       <span>{props.card.name}</span>
     </div>
   </BaseElement>

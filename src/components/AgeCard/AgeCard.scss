@@ -1,8 +1,8 @@
-$card-width: 125px;
+@import '../../constants.scss';
 
-.card {
+.agecard {
   width: $card-width;
-  height: $card-width * 1.5;
+  height: $card-height;
   padding: 10px;
   display: inline-flex;
   flex-direction: column;
