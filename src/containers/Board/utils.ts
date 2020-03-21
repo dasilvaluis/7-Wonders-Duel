@@ -4,7 +4,7 @@ import { AgeCard } from '../../reducers/cards-reducer';
 
 export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
 export const schemeSecondAge = [ 6, 5, 4, 3, 2 ];
-export const schemeThirdAge = [ 2, 3, 4, 3, 4, 3, 2 ];
+export const schemeThirdAge = [ 2, 3, 4, 2, 4, 3, 2 ];
 
 export const getAgeScheme = (age: 'I' | 'II' | 'III') => {
   switch (age) {
@@ -34,7 +34,7 @@ export const flattenMultiLevelArray = <T>(rows: T[][]) => rows.reduce((acc, curr
 
 const moveRowVertically = (row: Array<Position>, rowIndex: number) => row.map((position) => ({
   ...position,
-  y: rowIndex * (CARD_HEIGHT / 3.5)
+  y: rowIndex * (CARD_HEIGHT / 3)
 }));
 
 const centerRow = (row: Array<Position>, cardsQuantity: number) => row.map((position) => ({
@@ -66,7 +66,6 @@ export const getCardsPlacement = (scheme: Array<number>) => {
   return centerCards(flattenMultiLevelArray<Position>(rows));
 };
 
-
 export const shuffleAndLimitArray = <T>(elements: T[], limit: number) => {
   const shuffledCards = [ ...elements ].sort(() => Math.random() - 0.5);
   while (shuffledCards.length > limit) {
@@ -77,11 +76,22 @@ export const shuffleAndLimitArray = <T>(elements: T[], limit: number) => {
 };
 
 export const injectPositionsInCards = (cards: Array<any>, cardsPlacement: Array<Position>): Array<AgeCard> =>
-  cards.map((card, index) => {
+  cards.reduce((cards, card, index) => {
     const { name, type } = card;
-    const { x, y } = typeof cardsPlacement[index] !== 'undefined'
-      ? { x: cardsPlacement[index].x, y: cardsPlacement[index].y }
-      : { x: 0, y: 0 };
-  
-    return { name, type, x, y };
-  });
+
+    if (index < cardsPlacement.length) {
+      const { x, y } = { x: cardsPlacement[index].x, y: cardsPlacement[index].y };
+
+      return [ ...cards, { name, type, x, y } ];
+    }
+
+    return cards;
+  }, []);
+
+export const fixThirdAgeCards = (cards: Array<AgeCard>) => {
+  const _cards = [ ...cards ];
+  _cards[9].x = cards[9].x - (CARD_WIDTH + CARD_MARGIN) / 2;
+  _cards[10].x = cards[10].x + (CARD_WIDTH + CARD_MARGIN) / 2;
+
+  return _cards;
+}

@@ -32,14 +32,18 @@ interface Props extends StateProps, DispatchProps {};
 const Board = (props: Props) => {
   const [ age, setAge ] = useState<'I' | 'II' | 'III'>('I');
 
-  useEffect(() => {
+  const loadCards = () => {
     const scheme = getAgeScheme(age);
     const cardsPlacement = getCardsPlacement(scheme);
     const shuffledCards = shuffleAndLimitArray(cardsDb, MAX_CARDS);
     const cards = injectPositionsInCards(shuffledCards, cardsPlacement);
+
+    const finalCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
       
-    props.onSetAgeCards(cards);
-  }, [ age ]);
+    props.onSetAgeCards(finalCards);
+  }
+
+  useEffect(loadCards, [ age ]);
   
   return (
     <>
