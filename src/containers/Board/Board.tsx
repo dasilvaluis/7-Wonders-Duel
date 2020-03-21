@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { AgeCard } from '../../components/AgeCard/AgeCard';
-import { getCardsPlacement, shuffleAndLimitArray, injectPositionsInCards, getAgeScheme } from './utils';
+import { getCardsPlacement, shuffleAndLimitArray, injectPositionsInCards, getAgeScheme, fixThirdAgeCards } from './utils';
 import { MAX_CARDS } from '../../contants';
 import PlayerArea from '../PlayerArea/PlayerArea';
 import { cards as cardsDb } from '../../data/cards.json';
@@ -48,8 +48,9 @@ const Board = (props: Props) => {
   return (
     <>
       <div className="board" id="draggingarea">
-        <div className="board__age-switcher">
+        <div className="board__tools">
           <AgeSelect value={age} onChange={setAge}/>
+          <button onClick={loadCards}>Reshuffle</button>
         </div>
         <div className="board__players">
           <PlayerArea

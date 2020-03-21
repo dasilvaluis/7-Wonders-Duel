@@ -12,10 +12,13 @@ export default (props: Props) => {
   };
 
   return (
-    <select className="select" name="age-selection" value={props.value} onChange={handleChange}>
-      <option value="I">I</option>
-      <option value="II">II</option>
-      <option value="III">III</option>
-    </select>
+    <label htmlFor="age-selection">
+      Age:
+      <select className="select" name="age-selection" value={props.value} onChange={handleChange}>
+        <option value="I">I</option>
+        <option value="II">II</option>
+        <option value="III">III</option>
+      </select>
+    </label>
   );
 };
