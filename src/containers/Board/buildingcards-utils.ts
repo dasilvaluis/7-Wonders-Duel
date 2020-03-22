@@ -59,7 +59,7 @@ export const flipBuildingCards = (cards: Array<GameElement>, age: 'I' | 'II' | '
       case 'III':
         return {
           ...card,
-          faceDown: (2 <= index && index <= 4) || (9 <= index && index <= 10) || (16 <= index && index <= 17)
+          faceDown: (2 <= index && index <= 4) || (9 <= index && index <= 10) || (15 <= index && index <= 17)
         };
       default:
         return card;
