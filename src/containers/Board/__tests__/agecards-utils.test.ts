@@ -1,15 +1,16 @@
-import { getAgeScheme, getAgeCardsPlacement } from "../agecards-utils"
+import { getAgeScheme, getBuildingCardsPlacement } from "../buildingcards-utils"
+import { CARD_WIDTH } from "../../../contants";
 
-describe('getAgeCardsPlacement', () => {
+describe('getBuildingCardsPlacement', () => {
   it('places first age cards', () => {
-    expect(getAgeCardsPlacement(getAgeScheme('I'))).toMatchSnapshot();
+    expect(getBuildingCardsPlacement(getAgeScheme('I'), CARD_WIDTH)).toMatchSnapshot();
   });
 
   it('places second age cards', () => {
-    expect(getAgeCardsPlacement(getAgeScheme('II'))).toMatchSnapshot();
+    expect(getBuildingCardsPlacement(getAgeScheme('II'), CARD_WIDTH)).toMatchSnapshot();
   });
 
   it('places third age cards', () => {
-    expect(getAgeCardsPlacement(getAgeScheme('III'))).toMatchSnapshot();
+    expect(getBuildingCardsPlacement(getAgeScheme('III'), CARD_WIDTH)).toMatchSnapshot();
   });
 });

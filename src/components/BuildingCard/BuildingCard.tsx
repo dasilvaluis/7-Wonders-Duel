@@ -1,23 +1,23 @@
 import React from "react";
 import { Position, GameElement } from '../../types';
 import { BaseElement } from "../BaseElement/BaseElement";
-import './AgeCard.scss';
+import './BuildingCard.scss';
 
 interface Props {
-  x: number;
-  y: number;
   card: GameElement;
   index: number;
   onMoveStop(index: number, position: Position): void;
+  onDoubleClick(index: number): void;
 }
 
-export const AgeCard = (props: Props) => (
+export const BuildingCard = (props: Props) => (
   <BaseElement
     id={props.index}
-    position={{x: props.x, y: props.y}}
+    position={{x: props.card.x, y: props.card.y}}
     onMoveStop={props.onMoveStop}
+    onDoubleClick={props.onDoubleClick}
   >
-    <div className={`agecard -${props.card.type}`}>
+    <div className={`buildingcard -${props.card.type} ${props.card.faceDown ? '-facedown' : '-faceup'}`}>
       <span>{props.card.name}</span>
     </div>
   </BaseElement>

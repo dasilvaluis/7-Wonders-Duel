@@ -4,8 +4,9 @@
   width: $wonder-width;
   height: $wonder-height;
   padding: 10px;
-  display: inline-flex;
-  flex-direction: column;
-  position: absolute;
   background-color: burlywood;
+
+  &.-facedown {
+    background-color: cornflowerblue;
+  }
 }

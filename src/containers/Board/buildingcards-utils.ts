@@ -6,10 +6,11 @@ export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
 export const schemeSecondAge = [ 6, 5, 4, 3, 2 ];
 export const schemeThirdAge = [ 2, 3, 4, 2, 4, 3, 2 ];
 
-const moveRowVertically = (row: Array<Position>, rowIndex: number) => row.map((position) => ({
-  ...position,
-  y: rowIndex * (CARD_HEIGHT / 3)
-}));
+const moveRowVertically = (row: Array<Position>, rowIndex: number) =>
+  row.map((position) => ({
+    ...position,
+    y: rowIndex * (CARD_HEIGHT / 3)
+  }));
 
 export const getAgeScheme = (age: 'I' | 'II' | 'III') => {
   switch (age) {
@@ -30,11 +31,11 @@ export const fixThirdAgeCards = (cards: Array<GameElement>) => {
   return _cards;
 }
 
-export const getAgeCardsPlacement = (scheme: Array<number>) => {
-  const rows = scheme.map((cardsQuantity, rowIndex) => {
-    const row = getRowOf(cardsQuantity, CARD_WIDTH);
+export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: number) => {
+  const rows = scheme.map((howMany, rowIndex) => {
+    const row = getRowOf(howMany, cardWidth);
     const rowMovedVertically = moveRowVertically(row, rowIndex);
-    const rowCentered = centerRow(rowMovedVertically, cardsQuantity, CARD_WIDTH);
+    const rowCentered = centerRow(rowMovedVertically, howMany, cardWidth);
 
     return rowCentered;
   });

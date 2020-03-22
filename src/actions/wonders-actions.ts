@@ -1,4 +1,4 @@
-import { SET_WONDERS, SET_WONDER_POSITION } from "./types";
+import { SET_WONDERS, SET_WONDER_POSITION, FLIP_WONDER } from "./types";
 import { Position, GameElement } from "../types";
 
 interface SetWondersAction {
@@ -14,6 +14,13 @@ interface MoveWonderAction {
   type: typeof SET_WONDER_POSITION;
 }
 
+interface FlipWonderAction {
+  payload: {
+    cardIndex: number
+  };
+  type: typeof FLIP_WONDER;
+}
+
 export const setWonderCards = (cards: Array<GameElement>): SetWondersAction => ({
   payload: cards,
   type: SET_WONDERS
@@ -27,5 +34,11 @@ export const setWonderCardPosition = (cardIndex: number, position: Position): Mo
   type: SET_WONDER_POSITION
 });
 
+export const flipWonder = (cardIndex: number): FlipWonderAction => ({
+  payload: {
+    cardIndex
+  },
+  type: FLIP_WONDER
+});
 
-export type WondersActionType = SetWondersAction | MoveWonderAction;
+export type WondersActionType = SetWondersAction | MoveWonderAction | FlipWonderAction;

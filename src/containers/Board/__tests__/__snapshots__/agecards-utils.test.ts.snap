@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getAgeCardsPlacement places first age cards 1`] = `
+exports[`getBuildingCardsPlacement places first age cards 1`] = `
 Array [
   Object {
     "x": 705,
@@ -85,7 +85,7 @@ Array [
 ]
 `;
 
-exports[`getAgeCardsPlacement places second age cards 1`] = `
+exports[`getBuildingCardsPlacement places second age cards 1`] = `
 Array [
   Object {
     "x": 415,
@@ -170,7 +170,7 @@ Array [
 ]
 `;
 
-exports[`getAgeCardsPlacement places third age cards 1`] = `
+exports[`getBuildingCardsPlacement places third age cards 1`] = `
 Array [
   Object {
     "x": 705,

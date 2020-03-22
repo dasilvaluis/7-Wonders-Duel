@@ -4,5 +4,7 @@ export const SET_MONEY = 'SET_MONEY';
 export const SET_MILITARY_POINTS = 'SET_MILITARY_POINTS';
 export const SET_CARDS = 'SET_CARDS';
 export const SET_CARD_POSITION = 'SET_CARD_POSITION';
+export const FLIP_CARD = 'FLIP_CARD';
 export const SET_WONDERS = 'SET_WONDERS';
 export const SET_WONDER_POSITION = 'SET_WONDER_POSITION';
+export const FLIP_WONDER = 'FLIP_WONDER';

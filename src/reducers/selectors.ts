@@ -5,5 +5,5 @@ const getPlayerB = (state: AppState) => state.players.playerB;
 export const getPlayerAMoney = (state: AppState) => getPlayerA(state).money;
 export const getPlayerBMoney = (state: AppState) => getPlayerB(state).money;
 export const getMilitaryPoints = (state: AppState) => state.militaryPoints;
-export const getAgeCards = (state: AppState) => state.ageCards;
+export const getBuildingCards = (state: AppState) => state.buildingCards;
 export const getWonderCards = (state: AppState) => state.wonderCards;

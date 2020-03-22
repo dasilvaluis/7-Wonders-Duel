@@ -40,15 +40,6 @@ export const movePositions = (positions: Array<Position>, offset: Position) =>
     y: position.y + offset.y
   }));
 
-export const shuffleAndLimitArray = <T>(elements: T[], limit: number) => {
-  const shuffledCards = [ ...elements ].sort(() => Math.random() - 0.5);
-  while (shuffledCards.length > limit) {
-    shuffledCards.pop();
-  }
-  
-  return shuffledCards;
-};
-
 export const injectPositions = <T>(elements: Array<T>, positions: Array<Position>) =>
   elements.reduce((cards, card, index) => {
     if (index < positions.length) {

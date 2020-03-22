@@ -1,5 +1,4 @@
-import { movePositions, shuffleAndLimitArray, flattenMultiLevelArray, getRandomElements } from "../utils";
-import { MAX_CARDS } from "../../../contants";
+import { movePositions, flattenMultiLevelArray, getRandomElements } from "../utils";
 
 describe('movePositions', () => {
   const positions = [
@@ -25,21 +24,6 @@ describe('movePositions', () => {
         y: 22
       }
     ]);
-  });
-});
-
-
-describe('shuffleAndLimitArray', () => {
-  const array = [1, 2, 3, 4, 5];
-
-  it('gets an array of stuff and shuffles it', () => {
-    expect(shuffleAndLimitArray(array, MAX_CARDS).length).toBe(shuffleAndLimitArray(array, MAX_CARDS).length);
-    expect(shuffleAndLimitArray(array, MAX_CARDS)).not.toEqual(array);
-    expect(shuffleAndLimitArray(array, MAX_CARDS)).not.toEqual(shuffleAndLimitArray(array, MAX_CARDS));
-  });
-
-  it('limits the output length to a given limit', () => {
-    expect(shuffleAndLimitArray(Array(MAX_CARDS + 1).fill(0), MAX_CARDS).length).toBeLessThanOrEqual(MAX_CARDS);
   });
 });
 

@@ -1,4 +1,4 @@
-import { SET_CARDS, SET_CARD_POSITION } from "./types";
+import { SET_CARDS, SET_CARD_POSITION, FLIP_CARD } from "./types";
 import { Position, GameElement } from "../types";
 
 interface SetCardsAction {
@@ -14,12 +14,19 @@ interface MoveCardAction {
   type: typeof SET_CARD_POSITION;
 }
 
-export const setAgeCards = (cards: Array<GameElement>): SetCardsAction => ({
+interface FlipCardAction {
+  payload: {
+    cardIndex: number
+  };
+  type: typeof FLIP_CARD;
+}
+
+export const setBuildingCards = (cards: Array<GameElement>): SetCardsAction => ({
   payload: cards,
   type: SET_CARDS
 });
 
-export const setAgeCardPosition = (cardIndex: number, position: Position): MoveCardAction => ({
+export const setBuildingCardPosition = (cardIndex: number, position: Position): MoveCardAction => ({
   payload: {
     cardIndex,
     position
@@ -27,5 +34,11 @@ export const setAgeCardPosition = (cardIndex: number, position: Position): MoveC
   type: SET_CARD_POSITION
 });
 
+export const flipCard = (cardIndex: number): FlipCardAction => ({
+  payload: {
+    cardIndex
+  },
+  type: FLIP_CARD
+});
 
-export type CardsActionType = SetCardsAction | MoveCardAction;
+export type BuildingCardsActionType = SetCardsAction | MoveCardAction | FlipCardAction;

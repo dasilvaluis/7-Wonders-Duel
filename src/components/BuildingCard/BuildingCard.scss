@@ -1,16 +1,9 @@
 @import '../../constants.scss';
 
-.agecard {
+.buildingcard {
   width: $card-width;
   height: $card-height;
   padding: 10px;
-  display: inline-flex;
-  flex-direction: column;
-  position: absolute;
-
-  ul {
-    margin: 0;
-  }
 
   &.-military {
     background-color: red;
@@ -29,5 +22,9 @@
   }
   &.-scientific {
     background-color: green;
+  }
+
+  &.-facedown {
+    background-color: salmon;
   }
 }
