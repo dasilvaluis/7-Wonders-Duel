@@ -42,3 +42,26 @@ export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: numb
 
   return centerHorizontally(flattenMultiLevelArray<Position>(rows));
 };
+
+export const flipBuildingCards = (cards: Array<GameElement>, age: 'I' | 'II' | 'III') => 
+  cards.map((card, index) => {
+    switch (age) {
+      case 'I':
+        return {
+          ...card,
+          faceDown: (2 <= index && index <= 4) || (9 <= index && index <= 13)
+        };
+      case 'II':
+        return {
+          ...card,
+          faceDown: (6 <= index && index <= 10) || (15 <= index && index <= 17)
+        };
+      case 'III':
+        return {
+          ...card,
+          faceDown: (2 <= index && index <= 4) || (9 <= index && index <= 10) || (16 <= index && index <= 17)
+        };
+      default:
+        return card;
+    }
+  });

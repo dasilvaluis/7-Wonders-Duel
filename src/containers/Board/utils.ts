@@ -1,5 +1,5 @@
 import { CARD_MARGIN, BOARD_WIDTH, BOARD_HEIGHT } from '../../contants';
-import { Position } from '../../types';
+import { Position, GameElement } from '../../types';
 
 export const getRowOf = (howMany: number, cardWidth: number): Array<Position> => {
   const positions = []
@@ -57,3 +57,5 @@ export const getRandomElements = <T>(elements: Array<T>, howMany: number) => {
 
   return shuffledElements.slice(0, limit)
 };
+
+export const flipCards = (cards: Array<GameElement>) => cards.map((card) => ({ ...card, faceDown: true }));

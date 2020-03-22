@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { BuildingCard } from '../../components/BuildingCard/BuildingCard';
-import { injectPositions, getRandomElements } from './utils';
-import { getBuildingCardsPlacement, getAgeScheme, fixThirdAgeCards } from './buildingcards-utils';
+import { injectPositions, getRandomElements, flipCards } from './utils';
+import { getBuildingCardsPlacement, getAgeScheme, fixThirdAgeCards, flipBuildingCards } from './buildingcards-utils';
 import { MAX_CARDS, WONDER_WIDTH, CARD_WIDTH } from '../../contants';
 import PlayerArea from '../PlayerArea/PlayerArea';
 import { cards as cardsDb } from '../../data/cards.json';
@@ -46,10 +46,10 @@ const Board = (props: Props) => {
     const cardsPlacement = getBuildingCardsPlacement(scheme, CARD_WIDTH);
     const shuffledCards = getRandomElements(cardsDb, MAX_CARDS).map(({ name, type }) => ({ name, type }));
     const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacement);
+    const fixedCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
+    const flippedCards = flipBuildingCards(fixedCards, age);
 
-    const finalCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
-      
-    props.onSetBuildingCards(finalCards);
+    props.onSetBuildingCards(flippedCards);
   };
 
   const loadWonderCards = () => {
@@ -57,7 +57,7 @@ const Board = (props: Props) => {
     const cardsPlacement = getWonderCardsPlacement(WONDER_WIDTH);
     const cards: Array<GameElement> = injectPositions(wonderCards, cardsPlacement);
 
-    props.onSetWonderCards(cards);
+    props.onSetWonderCards(flipCards(cards));
   };
   
   return (

@@ -8,5 +8,9 @@
 
   &.-facedown {
     background-color: cornflowerblue;
+
+    span {
+      display: none;
+    }
   }
 }

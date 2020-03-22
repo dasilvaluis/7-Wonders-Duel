@@ -26,5 +26,9 @@
 
   &.-facedown {
     background-color: salmon;
+    
+    span {
+      display: none;
+    }
   }
 }
