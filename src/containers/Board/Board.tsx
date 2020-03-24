@@ -2,15 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { WONDER_WIDTH, CARD_WIDTH } from '../../contants';
-import { Position, GameElement, ElementTypes } from '../../types';
+import { Position, GameElement, ElementTypes, Age } from '../../types';
 import { getPlayerAMoney, getPlayerBMoney, getElements } from '../../reducers/selectors';
 import { setMoney } from '../../actions/players-actions';
 import { setElementPosition, setElements, flipElement, addElements } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
-import BuildingCard from '../../components/BuildingCard/BuildingCard';
 import PlayerArea from '../PlayerArea/PlayerArea';
 import AgeSelect from '../../components/AgeSelect/AgeSelect';
-import WonderCard from '../../components/WonderCard/WonderCard';
 import {
   getBuildingCardsPlacement,
   getAgeScheme,
@@ -21,6 +19,7 @@ import {
 import { getWonderCardsPlacement, getShuffledCards as getNewWonderCards } from './wondercards-utils';
 import { injectPositions, flipCards } from './utils';
 import './Board.scss';
+import Element from '../../components/Element/Element';
 
 
 interface StateProps {
@@ -41,12 +40,12 @@ interface DispatchProps {
 interface Props extends StateProps, DispatchProps {};
 
 const Board = (props: Props) => {
-  const [ age, setAge ] = useState<'I' | 'II' | 'III'>('I');
+  const [ age, setAge ] = useState<Age>('I');
 
   const loadBuildingCards = () => {
     const scheme = getAgeScheme(age);
     const cardsPlacement = getBuildingCardsPlacement(scheme, CARD_WIDTH);
-    const shuffledCards = getNewBuildingCards();
+    const shuffledCards = getNewBuildingCards(age);
     const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacement);
     const fixedCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
     const flippedCards = flipBuildingCards(fixedCards, age);
@@ -83,16 +82,16 @@ const Board = (props: Props) => {
       </div>
       <div>
         {props.buildingCards.map((card) =>
-          <BuildingCard 
+          <Element 
             key={card.id}
-            card={card}
+            element={card}
             onDrag={props.onMoveElemnent}
             onDoubleClick={props.onFlipElemnent}
           />)}
         {props.wonderCards.map((card) =>
-          <WonderCard 
+          <Element 
             key={card.id}
-            card={card}
+            element={card}
             onDrag={props.onMoveElemnent}
             onDoubleClick={props.onFlipElemnent}
           />)}

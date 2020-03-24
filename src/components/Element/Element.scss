@@ -1,0 +1,52 @@
+@import '../../constants.scss';
+
+.element {
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  background-color: green;
+  box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+  cursor: grab;
+
+  &.-building {
+    width: $card-width;
+    height: $card-height;
+  }
+
+  &.-wonder {
+    width: $wonder-width;
+    height: $wonder-height;
+  }
+
+  &.-military_token {
+    &.-small {
+      
+    }
+  }
+
+  &.-progress_token {
+    width: $card-height / 2;
+    height: $card-height / 2;
+    border-radius: 50%;
+  }
+
+  &.-conflict_pawn {
+
+  }
+
+  &.-coin {
+
+    &.-small {
+      
+    }
+
+    &.-medium {
+      
+    }
+
+    &.-big {
+      
+    }
+  }
+}

@@ -31,5 +31,6 @@ export const getShuffledCards = (): Array<GameElement> =>
     x: 0,
     y: 0,
     faceDown: false,
-    imageFile: card.file
+    imageFile: card.file,
+    imageFileBackface: 'wonder-back.jpg'
   }));

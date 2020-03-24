@@ -1,5 +1,5 @@
 import { centerHorizontally, centerRow, getRowOf, getRandomElements } from "./utils";
-import { Position, GameElement, ElementTypes } from "../../types";
+import { Position, GameElement, ElementTypes, Age } from "../../types";
 import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, MAX_CARDS } from "../../contants";
 import { flattenDeep } from "../../utils";
 import { buildings as buildingsDb } from '../../data/buildings.json';
@@ -15,8 +15,9 @@ const moveRowVertically = (row: Array<Position>, rowIndex: number) =>
     y: rowIndex * (CARD_HEIGHT / 3)
   }));
 
-export const getAgeScheme = (age: 'I' | 'II' | 'III') => {
+export const getAgeScheme = (age: Age) => {
   switch (age) {
+    case "G":
     case "III":
       return schemeThirdAge;
     case "II":
@@ -46,7 +47,7 @@ export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: numb
   return centerHorizontally(flattenDeep<Position>(rows));
 };
 
-export const getShuffledCards = (): Array<GameElement> => 
+export const getShuffledCards = (age: Age): Array<GameElement> => 
   getRandomElements(buildingsDb, MAX_CARDS).map((card) => ({
     id: uuidv4(),
     name: card.name,
@@ -54,10 +55,11 @@ export const getShuffledCards = (): Array<GameElement> =>
     x: 0,
     y: 0,
     faceDown: false,
-    imageFile: ''
+    imageFile: '',
+    imageFileBackface: `building-${ age.toLowerCase() }-back.jpg`
   }));
 
-export const flipBuildingCards = (cards: Array<GameElement>, age: 'I' | 'II' | 'III') => 
+export const flipBuildingCards = (cards: Array<GameElement>, age: Age) => 
   cards.map((card, index) => {
     switch (age) {
       case 'I':
@@ -71,6 +73,7 @@ export const flipBuildingCards = (cards: Array<GameElement>, age: 'I' | 'II' | '
           faceDown: (6 <= index && index <= 10) || (15 <= index && index <= 17)
         };
       case 'III':
+      case 'G':
         return {
           ...card,
           faceDown: (2 <= index && index <= 4) || (9 <= index && index <= 10) || (15 <= index && index <= 17)

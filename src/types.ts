@@ -2,12 +2,15 @@ export type ElementsMap = {
   [key: string]: GameElement
 }
 
+export type Age = 'I' | 'II' | 'III' | 'G';
+
 export enum ElementTypes {
   WONDER_CARD = 'wonder',
   BUILDING_CARD = 'building',
   MILITARY_TOKEN = 'military_token',
   PROGRESS_TOKEN = 'progress_token',
-  CONFLICT_PAWN = 'conflict_pawn'
+  CONFLICT_PAWN = 'conflict_pawn',
+  COIN = 'coin'
 }
 
 export interface Position {
@@ -20,5 +23,6 @@ export interface GameElement extends Position {
   name: string;
   type: ElementTypes;
   faceDown: boolean;
-  imageFile: string
+  imageFile: string;
+  imageFileBackface: string;
 }
