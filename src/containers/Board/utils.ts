@@ -49,11 +49,13 @@ export const injectPositions = <T>(elements: Array<T>, positions: Array<Position
     return cards;
   }, []);
 
-export const getRandomElements = <T>(elements: Array<T>, howMany: number) => {
-  const shuffledElements = [ ...elements ].sort(() => Math.random() - 0.5);
+export const shuffleArray = <T>(array: Array<T>) => [ ...array ].sort(() => Math.random() - 0.5);
+
+export const getRandomElements = <T>(array: Array<T>, howMany: number) => {
+  const shuffledElements = shuffleArray<T>(array);
   const limit = howMany < shuffledElements.length ? howMany : shuffledElements.length;
 
-  return shuffledElements.slice(0, limit)
+  return shuffledElements.slice(0, limit);
 };
 
 export const flipCards = (cards: Array<GameElement>) => cards.map((card) => ({ ...card, faceDown: true }));

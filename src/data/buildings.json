@@ -1,230 +1,304 @@
 {
-  "buildings": [
+  "buildings_i": [
     {
       "name": "Guarnicion",
-      "cost": {
-        "clay": 1
-      },
-      "effect": {
-        "war": 1,
-        "chain": "sword"
-      },
-      "type": "military"
+      "file": ""
     },
     {
       "name": "Palenque",
-      "cost": {
-        "money": 2
-      },
-      "effect": {
-        "war": 1,
-        "chain": "tower"
-      },
-      "type": "military"
+      "file": ""
     },
     {
       "name": "Establos",
-      "cost": {
-        "wood": 1
-      },
-      "effect": {
-        "war": 1,
-        "chain": "horseshoe"
-      },
-      "type": "military"
+      "file": ""
     },
     {
       "name": "Torre de Guardia",
-      "cost": {},
-      "effect": {
-        "war": 1
-      },
-      "type": "military"
+      "file": ""
     },
     {
       "name": "Baños",
-      "cost": {
-        "stone": 1
-      },
-      "effect": {
-        "points": 3,
-        "chain": "water"
-      },
-      "type": "civilian"
+      "file": ""
     },
     {
       "name": "Altar",
-      "cost": {},
-      "effect": {
-        "points": 3,
-        "chain": "moon"
-      },
-      "type": "civilian"
+      "file": ""
     },
     {
       "name": "Teatro",
-      "cost": {},
-      "effect": {
-        "points": 3,
-        "chain": "mask"
-      },
-      "type": "civilian"
+      "file": ""
     },
     {
       "name": "Reserva de Piedra",
-      "cost": {
-        "money": 3
-      },
-      "effect": {
-        "stone": 1
-      },
-      "type": "commercial"
+      "file": ""
     },
     {
       "name": "Taberna",
-      "cost": {},
-      "effect": {
-        "money": 4
-      },
-      "type": "commercial"
+      "file": ""
     },
     {
       "name": "Reserva de Arcilla",
-      "cost": {
-        "money": 3
-      },
-      "effect": {
-        "clay": 1
-      },
-      "type": "commercial"
+      "file": ""
     },
     {
       "name": "Reserva de Madera",
-      "cost": {
-        "money": 3
-      },
-      "effect": {
-        "wood": 1
-      },
-      "type": "commercial"
+      "file": ""
     },
     {
       "name": "Cantera",
-      "cost": {},
-      "effect": {
-        "stone": 1
-      },
-      "type": "resouce_brown"
+      "file": ""
     },
     {
       "name": "Almacém de Piedra",
-      "cost": {
-        "money": 1
-      },
-      "effect": {
-        "stone": 1
-      },
-      "type": "resouce_brown"
+      "file": ""
     },
     {
       "name": "Explotación de Arcilla",
-      "cost": {
-        "money": 1
-      },
-      "effect": {
-        "clay": 1
-      },
-      "type": "resouce_brown"
+      "file": ""
     },
     {
       "name": "Almacém de Arcilla",
-      "cost": {},
-      "effect": {
-        "clay": 1
-      },
-      "type": "resouce_brown"
+      "file": ""
     },
     {
       "name": "Almacém de Madera",
-      "cost": {},
-      "effect": {
-        "wood": 1
-      },
-      "type": "resouce_brown"
+      "file": ""
     },
     {
       "name": "Campo Maderero",
-      "cost": {
-        "money": 1
-      },
-      "effect": {
-        "wood": 1
-      },
-      "type": "resouce_brown"
+      "file": ""
     },
     {
       "name": "Prensa",
-      "cost": {
-        "money": 1
-      },
-      "effect": {
-        "papyrus": 1
-      },
-      "type": "resouce_grey"
+      "file": ""
     },
     {
       "name": "Cristalería",
-      "cost": {
-        "money": 1
-      },
-      "effect": {
-        "glass": 1
-      },
-      "type": "resouce_grey"
+      "file": ""
     },
     {
       "name": "Taller",
-      "cost": {
-        "papyrus": 1
-      },
-      "effect": {
-        "A": 1,
-        "points": 1
-      },
-      "type": "scientific"
+      "file": ""
     },
     {
       "name": "Farmacia",
-      "cost": {
-        "glass": 1
-      },
-      "effect": {
-        "B": 1,
-        "points": 1
-      },
-      "type": "scientific"
+      "file": ""
     },
     {
       "name": "Scriptorium",
-      "cost": {
-        "money": 2
-      },
-      "effect": {
-        "C": 1,
-        "chain": "book"
-      },
-      "type": "scientific"
+      "file": ""
     },
     {
       "name": "Botica",
-      "cost": {
-        "money": 2
-      },
-      "effect": {
-        "D": 1,
-        "chain": "gear"
-      },
-      "type": "scientific"
+      "file": ""
+    }
+  ],
+  "buildings_ii": [
+    {
+      "name": "Guarnicion",
+      "file": ""
+    },
+    {
+      "name": "Palenque",
+      "file": ""
+    },
+    {
+      "name": "Establos",
+      "file": ""
+    },
+    {
+      "name": "Torre de Guardia",
+      "file": ""
+    },
+    {
+      "name": "Baños",
+      "file": ""
+    },
+    {
+      "name": "Altar",
+      "file": ""
+    },
+    {
+      "name": "Teatro",
+      "file": ""
+    },
+    {
+      "name": "Reserva de Piedra",
+      "file": ""
+    },
+    {
+      "name": "Taberna",
+      "file": ""
+    },
+    {
+      "name": "Reserva de Arcilla",
+      "file": ""
+    },
+    {
+      "name": "Reserva de Madera",
+      "file": ""
+    },
+    {
+      "name": "Cantera",
+      
+      "file": ""
+    },
+    {
+      "name": "Almacém de Piedra",
+      "file": ""
+    },
+    {
+      "name": "Explotación de Arcilla",
+      "file": ""
+    },
+    {
+      "name": "Almacém de Arcilla",
+      "file": ""
+    },
+    {
+      "name": "Almacém de Madera",
+      "file": ""
+    },
+    {
+      "name": "Campo Maderero",
+      "file": ""
+    },
+    {
+      "name": "Prensa",
+      "file": ""
+    },
+    {
+      "name": "Cristalería",
+      "file": ""
+    },
+    {
+      "name": "Taller",
+      "file": ""
+    },
+    {
+      "name": "Farmacia",
+      "file": ""
+    },
+    {
+      "name": "Scriptorium",
+      "file": ""
+    },
+    {
+      "name": "Botica",
+      "file": ""
+    }
+  ],
+  "buildings_iii": [
+    {
+      "name": "Guarnicion",
+      "file": ""
+    },
+    {
+      "name": "Palenque",
+      "file": ""
+    },
+    {
+      "name": "Establos",
+      "file": ""
+    },
+    {
+      "name": "Torre de Guardia",
+      "file": ""
+    },
+    {
+      "name": "Baños",
+      "file": ""
+    },
+    {
+      "name": "Altar",
+      "file": ""
+    },
+    {
+      "name": "Teatro",
+      "file": ""
+    },
+    {
+      "name": "Reserva de Piedra",
+      "file": ""
+    },
+    {
+      "name": "Taberna",
+      "file": ""
+    },
+    {
+      "name": "Reserva de Arcilla",
+      "file": ""
+    },
+    {
+      "name": "Reserva de Madera",
+      "file": ""
+    },
+    {
+      "name": "Cantera",
+      
+      "file": ""
+    },
+    {
+      "name": "Almacém de Piedra",
+      "file": ""
+    },
+    {
+      "name": "Explotación de Arcilla",
+      "file": ""
+    },
+    {
+      "name": "Almacém de Arcilla",
+      "file": ""
+    },
+    {
+      "name": "Almacém de Madera",
+      "file": ""
+    },
+    {
+      "name": "Campo Maderero",
+      "file": ""
+    },
+    {
+      "name": "Prensa",
+      "file": ""
+    },
+    {
+      "name": "Cristalería",
+      "file": ""
+    },
+    {
+      "name": "Taller",
+      "file": ""
+    }
+  ],
+  "buildings_g": [
+    {
+      "name": "Gremio de Armadores",
+      "file": "building-g-gremio-de-armadores.jpg"
+    },
+    {
+      "name": "Gremio de Científicos",
+      "file": "building-g-gremio-de-cientificos.jpg"
+    },
+    {
+      "name": "Gremio de Construciones",
+      "file": "building-g-gremio-de-construciones.jpg"
+    },
+    {
+      "name": "Gremio de Magistrados",
+      "file": "building-g-gremio-de-magistrados.jpg"
+    },
+    {
+      "name": "Gremio de Mercaderes",
+      "file": "building-g-gremio-de-mercaderes.jpg"
+    },
+    {
+      "name": "Gremio de Prestamistas",
+      "file": "building-g-gremio-de-prestamistas.jpg"
+    },
+    {
+      "name": "Gremio de Tácticos",
+      "file": "building-g-gremio-de-tacticos.jpg"
     }
   ]
 }
