@@ -2,7 +2,7 @@ import { centerHorizontally, centerRow, getRowOf, getRandomElements } from "./ut
 import { Position, GameElement, ElementTypes } from "../../types";
 import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, MAX_CARDS } from "../../contants";
 import { flattenDeep } from "../../utils";
-import { cards as cardsDb } from '../../data/cards.json';
+import { buildings as buildingsDb } from '../../data/buildings.json';
 import { v4 as uuidv4 } from 'uuid';
 
 export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
@@ -47,7 +47,7 @@ export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: numb
 };
 
 export const getShuffledCards = (): Array<GameElement> => 
-  getRandomElements(cardsDb, MAX_CARDS).map((card) => ({
+  getRandomElements(buildingsDb, MAX_CARDS).map((card) => ({
     id: uuidv4(),
     name: card.name,
     type: ElementTypes.BUILDING_CARD,
