@@ -5,16 +5,15 @@ import './WonderCard.scss';
 
 interface Props {
   card: GameElement;
-  index: number;
-  onMoveStop(index: number, position: Position): void;
-  onDoubleClick(index: number): void;
+  onDrag(id: string, position: Position): void;
+  onDoubleClick(id: string): void;
 }
 
-export const WonderCard = (props: Props) => (
+export default (props: Props) => (
   <BaseElement
-    id={props.index}
+    id={props.card.id}
     position={{x: props.card.x, y: props.card.y}}
-    onMoveStop={props.onMoveStop}
+    onDrag={props.onDrag}
     onDoubleClick={props.onDoubleClick}
   >
     <div className={`wondercard ${props.card.faceDown ? '-facedown' : '-faceup'}`}>

@@ -8,3 +8,7 @@ export const FLIP_CARD = 'FLIP_CARD';
 export const SET_WONDERS = 'SET_WONDERS';
 export const SET_WONDER_POSITION = 'SET_WONDER_POSITION';
 export const FLIP_WONDER = 'FLIP_WONDER';
+export const SET_ELEMENTS = 'SET_ELEMENTS';
+export const SET_ELEMENT_POSITION = 'SET_ELEMENT_POSITION';
+export const ADD_ELEMENTS = 'ADD_ELEMENTS';
+export const FLIP_ELEMENT = 'FLIP_ELEMENT';

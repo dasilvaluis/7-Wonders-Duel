@@ -1,6 +1,9 @@
-import { flattenMultiLevelArray, centerHorizontally, centerRow, getRowOf } from "./utils";
-import { Position, GameElement } from "../../types";
-import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT } from "../../contants";
+import { centerHorizontally, centerRow, getRowOf, getRandomElements } from "./utils";
+import { Position, GameElement, ElementTypes } from "../../types";
+import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, MAX_CARDS } from "../../contants";
+import { flattenDeep } from "../../utils";
+import { cards as cardsDb } from '../../data/cards.json';
+import { v4 as uuidv4 } from 'uuid';
 
 export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
 export const schemeSecondAge = [ 6, 5, 4, 3, 2 ];
@@ -40,8 +43,18 @@ export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: numb
     return rowCentered;
   });
 
-  return centerHorizontally(flattenMultiLevelArray<Position>(rows));
+  return centerHorizontally(flattenDeep<Position>(rows));
 };
+
+export const getShuffledCards = (): Array<GameElement> => 
+  getRandomElements(cardsDb, MAX_CARDS).map((card) => ({
+    id: uuidv4(),
+    name: card.name,
+    type: ElementTypes.BUILDING_CARD,
+    x: 0,
+    y: 0,
+    faceDown: false,
+  }));
 
 export const flipBuildingCards = (cards: Array<GameElement>, age: 'I' | 'II' | 'III') => 
   cards.map((card, index) => {

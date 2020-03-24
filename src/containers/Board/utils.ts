@@ -14,8 +14,6 @@ export const getRowOf = (howMany: number, cardWidth: number): Array<Position> =>
   return positions;
 };
 
-export const flattenMultiLevelArray = <T>(rows: T[][]) => rows.reduce((acc, curr) => [ ...acc, ...curr ], []);
-
 export const centerRow = (row: Array<Position>, cardsQuantity: number, cardWidth: number) =>
   row.map((position) => ({
     ...position,

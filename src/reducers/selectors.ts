@@ -1,9 +1,15 @@
-import { AppState } from ".";
+import { AppState } from './reducers';
+import { ElementTypes } from '../types';
+
 const getPlayerA = (state: AppState) => state.players.playerA;
 const getPlayerB = (state: AppState) => state.players.playerB;
 
 export const getPlayerAMoney = (state: AppState) => getPlayerA(state).money;
 export const getPlayerBMoney = (state: AppState) => getPlayerB(state).money;
 export const getMilitaryPoints = (state: AppState) => state.militaryPoints;
-export const getBuildingCards = (state: AppState) => state.buildingCards;
-export const getWonderCards = (state: AppState) => state.wonderCards;
+
+export const getElements = (state: AppState, type: ElementTypes) =>
+  Object.values(state.elements).filter((el) => el.type === type);
+
+export const getElement = (state: AppState, id: string) =>
+  Object.values(state.elements).filter((el) => el.id === id);

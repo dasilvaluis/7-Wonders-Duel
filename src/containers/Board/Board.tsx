@@ -1,23 +1,27 @@
 import React from 'react';
 import { useState } from 'react';
-import { BuildingCard } from '../../components/BuildingCard/BuildingCard';
-import { injectPositions, getRandomElements, flipCards } from './utils';
-import { getBuildingCardsPlacement, getAgeScheme, fixThirdAgeCards, flipBuildingCards } from './buildingcards-utils';
-import { MAX_CARDS, WONDER_WIDTH, CARD_WIDTH } from '../../contants';
-import PlayerArea from '../PlayerArea/PlayerArea';
-import { cards as cardsDb } from '../../data/cards.json';
-import { wonders } from '../../data/wonders.json';
-import { AppState } from '../../reducers';
-import { getPlayerAMoney, getPlayerBMoney, getBuildingCards, getWonderCards } from '../../reducers/selectors';
 import { connect } from 'react-redux';
+import { WONDER_WIDTH, CARD_WIDTH } from '../../contants';
+import { Position, GameElement, ElementTypes } from '../../types';
+import { getPlayerAMoney, getPlayerBMoney, getElements } from '../../reducers/selectors';
 import { setMoney } from '../../actions/players-actions';
-import { setBuildingCards, setBuildingCardPosition, flipCard } from '../../actions/cards-actions';
-import { Position, GameElement } from '../../types';
+import { setElementPosition, setElements, flipElement, addElements } from '../../actions/elements-actions';
+import { AppState } from '../../reducers/reducers';
+import BuildingCard from '../../components/BuildingCard/BuildingCard';
+import PlayerArea from '../PlayerArea/PlayerArea';
 import AgeSelect from '../../components/AgeSelect/AgeSelect';
-import { getWonderCardsPlacement } from './wondercards-utils';
-import { WonderCard } from '../../components/WonderCard/WonderCard';
-import { setWonderCardPosition, setWonderCards, flipWonder } from '../../actions/wonders-actions';
+import WonderCard from '../../components/WonderCard/WonderCard';
+import {
+  getBuildingCardsPlacement,
+  getAgeScheme,
+  fixThirdAgeCards,
+  flipBuildingCards,
+  getShuffledCards as getNewBuildingCards
+} from './buildingcards-utils';
+import { getWonderCardsPlacement, getShuffledCards as getNewWonderCards } from './wondercards-utils';
+import { injectPositions, flipCards } from './utils';
 import './Board.scss';
+
 
 interface StateProps {
   buildingCards: Array<GameElement>;
@@ -28,12 +32,10 @@ interface StateProps {
 
 interface DispatchProps {
   onSetMoney(player: string, ammount: number): void;
-  onSetBuildingCards(cards: Array<GameElement>): void;
-  onMoveBuildingCard(cardIndex: number, position: Position): void;
-  onSetWonderCards(cards: Array<GameElement>): void;
-  onMoveWonderCard(cardIndex: number, position: Position): void;
-  onFlipBuildingCard(cardIndex: number): void;
-  onFlipWonderCard(cardIndex: number): void;
+  onSetElements(elements: Array<GameElement>): void;
+  onAddElements(elements: Array<GameElement>): void;
+  onMoveElemnent(elementId: string, position: Position): void;
+  onFlipElemnent(elementId: string): void;
 }
 
 interface Props extends StateProps, DispatchProps {};
@@ -44,20 +46,20 @@ const Board = (props: Props) => {
   const loadBuildingCards = () => {
     const scheme = getAgeScheme(age);
     const cardsPlacement = getBuildingCardsPlacement(scheme, CARD_WIDTH);
-    const shuffledCards = getRandomElements(cardsDb, MAX_CARDS).map(({ name, type }) => ({ name, type }));
+    const shuffledCards = getNewBuildingCards();
     const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacement);
     const fixedCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
     const flippedCards = flipBuildingCards(fixedCards, age);
 
-    props.onSetBuildingCards(flippedCards);
+    props.onAddElements(flippedCards);
   };
 
   const loadWonderCards = () => {
-    const wonderCards = getRandomElements(wonders, 8);
+    const wonderCards = getNewWonderCards();
     const cardsPlacement = getWonderCardsPlacement(WONDER_WIDTH);
-    const cards: Array<GameElement> = injectPositions(wonderCards, cardsPlacement);
+    const cards: Array<GameElement> = flipCards(injectPositions(wonderCards, cardsPlacement));
 
-    props.onSetWonderCards(flipCards(cards));
+    props.onAddElements(cards);
   };
   
   return (
@@ -80,21 +82,19 @@ const Board = (props: Props) => {
         />
       </div>
       <div>
-        {props.buildingCards.map((card, index) =>
+        {props.buildingCards.map((card) =>
           <BuildingCard 
-            key={`${card.name}-${card.type}`}
-            index={index}
+            key={card.id}
             card={card}
-            onMoveStop={props.onMoveBuildingCard}
-            onDoubleClick={props.onFlipBuildingCard}
+            onDrag={props.onMoveElemnent}
+            onDoubleClick={props.onFlipElemnent}
           />)}
-        {props.wonderCards.map((card, index) =>
+        {props.wonderCards.map((card) =>
           <WonderCard 
-            key={`${card.name}-${card.type}`}
-            index={index}
+            key={card.id}
             card={card}
-            onMoveStop={props.onMoveWonderCard}
-            onDoubleClick={props.onFlipWonderCard}
+            onDrag={props.onMoveElemnent}
+            onDoubleClick={props.onFlipElemnent}
           />)}
       </div>
     </div>
@@ -102,20 +102,18 @@ const Board = (props: Props) => {
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  buildingCards: getBuildingCards(state),
-  wonderCards: getWonderCards(state),
+  buildingCards: getElements(state, ElementTypes.BUILDING_CARD),
+  wonderCards: getElements(state, ElementTypes.WONDER_CARD),
   playerAMoney: getPlayerAMoney(state),
   playerBMoney: getPlayerBMoney(state)
 });
 
 const mapDispatchToProps: DispatchProps = {
   onSetMoney: (player: 'playerA' | 'playerB', ammount: number) => setMoney(player, ammount),
-  onSetBuildingCards: (cards: Array<GameElement>) => setBuildingCards(cards),
-  onMoveBuildingCard: (cardIndex: number, position: Position) => setBuildingCardPosition(cardIndex, position),
-  onSetWonderCards: (cards: Array<GameElement>) => setWonderCards(cards),
-  onMoveWonderCard: (cardIndex: number, position: Position) => setWonderCardPosition(cardIndex, position),
-  onFlipBuildingCard: (cardIndex: number) => flipCard(cardIndex),
-  onFlipWonderCard: (cardIndex: number) => flipWonder(cardIndex)
+  onSetElements: (elements: Array<GameElement>) => setElements(elements),
+  onAddElements: (elements: Array<GameElement>) => addElements(elements),
+  onMoveElemnent: (elementId: string, position: Position) => setElementPosition(elementId, position),
+  onFlipElemnent: (elementId: string) => flipElement(elementId)
 };
 
 export default connect(

@@ -1,4 +1,4 @@
-import { movePositions, flattenMultiLevelArray, getRandomElements } from "../utils";
+import { movePositions, getRandomElements } from "../utils";
 
 describe('movePositions', () => {
   const positions = [
@@ -26,20 +26,6 @@ describe('movePositions', () => {
     ]);
   });
 });
-
-describe('flattenMultiLevelArray', () => {
-  const array = [1, 2, 3, 4, 5];
-  const multiLevelArray = [
-    [1, 2],
-    [3, 4],
-    [5]
-  ];
-
-  it('flattens the given array', () => {
-    expect(flattenMultiLevelArray(multiLevelArray)).toEqual(array);
-  });
-});
-
 
 describe('getRandomElements', () => {
   const array = [1, 2, 3, 4, 5];
