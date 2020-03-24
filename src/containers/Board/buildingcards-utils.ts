@@ -1,14 +1,13 @@
 import { centerHorizontally, centerRow, getRowOf, getRandomElements, shuffleArray } from "./utils";
 import { Position, GameElement, ElementTypes, Age } from "../../types";
 import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, MAX_CARDS } from "../../contants";
-import { flattenDeep } from "../../utils";
+import { flattenDeep, createElement } from "../../utils";
 import {
   buildings_i as buildingsIDb,
   buildings_ii as buildingsIIDb,
   buildings_iii as buildingsIIIDb,
   buildings_g as buildingsGDb
 } from '../../data/buildings.json';
-import { v4 as uuidv4 } from 'uuid';
 
 export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
 export const schemeSecondAge = [ 6, 5, 4, 3, 2 ];
@@ -66,21 +65,9 @@ export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: numb
 };
 
 export const getShuffledCards = (age: Age): Array<GameElement> => {
-  const createElement = (card, type: ElementTypes) => ({
-    type,
-    id: uuidv4(),
-    name: card.name,
-    x: 0,
-    y: 0,
-    faceDown: false,
-    imageFile: '',
-    imageFileBackface:''
-  });
-
   const deck = getAgeDeck(age);
   const ageCards = getRandomElements(deck, MAX_CARDS).map((card) => ({
     ...createElement(card, ElementTypes.BUILDING_CARD),
-    imageFile: '',
     imageFileBackface: `building-${ age.toLowerCase() }-back.jpg`
   }));
   
@@ -89,7 +76,6 @@ export const getShuffledCards = (age: Age): Array<GameElement> => {
 
     const guildCards = getRandomElements(buildingsGDb, 3).map((card) => ({
       ...createElement(card, ElementTypes.BUILDING_CARD),
-      imageFile: '',
       imageFileBackface: `building-g-back.jpg`
     }));
 
