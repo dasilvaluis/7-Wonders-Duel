@@ -20,4 +20,5 @@ export interface GameElement extends Position {
   name: string;
   type: ElementTypes;
   faceDown: boolean;
+  imageFile: string
 }

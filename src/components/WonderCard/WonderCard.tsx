@@ -16,8 +16,13 @@ export default (props: Props) => (
     onDrag={props.onDrag}
     onDoubleClick={props.onDoubleClick}
   >
-    <div className={`wondercard ${props.card.faceDown ? '-facedown' : '-faceup'}`}>
-      <span>{props.card.name}</span>
-    </div>
+    <div
+      className={`wondercard`}
+      style={
+        !props.card.faceDown 
+          ? { backgroundImage: `url(${ require(`../../data/images/${ props.card.imageFile }`) })`}
+          : { backgroundImage: `url(${ require(`../../data/images/wonder-back.jpg`) })`}
+      }
+    />
   </BaseElement>
 );

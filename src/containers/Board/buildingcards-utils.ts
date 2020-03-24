@@ -54,6 +54,7 @@ export const getShuffledCards = (): Array<GameElement> =>
     x: 0,
     y: 0,
     faceDown: false,
+    imageFile: ''
   }));
 
 export const flipBuildingCards = (cards: Array<GameElement>, age: 'I' | 'II' | 'III') => 

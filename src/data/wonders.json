@@ -1,7 +1,8 @@
 {
   "wonders": [
     {
-      "name": "The Appian Way",
+      "name": "La Via Apia",
+      "file": "wonder-la-via-apia.jpg",
       "cost": {
         "papyrus" : 1,
         "clay": 2,
@@ -15,7 +16,8 @@
       }
     },
     {
-      "name": "The Sphinx",
+      "name": "La Esfinge",
+      "file": "wonder-la-esfinge.jpg",
       "cost": {
         "glass" : 2,
         "clay": 1,
@@ -27,7 +29,8 @@
       }
     },
     {
-      "name": "The Hanging Gardens",
+      "name": "Los Jardines Colgantes",
+      "file": "wonder-los-jardines-colgantes.jpg",
       "cost": {
         "papyrus" : 1,
         "glass" : 1,
@@ -40,7 +43,8 @@
       }
     },
     {
-      "name": "The Pyramids",
+      "name": "Las Pirámides",
+      "file": "wonder-las-piramides.jpg",
       "cost": {
         "papyrus" : 1,
         "stone" : 3
@@ -50,7 +54,8 @@
       }
     },
     {
-      "name": "The Great Lighthouse",
+      "name": "El Faro",
+      "file": "wonder-el-gran-faro.jpg",
       "cost": {
         "papyrus" : 2,
         "stone" : 1,
@@ -62,7 +67,8 @@
       }
     },
     {
-      "name": "The Statue of Zeus",
+      "name": "La Estatua de Zéus",
+      "file": "wonder-la-estatua-de-zeus.jpg",
       "cost": {
         "papyrus" : 2,
         "clay" : 1,
@@ -77,6 +83,7 @@
     },
     {
       "name": "The Temple of Artemis",
+      "file": "wonder-el-templo-de-artemisa.jpg",
       "cost": {
         "papyrus" : 1,
         "glass" : 1,
@@ -89,7 +96,8 @@
       }
     },
     {
-      "name": "The Great Library",
+      "name": "La Gran Biblioteca",
+      "file": "wonder-la-gran-biblioteca.jpg",
       "cost": {
         "papyrus" : 1,
         "glass" : 1,
@@ -102,6 +110,7 @@
     },
     {
       "name": "The Mausoleum",
+      "file": "wonder-el-mausoleo.jpg",
       "cost": {
         "papyrus" : 1,
         "glass" : 2,
@@ -113,7 +122,8 @@
       }
     },
     {
-      "name": "Circus Maximus",
+      "name": "El Circo Máximo",
+      "file": "wonder-el-circo-maximo.jpg",
       "cost": {
         "glass" : 1,
         "wood" : 1,
@@ -126,7 +136,8 @@
       }
     },
     {
-      "name": "Piraeus",
+      "name": "El Pireo",
+      "file": "wonder-el-pireo.jpg",
       "cost": {
         "clay": 1,
         "stone": 1,
@@ -139,7 +150,8 @@
       }
     },
     {
-      "name": "The Colossus",
+      "name": "El Coloso",
+      "file": "wonder-el-coloso.jpg",
       "cost": {
         "glass": 1,
         "clay": 3

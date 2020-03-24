@@ -4,13 +4,11 @@
   width: $wonder-width;
   height: $wonder-height;
   padding: 10px;
-  background-color: burlywood;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
 
   &.-facedown {
-    background-color: cornflowerblue;
-
-    span {
-      display: none;
-    }
+    background-image: url('../../data/images/wonder-back.jpg');
   }
 }
