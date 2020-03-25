@@ -1,4 +1,4 @@
-import { getAgeScheme, getBuildingCardsPlacement, getShuffledCards } from "../buildingcards-utils"
+import { getAgeScheme, getBuildingCardsPlacement } from "../buildingcards-utils"
 import { CARD_WIDTH } from "../../../contants";
 
 describe('getBuildingCardsPlacement', () => {

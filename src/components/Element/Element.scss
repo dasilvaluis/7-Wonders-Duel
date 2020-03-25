@@ -4,10 +4,14 @@
   position: absolute;
   background-size: cover;
   background-position: center;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: green;
   box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
   cursor: grab;
+
+  &.-dragging {
+    cursor: grabbing;
+  }
 
   &.-building {
     width: $card-width;

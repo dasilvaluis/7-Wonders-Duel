@@ -26,3 +26,16 @@ export interface GameElement extends Position {
   imageFile: string;
   imageFileBackface: string;
 }
+
+export interface MoveElementAPIEvent {
+  elementId: string,
+  position: Position
+}
+
+export interface FlipElementAPIEvent {
+  elementId: string
+}
+
+export interface SetElementsAPIEvent extends Array<GameElement> {}
+
+export interface AddElementsAPIEvent extends Array<GameElement> {}

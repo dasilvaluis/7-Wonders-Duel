@@ -2,7 +2,6 @@ import React from 'react';
 import './PlayerArea.scss';
 
 interface OwnProps {
-  playerName: string;
   money: number;
   onSetMoney(value: number): void;
 }
