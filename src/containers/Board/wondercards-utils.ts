@@ -26,7 +26,6 @@ export const getWonderCardsPlacement = (cardWidth: number) => {
 export const getShuffledCards = (): Array<GameElement> => 
   getRandomElements(wonders, 8).map((card) => ({
     id: uuidv4(),
-    name: card.name,
     type: ElementTypes.WONDER_CARD,
     x: 0,
     y: 0,

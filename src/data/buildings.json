@@ -1,304 +1,85 @@
 {
   "buildings_i": [
-    {
-      "name": "Guarnicion",
-      "file": ""
-    },
-    {
-      "name": "Palenque",
-      "file": ""
-    },
-    {
-      "name": "Establos",
-      "file": ""
-    },
-    {
-      "name": "Torre de Guardia",
-      "file": ""
-    },
-    {
-      "name": "Baños",
-      "file": ""
-    },
-    {
-      "name": "Altar",
-      "file": ""
-    },
-    {
-      "name": "Teatro",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Piedra",
-      "file": ""
-    },
-    {
-      "name": "Taberna",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Madera",
-      "file": ""
-    },
-    {
-      "name": "Cantera",
-      "file": ""
-    },
-    {
-      "name": "Almacém de Piedra",
-      "file": ""
-    },
-    {
-      "name": "Explotación de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Almacém de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Almacém de Madera",
-      "file": ""
-    },
-    {
-      "name": "Campo Maderero",
-      "file": ""
-    },
-    {
-      "name": "Prensa",
-      "file": ""
-    },
-    {
-      "name": "Cristalería",
-      "file": ""
-    },
-    {
-      "name": "Taller",
-      "file": ""
-    },
-    {
-      "name": "Farmacia",
-      "file": ""
-    },
-    {
-      "name": "Scriptorium",
-      "file": ""
-    },
-    {
-      "name": "Botica",
-      "file": ""
-    }
+    { "file": "building-i-almacen-de-arcilla.jpg" },
+    { "file": "building-i-almacen-de-madera.jpg" },
+    { "file": "building-i-altar.jpg" },
+    { "file": "building-i-banos.jpg" },
+    { "file": "building-i-botica.jpg" },
+    { "file": "building-i-campo-almacen-de-madera.jpg" },
+    { "file": "building-i-campo-maderero.jpg" },
+    { "file": "building-i-cantera.jpg" },
+    { "file": "building-i-cristaleria.jpg" },
+    { "file": "building-i-establos.jpg" },
+    { "file": "building-i-explotacion-de-arcilla.jpg" },
+    { "file": "building-i-farmacia.jpg" },
+    { "file": "building-i-guarnicion.jpg" },
+    { "file": "building-i-palenque.jpg" },
+    { "file": "building-i-prensa.jpg" },
+    { "file": "building-i-reserva-de-arcilla.jpg" },
+    { "file": "building-i-reserva-de-madera.jpg" },
+    { "file": "building-i-reserva-de-piedra.jpg" },
+    { "file": "building-i-scriptorium.jpg" },
+    { "file": "building-i-taberna.jpg" },
+    { "file": "building-i-taller.jpg" },
+    { "file": "building-i-teatro.jpg" },
+    { "file": "building-i-torre-de-guardia.jpg" }
   ],
   "buildings_ii": [
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
     {
-      "name": "Guarnicion",
-      "file": ""
-    },
-    {
-      "name": "Palenque",
-      "file": ""
-    },
-    {
-      "name": "Establos",
-      "file": ""
-    },
-    {
-      "name": "Torre de Guardia",
-      "file": ""
-    },
-    {
-      "name": "Baños",
-      "file": ""
-    },
-    {
-      "name": "Altar",
-      "file": ""
-    },
-    {
-      "name": "Teatro",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Piedra",
-      "file": ""
-    },
-    {
-      "name": "Taberna",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Madera",
-      "file": ""
-    },
-    {
-      "name": "Cantera",
-      
-      "file": ""
-    },
-    {
-      "name": "Almacém de Piedra",
-      "file": ""
-    },
-    {
-      "name": "Explotación de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Almacém de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Almacém de Madera",
-      "file": ""
-    },
-    {
-      "name": "Campo Maderero",
-      "file": ""
-    },
-    {
-      "name": "Prensa",
-      "file": ""
-    },
-    {
-      "name": "Cristalería",
-      "file": ""
-    },
-    {
-      "name": "Taller",
-      "file": ""
-    },
-    {
-      "name": "Farmacia",
-      "file": ""
-    },
-    {
-      "name": "Scriptorium",
-      "file": ""
-    },
-    {
-      "name": "Botica",
-      "file": ""
-    }
+       "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" }
   ],
   "buildings_iii": [
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
     {
-      "name": "Guarnicion",
-      "file": ""
-    },
-    {
-      "name": "Palenque",
-      "file": ""
-    },
-    {
-      "name": "Establos",
-      "file": ""
-    },
-    {
-      "name": "Torre de Guardia",
-      "file": ""
-    },
-    {
-      "name": "Baños",
-      "file": ""
-    },
-    {
-      "name": "Altar",
-      "file": ""
-    },
-    {
-      "name": "Teatro",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Piedra",
-      "file": ""
-    },
-    {
-      "name": "Taberna",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Reserva de Madera",
-      "file": ""
-    },
-    {
-      "name": "Cantera",
-      
-      "file": ""
-    },
-    {
-      "name": "Almacém de Piedra",
-      "file": ""
-    },
-    {
-      "name": "Explotación de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Almacém de Arcilla",
-      "file": ""
-    },
-    {
-      "name": "Almacém de Madera",
-      "file": ""
-    },
-    {
-      "name": "Campo Maderero",
-      "file": ""
-    },
-    {
-      "name": "Prensa",
-      "file": ""
-    },
-    {
-      "name": "Cristalería",
-      "file": ""
-    },
-    {
-      "name": "Taller",
-      "file": ""
-    }
+       "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" },
+    { "file": "" }
   ],
   "buildings_g": [
-    {
-      "name": "Gremio de Armadores",
-      "file": "building-g-gremio-de-armadores.jpg"
-    },
-    {
-      "name": "Gremio de Científicos",
-      "file": "building-g-gremio-de-cientificos.jpg"
-    },
-    {
-      "name": "Gremio de Construciones",
-      "file": "building-g-gremio-de-construciones.jpg"
-    },
-    {
-      "name": "Gremio de Magistrados",
-      "file": "building-g-gremio-de-magistrados.jpg"
-    },
-    {
-      "name": "Gremio de Mercaderes",
-      "file": "building-g-gremio-de-mercaderes.jpg"
-    },
-    {
-      "name": "Gremio de Prestamistas",
-      "file": "building-g-gremio-de-prestamistas.jpg"
-    },
-    {
-      "name": "Gremio de Tácticos",
-      "file": "building-g-gremio-de-tacticos.jpg"
-    }
+    { "file": "building-g-gremio-de-armadores.jpg" },
+    { "file": "building-g-gremio-de-cientificos.jpg" },
+    { "file": "building-g-gremio-de-construciones.jpg" },
+    { "file": "building-g-gremio-de-magistrados.jpg" },
+    { "file": "building-g-gremio-de-mercaderes.jpg" },
+    { "file": "building-g-gremio-de-prestamistas.jpg" },
+    { "file": "building-g-gremio-de-tacticos.jpg" }
   ]
 }

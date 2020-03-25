@@ -20,7 +20,6 @@ export interface Position {
 
 export interface GameElement extends Position {
   id: string;
-  name: string;
   type: ElementTypes;
   faceDown: boolean;
   imageFile: string;
