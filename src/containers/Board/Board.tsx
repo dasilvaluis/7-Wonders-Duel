@@ -18,9 +18,9 @@ import {
 } from './buildingcards-utils';
 import { getWonderCardsPlacement, getShuffledCards as getNewWonderCards } from './wondercards-utils';
 import { injectPositions, flipCards } from './utils';
-import './Board.scss';
 import Element from '../../components/Element/Element';
 import { socket }  from '../../websocketClient';
+import './Board.scss';
 
 
 interface StateProps {
@@ -69,9 +69,13 @@ const Board = (props: Props) => {
   }, []);
   
   useEffect(() => {
+    if (socket.hasListeners('get_elements') ) {
+      socket.off('get_elements');
+    }
+
     socket.on('get_elements', () => {
       socket.emit('set_elements', props.elements);
-    });  
+    });
   }, [ props.elements ]);
 
   const handleMoveElement = (elementId: string, position: Position) => {

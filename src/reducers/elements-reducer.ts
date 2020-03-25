@@ -16,14 +16,19 @@ export default (state = initialState, action: ElementsActionType) => {
     case SET_ELEMENT_POSITION: {
       const { id, position: { x, y } } = action.payload;
 
-      _state[id].x = x;
-      _state[id].y = y;
+      if (typeof _state[id] !== 'undefined') {
+        _state[id].x = x;
+        _state[id].y = y; 
+      }
 
       return _state;
     }
     case FLIP_ELEMENT: { 
       const { id } = action.payload;
-      _state[id].faceDown = !_state[id].faceDown;
+
+      if (typeof _state[id] !== 'undefined') {
+        _state[id].faceDown = !_state[id].faceDown;
+      }
       
       return _state;
     }

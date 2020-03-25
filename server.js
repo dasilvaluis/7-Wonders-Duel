@@ -8,7 +8,7 @@ const events = {
   GET_ELEMENTS: 'get_elements',
   SET_ELEMENTS: 'set_elements',
   ADD_ELEMENTS: 'add_elements'
-}
+};
 
 app.use(express.static(__dirname + '/public'));
 
@@ -16,8 +16,6 @@ const server = app.listen(8000);
 const io = socketio(server);
 
 io.on('connect', (socket) => {
-  console.log(`Someone connected! ${ socket.id }`);
-
   socket.on(events.FLIP_ELEMENT, (data)=> {
     socket.broadcast.emit(events.FLIP_ELEMENT, data);
   });
