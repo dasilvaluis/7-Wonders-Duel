@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 const socketio = require('socket.io');
@@ -10,7 +11,8 @@ const events = {
   ADD_ELEMENTS: 'add_elements'
 };
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '../../build')));
+app.get('/', (req, res, next) => res.sendFile(__dirname + './index.html'));
 
 const server = app.listen(8000);
 const io = socketio(server);

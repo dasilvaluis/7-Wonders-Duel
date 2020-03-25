@@ -19,6 +19,7 @@
     "@types/socket.io-client": "^1.4.32",
     "express": "^4.17.1",
     "node-sass": "^4.13.1",
+    "path": "^0.12.7",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-draggable": "^4.2.0",
@@ -32,7 +33,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-server": "nodemon server.js",
+    "start-server": "nodemon src/server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
