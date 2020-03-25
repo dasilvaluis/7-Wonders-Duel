@@ -22,7 +22,6 @@ import Element from '../../components/Element/Element';
 import { socket }  from '../../websocketClient';
 import './Board.scss';
 
-
 interface StateProps {
   elements: Array<GameElement>;
   buildingCards: Array<GameElement>;
@@ -114,6 +113,11 @@ const Board = (props: Props) => {
     socket.emit('add_elements', apiEvent);
     props.onAddElements(cards);
   };
+
+  const handleClear = () => {
+    socket.emit('set_elements', []);
+    props.onSetElements([]);
+  };
   
   return (
     <div className="board" id="draggingarea">
@@ -121,6 +125,7 @@ const Board = (props: Props) => {
         <AgeSelect value={age} onChange={setAge}/>
         <button onClick={loadWonderCards}>Deal Wonders</button>
         <button onClick={loadBuildingCards}>Deal Buildings</button>
+        <button onClick={handleClear}>Clear</button>
       </div>
       <div className="board__players">
         <PlayerArea
