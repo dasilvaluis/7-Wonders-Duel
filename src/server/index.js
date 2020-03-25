@@ -2,6 +2,14 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const socketio = require('socket.io');
+const port = process.env.PORT || 8080;
+
+app.use(express.static(path.join(__dirname, '../../build')));
+app.get('/', (req, res, next) => res.sendFile(__dirname + './index.html'));
+
+const server = app.listen(port);
+
+const io = socketio(server);
 
 const events = {
   FLIP_ELEMENT: 'flip_element',
@@ -10,12 +18,6 @@ const events = {
   SET_ELEMENTS: 'set_elements',
   ADD_ELEMENTS: 'add_elements'
 };
-
-app.use(express.static(path.join(__dirname, '../../build')));
-app.get('/', (req, res, next) => res.sendFile(__dirname + './index.html'));
-
-const server = app.listen(8000);
-const io = socketio(server);
 
 io.on('connect', (socket) => {
   socket.on(events.FLIP_ELEMENT, (data)=> {
