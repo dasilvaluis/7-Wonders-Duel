@@ -1,4 +1,4 @@
-import { centerHorizontally, centerRow, getRowOf, getRandomElements, shuffleArray } from "./board-utils";
+import { centerHorizontally, centerRow, getRowOf, getRandomElements, shuffleArray, movePositions, injectPositions } from "./board-utils";
 import { Position, GameElement, ElementTypes, Age } from "../../types";
 import { BUILDING_WIDTH, CARD_MARGIN, BUILDING_HEIGHT, MAX_CARDS } from "../../contants";
 import { flattenDeep, createElement } from "../../utils";
@@ -108,3 +108,17 @@ export const flipBuildingCards = (cards: Array<GameElement>, age: Age) =>
         return card;
     }
   });
+
+export const getBuildingCards = (age: Age): Array<GameElement> => {
+  const scheme = getAgeScheme(age);
+  const cardsPlacement = getBuildingCardsPlacement(scheme, BUILDING_WIDTH);
+  const cardsPlacementShifted = movePositions(cardsPlacement, {
+    x: 0, y: CARD_MARGIN * 2
+  });
+  const shuffledCards = getShuffledCards(age);
+  const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacementShifted);
+  const fixedCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
+  const flippedCards = flipBuildingCards(fixedCards, age);
+
+  return flippedCards;
+};

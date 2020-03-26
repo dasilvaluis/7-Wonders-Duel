@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import { WONDER_WIDTH, BUILDING_WIDTH, CARD_MARGIN, BOARD_WIDTH, COIN_WIDTH_3, COIN_WIDTH_1, COIN_WIDTH_6 } from '../../contants';
 import { Position, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, AddElementsAPIEvent, SetElementsAPIEvent } from '../../types';
 import { getPlayerAMoney, getPlayerBMoney, getElements } from '../../reducers/selectors';
 import { setMoney } from '../../actions/players-actions';
@@ -9,15 +8,10 @@ import { setElementPosition, setElements, flipElement, addElements } from '../..
 import { AppState } from '../../reducers/reducers';
 import PlayerArea from '../PlayerArea/PlayerArea';
 import AgeSelect from '../../components/AgeSelect/AgeSelect';
-import {
-  getBuildingCardsPlacement,
-  getAgeScheme,
-  fixThirdAgeCards,
-  flipBuildingCards,
-  getShuffledCards as getNewBuildingCards
-} from './buildingcards-utils';
-import { getWonderCardsPlacement, getShuffledCards as getNewWonderCards } from './wondercards-utils';
-import { injectPositions, flipCards, getBoardElement, movePositions, getCoinsPlacement, getCoinElements } from './board-utils';
+import { getBuildingCards } from './buildingcards-utils';
+import { getWonderCards } from './wondercards-utils';
+import { getBoardElement } from './board-utils';
+import { getCoins } from './coins-utils';
 import Element from '../../components/Element/Element';
 import { socket }  from '../../websocketClient';
 import './Board.scss';
@@ -93,27 +87,15 @@ const Board = (props: Props) => {
   };
 
   const loadBuildingCards = () => {
-    const scheme = getAgeScheme(age);
-    const cardsPlacement = getBuildingCardsPlacement(scheme, BUILDING_WIDTH);
-    const cardsPlacementShifted = movePositions(cardsPlacement, {
-      x: 0, y: CARD_MARGIN * 2
-    });
-    const shuffledCards = getNewBuildingCards(age);
-    const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacementShifted);
-    const fixedCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
-    const flippedCards = flipBuildingCards(fixedCards, age);
-
-    
-    const apiEvent: AddElementsAPIEvent = flippedCards;
+    const cards = getBuildingCards(age);
+    const apiEvent: AddElementsAPIEvent = cards;
 
     socket.emit('add_elements', apiEvent);
-    props.onAddElements(flippedCards);
+    props.onAddElements(cards);
   };
 
   const loadWonderCards = () => {
-    const wonderCards = getNewWonderCards();
-    const cardsPlacement = getWonderCardsPlacement(WONDER_WIDTH);
-    const cards: Array<GameElement> = flipCards(injectPositions(wonderCards, cardsPlacement));
+    const cards = getWonderCards();
     const apiEvent: AddElementsAPIEvent = cards;
 
     socket.emit('add_elements', apiEvent);
@@ -121,39 +103,7 @@ const Board = (props: Props) => {
   };
 
   const loadCoins = () => {
-    const coinElements6 = getCoinElements(6);
-    const coinElements3 = getCoinElements(3);
-    const coinElements1 = getCoinElements(1);
-
-    const coinPlacements6 = getCoinsPlacement(6);
-    const coinPlacements3 = getCoinsPlacement(3);
-    const coinPlacements1 = getCoinsPlacement(1);
-  
-    const coinPlacements6Shifted = movePositions(coinPlacements6, {
-      x: BOARD_WIDTH - COIN_WIDTH_6 * 2.5 - CARD_MARGIN,
-      y: CARD_MARGIN
-    });
-  
-    const coinPlacements3Shifted = movePositions(coinPlacements3, {
-      x: BOARD_WIDTH - COIN_WIDTH_3 * 2.5 - CARD_MARGIN,
-      y: CARD_MARGIN + COIN_WIDTH_6 * 1.5
-    });
-  
-    const coinPlacements1Shifted = movePositions(coinPlacements1, {
-      x: BOARD_WIDTH - COIN_WIDTH_1 * 2.5 - CARD_MARGIN,
-      y: CARD_MARGIN + COIN_WIDTH_3 * 3.5
-    });
-
-    const coins6 = injectPositions(coinElements6, coinPlacements6Shifted);
-    const coins3 = injectPositions(coinElements3, coinPlacements3Shifted);
-    const coins1 = injectPositions(coinElements1, coinPlacements1Shifted);
-
-    const coins = [
-      ...coins6,
-      ...coins3,
-      ...coins1
-    ];
-
+    const coins = getCoins();
     const apiEvent: AddElementsAPIEvent = coins;
 
     socket.emit('add_elements', apiEvent);

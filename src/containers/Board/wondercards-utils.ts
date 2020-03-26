@@ -1,5 +1,5 @@
-import { centerHorizontally, getRowOf, centerRow, getRandomElements } from "./board-utils";
-import { WONDER_HEIGHT, CARD_MARGIN } from "../../contants";
+import { centerHorizontally, getRowOf, centerRow, getRandomElements, movePositions, flipCards, injectPositions } from "./board-utils";
+import { WONDER_HEIGHT, CARD_MARGIN, WONDER_WIDTH } from "../../contants";
 import { Position, GameElement, ElementTypes } from "../../types";
 import { flattenDeep } from "../../utils";
 import { wonders } from '../../data/wonders.json';
@@ -33,3 +33,14 @@ export const getShuffledCards = (): Array<GameElement> =>
     imageFile: card.file,
     imageFileBackface: 'wonder-back.jpg'
   }));
+
+export const getWonderCards = (): Array<GameElement> => {
+  const wonderCards = getShuffledCards();
+  const cardsPlacement = getWonderCardsPlacement(WONDER_WIDTH);
+  const cardsPlacementShifted = movePositions(cardsPlacement, {
+    x: 0, y: CARD_MARGIN * 2
+  });
+  const cards: Array<GameElement> = flipCards(injectPositions(wonderCards, cardsPlacementShifted));
+
+  return cards;
+};

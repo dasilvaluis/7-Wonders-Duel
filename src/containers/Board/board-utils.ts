@@ -1,6 +1,5 @@
-import { CARD_MARGIN, BOARD_WIDTH, BOARD_HEIGHT, MAX_COINS_6, COIN_WIDTH_6, COIN_WIDTH_1, COIN_WIDTH_3, MAX_COINS_3, MAX_COINS_1 } from '../../contants';
+import { CARD_MARGIN, BOARD_WIDTH, BOARD_HEIGHT } from '../../contants';
 import { Position, GameElement, ElementTypes } from '../../types';
-import { v4 as uuidv4 } from 'uuid';
 
 export const getRowOf = (howMany: number, cardWidth: number): Array<Position> => {
   const positions = []
@@ -70,87 +69,3 @@ export const getBoardElement = (): GameElement => ({
   imageFile: 'board.png',
   imageFileBackface: 'board.png'
 });
-
-export const getCoinElement = (value: 1 | 3 | 6): GameElement => {
-  const base = {
-    id: uuidv4(),
-    x: 0,
-    y: 0,
-    faceDown: false,
-    imageFile: `coin-${value}.jpg`,
-    imageFileBackface: `coin-${value}-back.jpg`
-  };
-
-  switch (value) {
-    case 6:
-      return {
-        ...base,
-        type: ElementTypes.COIN_6
-      };
-    case 3:
-      return {
-        ...base,
-        type: ElementTypes.COIN_3
-      };
-    default:
-      return {
-        ...base,
-        type: ElementTypes.COIN_1
-      };
-  }
-};
-
-export const getCoinElements = (value: 1 | 3 | 6): Array<GameElement> => {
-  let maxCoins = 0;
-  switch (value) {
-    case 6:
-      maxCoins = MAX_COINS_6;
-      break;
-    case 3:
-      maxCoins = MAX_COINS_3;
-      break;
-    default:
-      maxCoins = MAX_COINS_1;
-      break;
-  }
-
-  const elements = [];
-  for (let index = 0; index < maxCoins; index++) {
-    elements.push(getCoinElement(value))
-  }
-
-  return elements;
-};
-
-export const getCoinsPlacement = (value: 1 | 3 | 6) => {
-  const getRandomPositions = (coinWidth: number, maxCoins: number) => {
-    const positions = [];
-    for (let index = 0; index < maxCoins; index++) {
-      positions.push({
-        x: Math.random() * coinWidth,
-        y: Math.random() * coinWidth,
-      })
-    }
-
-    return positions;
-  }
-
-  let coinWidth = 0;
-  let maxCoins = 0;
-  switch (value) {
-    case 6:
-      coinWidth = COIN_WIDTH_6;
-      maxCoins = MAX_COINS_6;
-      break;
-    case 3:
-      coinWidth = COIN_WIDTH_3;
-      maxCoins = MAX_COINS_3;
-      break;
-    default:
-      coinWidth = COIN_WIDTH_1;
-      maxCoins = MAX_COINS_1;
-      break;
-  }
-
-  return getRandomPositions(coinWidth, maxCoins);
-};
