@@ -1,6 +1,6 @@
-import { centerHorizontally, centerRow, getRowOf, getRandomElements, shuffleArray } from "./utils";
+import { centerHorizontally, centerRow, getRowOf, getRandomElements, shuffleArray } from "./board-utils";
 import { Position, GameElement, ElementTypes, Age } from "../../types";
-import { CARD_WIDTH, CARD_MARGIN, CARD_HEIGHT, MAX_CARDS } from "../../contants";
+import { BUILDING_WIDTH, CARD_MARGIN, BUILDING_HEIGHT, MAX_CARDS } from "../../contants";
 import { flattenDeep, createElement } from "../../utils";
 import {
   buildings_i as buildingsIDb,
@@ -16,7 +16,7 @@ export const schemeThirdAge = [ 2, 3, 4, 2, 4, 3, 2 ];
 const moveRowVertically = (row: Array<Position>, rowIndex: number) =>
   row.map((position) => ({
     ...position,
-    y: rowIndex * (CARD_HEIGHT / 3)
+    y: rowIndex * (BUILDING_HEIGHT / 3)
   }));
 
 export const getAgeScheme = (age: Age) => {
@@ -46,8 +46,8 @@ export const getAgeDeck = (age: Age) => {
 
 export const fixThirdAgeCards = (cards: Array<GameElement>) => {
   const _cards = [ ...cards ];
-  _cards[9].x = cards[9].x - (CARD_WIDTH + CARD_MARGIN) / 2;
-  _cards[10].x = cards[10].x + (CARD_WIDTH + CARD_MARGIN) / 2;
+  _cards[9].x = cards[9].x - (BUILDING_WIDTH + CARD_MARGIN) / 2;
+  _cards[10].x = cards[10].x + (BUILDING_WIDTH + CARD_MARGIN) / 2;
 
   return _cards;
 }

@@ -1,4 +1,4 @@
-import { movePositions, getRandomElements } from "../utils";
+import { movePositions, getRandomElements } from "../board-utils";
 
 describe('movePositions', () => {
   const positions = [

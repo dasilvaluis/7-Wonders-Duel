@@ -1,7 +1,6 @@
 @import '../../constants.scss';
 
 .element {
-  position: absolute;
   background-size: cover;
   background-position: center;
   border-radius: 10px;
@@ -10,6 +9,12 @@
 
   &.-dragging {
     cursor: grabbing;
+  }
+
+  &.-board {
+    width: $board-width;
+    height: $board-height;
+    box-shadow: none;
   }
 
   &.-building {
@@ -38,18 +43,26 @@
 
   }
 
-  &.-coin {
+  &[class*="-coin_"] {
+    border-radius: 50%;
+  }
 
-    &.-small {
-      
-    }
+  &.-coin_6 {
+    width: $coin-width-6;
+    height: $coin-width-6;
+  }
 
-    &.-medium {
-      
-    }
+  &.-coin_3 {
+    width: $coin-width-3;
+    height: $coin-width-3;
+  }
 
-    &.-big {
-      
-    }
+  &.-coin_1 {
+    width: $coin-width-1;
+    height: $coin-width-1;
+  }
+
+  &-container {
+    position: absolute;
   }
 }

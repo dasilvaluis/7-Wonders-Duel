@@ -10,7 +10,10 @@ export enum ElementTypes {
   MILITARY_TOKEN = 'military_token',
   PROGRESS_TOKEN = 'progress_token',
   CONFLICT_PAWN = 'conflict_pawn',
-  COIN = 'coin'
+  COIN_1 = 'coin_1',
+  COIN_3 = 'coin_3',
+  COIN_6 = 'coin_6',
+  BOARD = 'board'
 }
 
 export interface Position {

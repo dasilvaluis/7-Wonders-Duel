@@ -1,4 +1,4 @@
-import { centerHorizontally, getRowOf, centerRow, getRandomElements } from "./utils";
+import { centerHorizontally, getRowOf, centerRow, getRandomElements } from "./board-utils";
 import { WONDER_HEIGHT, CARD_MARGIN } from "../../contants";
 import { Position, GameElement, ElementTypes } from "../../types";
 import { flattenDeep } from "../../utils";

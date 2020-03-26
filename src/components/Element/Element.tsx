@@ -5,6 +5,7 @@ import './Element.scss';
 
 interface Props {
   element: GameElement;
+  enableDrag?: boolean
   onDrag?(id: string, position: Position): void;
   onStart?(id: string, position: Position): void;
   onStop?(id: string, position: Position): void;
@@ -18,6 +19,7 @@ export default ({
   onStop,
   onDrag,
   onDoubleClick,
+  enableDrag,
   ...props
 }: Props) => {
 
@@ -25,7 +27,7 @@ export default ({
 
   const handleStart = (e, data) => {
     setDragging(true);
-    onStart && onStart(element.id, { x: data.x, y: data.y })
+    onStart && onStart(element.id, { x: data.x, y: data.y });
   };
 
   const handleStop = (e, data) => {
@@ -45,16 +47,18 @@ export default ({
       onStop={handleStop}
       onDrag={handleDrag}
     >
-      <div
-        { ...props }
-        className={`element -${ element.type } ${ dragging ? '-dragging' : ''}`} 
-        onDoubleClick={() => onDoubleClick && onDoubleClick(element.id)}
-        style={
-          !element.faceDown 
-            ? { backgroundImage: element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''}
-            : { backgroundImage: element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''}
-        }
-      />
+      <div className="element-container">
+        <div
+          { ...props }
+          className={`element -${ element.type } ${ dragging ? '-dragging' : ''}`} 
+          onDoubleClick={() => onDoubleClick && onDoubleClick(element.id)}
+          style={
+            !element.faceDown 
+              ? { backgroundImage: element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''}
+              : { backgroundImage: element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''}
+          }
+        />
+      </div>
     </Draggable>
   );
 };

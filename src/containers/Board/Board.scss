@@ -17,6 +17,9 @@
   &__tools {
     display: inline-flex;
     flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
 
     > :not(:last-child) {
       margin-bottom: 10px;
