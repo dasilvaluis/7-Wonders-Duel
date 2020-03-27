@@ -5,9 +5,10 @@ import {
   getRandomElements,
   movePositions,
   flipCards,
-  injectPositions
+  injectPositions,
+  getElementSize
 } from "../../utils";
-import { WONDER_HEIGHT, CARD_MARGIN, WONDER_WIDTH } from "../../contants";
+import { CARD_MARGIN } from "../../contants";
 import { Position, GameElement, ElementTypes } from "../../types";
 import { flattenDeep } from "../../utils";
 import { wonders } from '../../data/wonders.json';
@@ -16,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 const moveRowVertically = (row: Array<Position>, rowIndex: number) =>
   row.map((position) => ({
     ...position,
-    y: rowIndex * (WONDER_HEIGHT + CARD_MARGIN)
+    y: rowIndex * (getElementSize(ElementTypes.WONDER_CARD).height + CARD_MARGIN)
   }));
 
 export const getWonderCardsPlacement = (cardWidth: number) => {
@@ -43,8 +44,9 @@ export const getShuffledCards = (): Array<GameElement> =>
   }));
 
 export const getWonderCards = (): Array<GameElement> => {
+  const wonderWidth = getElementSize(ElementTypes.WONDER_CARD).width;
   const wonderCards = getShuffledCards();
-  const cardsPlacement = getWonderCardsPlacement(WONDER_WIDTH);
+  const cardsPlacement = getWonderCardsPlacement(wonderWidth);
   const cardsPlacementShifted = movePositions(cardsPlacement, {
     x: 0, y: CARD_MARGIN * 2
   });

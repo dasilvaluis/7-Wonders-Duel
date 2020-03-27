@@ -5,10 +5,11 @@ import {
   getRandomElements,
   shuffleArray,
   movePositions,
-  injectPositions
+  injectPositions,
+  getElementSize
 } from "../../utils";
 import { Position, GameElement, ElementTypes, Age } from "../../types";
-import { BUILDING_WIDTH, CARD_MARGIN, BUILDING_HEIGHT, MAX_CARDS } from "../../contants";
+import { CARD_MARGIN, MAX_CARDS } from "../../contants";
 import { flattenDeep, createElement } from "../../utils";
 import {
   buildings_i as buildingsIDb,
@@ -24,7 +25,7 @@ export const schemeThirdAge = [ 2, 3, 4, 2, 4, 3, 2 ];
 const moveRowVertically = (row: Array<Position>, rowIndex: number) =>
   row.map((position) => ({
     ...position,
-    y: rowIndex * (BUILDING_HEIGHT / 3)
+    y: rowIndex * (getElementSize(ElementTypes.BUILDING_CARD).height / 3)
   }));
 
 export const getAgeScheme = (age: Age) => {
@@ -54,17 +55,20 @@ export const getAgeDeck = (age: Age) => {
 
 export const fixThirdAgeCards = (cards: Array<GameElement>) => {
   const _cards = [ ...cards ];
-  _cards[9].x = cards[9].x - (BUILDING_WIDTH + CARD_MARGIN) / 2;
-  _cards[10].x = cards[10].x + (BUILDING_WIDTH + CARD_MARGIN) / 2;
+  const buildingWidth = getElementSize(ElementTypes.BUILDING_CARD).width;
+
+  _cards[9].x = cards[9].x - (buildingWidth + CARD_MARGIN) / 2;
+  _cards[10].x = cards[10].x + (buildingWidth + CARD_MARGIN) / 2;
 
   return _cards;
 }
 
-export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: number) => {
+export const getBuildingCardsPlacement = (scheme: Array<number>) => {
+  const buildingWidth = getElementSize(ElementTypes.BUILDING_CARD).width;
   const rows = scheme.map((howMany, rowIndex) => {
-    const row = getRowOf(howMany, cardWidth);
+    const row = getRowOf(howMany, buildingWidth);
     const rowMovedVertically = moveRowVertically(row, rowIndex);
-    const rowCentered = centerRow(rowMovedVertically, howMany, cardWidth);
+    const rowCentered = centerRow(rowMovedVertically, howMany, buildingWidth);
 
     return rowCentered;
   });
@@ -121,7 +125,7 @@ export const flipBuildingCards = (cards: Array<GameElement>, age: Age) =>
 
 export const getBuildingCards = (age: Age): Array<GameElement> => {
   const scheme = getAgeScheme(age);
-  const cardsPlacement = getBuildingCardsPlacement(scheme, BUILDING_WIDTH);
+  const cardsPlacement = getBuildingCardsPlacement(scheme);
   const cardsPlacementShifted = movePositions(cardsPlacement, {
     x: 0, y: CARD_MARGIN * 2
   });
