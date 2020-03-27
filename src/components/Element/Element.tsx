@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Draggable from "react-draggable";
 import { Position, GameElement } from '../../types';
 import './Element.scss';
+import { getElementStyles } from "../../utils";
 
 interface Props {
   element: GameElement;
@@ -39,6 +40,13 @@ export default ({
     onDrag && onDrag(element.id, { x: data.x, y: data.y })
   };
 
+  const elementStyle = {
+    ...getElementStyles(element.type),
+    backgroundImage: !element.faceDown
+      ? element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''
+      : element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''
+  }
+
   return (
     <Draggable 
       bounds="#draggingarea"
@@ -52,11 +60,7 @@ export default ({
           { ...props }
           className={`element -${ element.type } ${ dragging ? '-dragging' : ''}`} 
           onDoubleClick={() => onDoubleClick && onDoubleClick(element.id)}
-          style={
-            !element.faceDown 
-              ? { backgroundImage: element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''}
-              : { backgroundImage: element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''}
-          }
+          style={elementStyle}
         />
       </div>
     </Draggable>

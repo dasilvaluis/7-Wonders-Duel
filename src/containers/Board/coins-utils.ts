@@ -1,8 +1,7 @@
 import { MAX_COINS_6, MAX_COINS_3, MAX_COINS_1, COIN_WIDTH_6, COIN_WIDTH_3, COIN_WIDTH_1, BOARD_WIDTH, CARD_MARGIN } from "../../contants";
-import { ElementTypes, GameElement, AddElementsAPIEvent } from "../../types";
+import { ElementTypes, GameElement } from "../../types";
 import { v4 as uuidv4 } from 'uuid';
-import { movePositions, injectPositions } from "./board-utils";
-import { socket } from "../../websocketClient";
+import { movePositions, injectPositions } from "../../utils";
 
 export const getCoinElement = (value: 1 | 3 | 6): GameElement => {
   const base = {

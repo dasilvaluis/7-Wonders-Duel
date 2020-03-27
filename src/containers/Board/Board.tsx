@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { Position, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, AddElementsAPIEvent, SetElementsAPIEvent } from '../../types';
-import { getPlayerAMoney, getPlayerBMoney, getElements } from '../../reducers/selectors';
+import { getElements } from '../../reducers/selectors';
 import { setMoney } from '../../actions/players-actions';
 import { setElementPosition, setElements, flipElement, addElements } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
@@ -10,7 +10,7 @@ import PlayerArea from '../PlayerArea/PlayerArea';
 import AgeSelect from '../../components/AgeSelect/AgeSelect';
 import { getBuildingCards } from './buildingcards-utils';
 import { getWonderCards } from './wondercards-utils';
-import { getBoardElement } from './board-utils';
+import { getBoardElement, getProgressTokens, getMilitaryTokens } from './board-utils';
 import { getCoins } from './coins-utils';
 import Element from '../../components/Element/Element';
 import { socket }  from '../../websocketClient';
@@ -21,8 +21,8 @@ interface StateProps {
   coins: Array<GameElement>;
   buildingCards: Array<GameElement>;
   wonderCards: Array<GameElement>;
-  playerAMoney: number;
-  playerBMoney: number;
+  progressTokens: Array<GameElement>;
+  militaryTokens: Array<GameElement>;
 }
 
 interface DispatchProps {
@@ -102,6 +102,16 @@ const Board = (props: Props) => {
     props.onAddElements(cards);
   };
 
+  const loadProgressBoard = () => {
+    const progressTokens = getProgressTokens();
+    const militaryTokens = getMilitaryTokens();
+    const tokens = [ ...progressTokens, ...militaryTokens ];
+    const apiEvent: AddElementsAPIEvent = tokens;
+
+    socket.emit('add_elements', apiEvent);
+    props.onAddElements(tokens);
+  };
+
   const loadCoins = () => {
     const coins = getCoins();
     const apiEvent: AddElementsAPIEvent = coins;
@@ -119,27 +129,29 @@ const Board = (props: Props) => {
     <div className="board" id="draggingarea">
       <div className="board__tools">
         <AgeSelect value={age} onChange={setAge}/>
+        <button onClick={loadProgressBoard}>Load Progress Board</button>
         <button onClick={loadCoins}>Deal Coins</button>
         <button onClick={loadWonderCards}>Deal Wonders</button>
         <button onClick={loadBuildingCards}>Deal Buildings</button>
         <button onClick={handleClear}>Clear</button>
       </div>
       <div className="board__players">
-        <PlayerArea
-          money={props.playerAMoney}
-          onSetMoney={(value) => props.onSetMoney('playerA', value)}
-        />
-        <PlayerArea
-          money={props.playerBMoney}
-          onSetMoney={(value) => props.onSetMoney('playerB', value)}
-        />
+        <PlayerArea />
+        <PlayerArea />
       </div>
       <div>
         <Element element={getBoardElement()}/>
-        {props.coins.map((coin) =>
+        {props.militaryTokens.map((token) =>
           <Element 
-            key={coin.id}
-            element={coin}
+            key={token.id}
+            element={token}
+            onDrag={handleMoveElement}
+            onDoubleClick={handleFlipElement}
+          />)}
+        {props.progressTokens.map((token) =>
+          <Element 
+            key={token.id}
+            element={token}
             onDrag={handleMoveElement}
             onDoubleClick={handleFlipElement}
           />)}
@@ -157,6 +169,13 @@ const Board = (props: Props) => {
             onDrag={handleMoveElement}
             onDoubleClick={handleFlipElement}
           />)}
+        {props.coins.map((coin) =>
+          <Element 
+            key={coin.id}
+            element={coin}
+            onDrag={handleMoveElement}
+            onDoubleClick={handleFlipElement}
+          />)}
       </div>
     </div>
   )
@@ -169,10 +188,13 @@ const mapStateToProps = (state: AppState): StateProps => ({
     ...getElements(state, ElementTypes.COIN_3),
     ...getElements(state, ElementTypes.COIN_1)
   ],
+  militaryTokens: [
+    ...getElements(state, ElementTypes.MILITARY_TOKEN_5),
+    ...getElements(state, ElementTypes.MILITARY_TOKEN_2)
+  ],
+  progressTokens: getElements(state, ElementTypes.PROGRESS_TOKEN),
   buildingCards: getElements(state, ElementTypes.BUILDING_CARD),
-  wonderCards: getElements(state, ElementTypes.WONDER_CARD),
-  playerAMoney: getPlayerAMoney(state),
-  playerBMoney: getPlayerBMoney(state)
+  wonderCards: getElements(state, ElementTypes.WONDER_CARD)
 });
 
 const mapDispatchToProps: DispatchProps = {

@@ -7,7 +7,8 @@ export type Age = 'I' | 'II' | 'III' | 'G';
 export enum ElementTypes {
   WONDER_CARD = 'wonder',
   BUILDING_CARD = 'building',
-  MILITARY_TOKEN = 'military_token',
+  MILITARY_TOKEN_5 = 'military_token_5',
+  MILITARY_TOKEN_2 = 'military_token_2',
   PROGRESS_TOKEN = 'progress_token',
   CONFLICT_PAWN = 'conflict_pawn',
   COIN_1 = 'coin_1',

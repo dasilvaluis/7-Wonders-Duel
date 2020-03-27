@@ -1,4 +1,12 @@
-import { centerHorizontally, centerRow, getRowOf, getRandomElements, shuffleArray, movePositions, injectPositions } from "./board-utils";
+import {
+  centerHorizontally,
+  centerRow,
+  getRowOf,
+  getRandomElements,
+  shuffleArray,
+  movePositions,
+  injectPositions
+} from "../../utils";
 import { Position, GameElement, ElementTypes, Age } from "../../types";
 import { BUILDING_WIDTH, CARD_MARGIN, BUILDING_HEIGHT, MAX_CARDS } from "../../contants";
 import { flattenDeep, createElement } from "../../utils";
@@ -67,7 +75,8 @@ export const getBuildingCardsPlacement = (scheme: Array<number>, cardWidth: numb
 export const getShuffledCards = (age: Age): Array<GameElement> => {
   const deck = getAgeDeck(age);
   const ageCards = getRandomElements(deck, MAX_CARDS).map((card) => ({
-    ...createElement(card, ElementTypes.BUILDING_CARD),
+    ...createElement(ElementTypes.BUILDING_CARD),
+    imageFile: card.file,
     imageFileBackface: `building-${ age.toLowerCase() }-back.jpg`
   }));
   
@@ -75,7 +84,8 @@ export const getShuffledCards = (age: Age): Array<GameElement> => {
     const thirdAgeCards = ageCards.slice(0, MAX_CARDS - 3)
 
     const guildCards = getRandomElements(buildingsGDb, 3).map((card) => ({
-      ...createElement(card, ElementTypes.BUILDING_CARD),
+      ...createElement(ElementTypes.BUILDING_CARD),
+      imageFile: card.file,
       imageFileBackface: `building-g-back.jpg`
     }));
 

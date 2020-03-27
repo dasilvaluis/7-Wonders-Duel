@@ -12,5 +12,5 @@ export const MAX_COINS_6 = 7;
 export const MAX_COINS_3 = 9;
 export const MAX_COINS_1 = 14;
 export const COIN_WIDTH_6 = 100;
-export const COIN_WIDTH_3 = 75;
-export const COIN_WIDTH_1 = 60;
+export const COIN_WIDTH_3 = 83;
+export const COIN_WIDTH_1 = 66;
