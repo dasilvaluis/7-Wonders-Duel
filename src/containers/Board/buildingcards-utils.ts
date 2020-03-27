@@ -18,10 +18,6 @@ import {
   buildings_g as buildingsGDb
 } from '../../data/buildings.json';
 
-export const schemeFirstAge = [ 2, 3, 4, 5, 6 ];
-export const schemeSecondAge = [ 6, 5, 4, 3, 2 ];
-export const schemeThirdAge = [ 2, 3, 4, 2, 4, 3, 2 ];
-
 const moveRowVertically = (row: Array<Position>, rowIndex: number) =>
   row.map((position) => ({
     ...position,
@@ -32,11 +28,11 @@ export const getAgeScheme = (age: Age) => {
   switch (age) {
     case "G":
     case "III":
-      return schemeThirdAge;
+      return [ 2, 3, 4, 2, 4, 3, 2 ];
     case "II":
-      return schemeSecondAge;
+      return [ 6, 5, 4, 3, 2 ];
     default:
-      return schemeFirstAge;
+      return [ 2, 3, 4, 5, 6 ];
   }
 }
 
