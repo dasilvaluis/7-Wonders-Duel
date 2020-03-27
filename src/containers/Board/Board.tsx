@@ -130,6 +130,10 @@ const Board = (props: Props) => {
   
   return (
     <div className="board" id="draggingarea">
+      <div className="board__players">
+        <PlayerArea civilization="roman" />
+        <PlayerArea civilization="egyptian" />
+      </div>
       <div className="board__tools">
         <AgeSelect value={age} onChange={setAge}/>
         <button onClick={loadProgressBoard}>Load Progress Board</button>
@@ -137,10 +141,6 @@ const Board = (props: Props) => {
         <button onClick={loadWonderCards}>Deal Wonders</button>
         <button onClick={loadBuildingCards}>Deal Buildings</button>
         <button onClick={handleClear}>Clear</button>
-      </div>
-      <div className="board__players">
-        <PlayerArea civilization="roman" />
-        <PlayerArea civilization="egyptian" />
       </div>
       <div>
         <Element element={getBoardElement()}/>
