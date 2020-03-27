@@ -139,8 +139,8 @@ const Board = (props: Props) => {
         <button onClick={handleClear}>Clear</button>
       </div>
       <div className="board__players">
-        <PlayerArea />
-        <PlayerArea />
+        <PlayerArea civilization="roman" />
+        <PlayerArea civilization="egyptian" />
       </div>
       <div>
         <Element element={getBoardElement()}/>
