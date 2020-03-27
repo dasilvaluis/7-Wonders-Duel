@@ -23,8 +23,8 @@ export default ({
   enableDrag,
   ...props
 }: Props) => {
-
   const [ dragging, setDragging ] = useState<boolean>(false);
+  const [ faceDown, setFaceDown ] = useState<boolean>(element.faceDown);
 
   const handleStart = (e, data) => {
     setDragging(true);
@@ -40,9 +40,14 @@ export default ({
     onDrag && onDrag(element.id, { x: data.x, y: data.y })
   };
 
+  const handleDoubleClick = () => {
+    setFaceDown(!faceDown);
+    onDoubleClick && onDoubleClick(element.id);
+  }
+
   const elementStyle = {
     ...getElementStyles(element.type),
-    backgroundImage: !element.faceDown
+    backgroundImage: !faceDown
       ? element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''
       : element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''
   }
@@ -59,7 +64,7 @@ export default ({
         <div
           { ...props }
           className={`element -${ element.type } ${ dragging ? '-dragging' : ''}`} 
-          onDoubleClick={() => onDoubleClick && onDoubleClick(element.id)}
+          onDoubleClick={handleDoubleClick}
           style={elementStyle}
         />
       </div>

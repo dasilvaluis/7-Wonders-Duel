@@ -48,7 +48,8 @@ export const getWonderCards = (): Array<GameElement> => {
   const wonderCards = getShuffledCards();
   const cardsPlacement = getWonderCardsPlacement(wonderWidth);
   const cardsPlacementShifted = movePositions(cardsPlacement, {
-    x: 0, y: CARD_MARGIN * 2
+    x: 0, 
+    y: CARD_MARGIN * 2.5 + getElementSize(ElementTypes.BOARD).height
   });
   const cards: Array<GameElement> = flipCards(injectPositions(wonderCards, cardsPlacementShifted));
 

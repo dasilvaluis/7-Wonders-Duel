@@ -127,7 +127,8 @@ export const getBuildingCards = (age: Age): Array<GameElement> => {
   const scheme = getAgeScheme(age);
   const cardsPlacement = getBuildingCardsPlacement(scheme);
   const cardsPlacementShifted = movePositions(cardsPlacement, {
-    x: 0, y: CARD_MARGIN * 2
+    x: 0,
+    y: CARD_MARGIN * 2.5 + getElementSize(ElementTypes.BOARD).height
   });
   const shuffledCards = getShuffledCards(age);
   const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacementShifted);

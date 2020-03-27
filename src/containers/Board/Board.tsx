@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { Position, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, AddElementsAPIEvent, SetElementsAPIEvent } from '../../types';
-import { getElements } from '../../reducers/selectors';
+import { getElements, getElementOfType } from '../../reducers/selectors';
 import { setMoney } from '../../actions/players-actions';
 import { setElementPosition, setElements, flipElement, addElements } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
@@ -10,7 +10,7 @@ import PlayerArea from '../PlayerArea/PlayerArea';
 import AgeSelect from '../../components/AgeSelect/AgeSelect';
 import { getBuildingCards } from './buildingcards-utils';
 import { getWonderCards } from './wondercards-utils';
-import { getBoardElement, getProgressTokens, getMilitaryTokens } from './board-utils';
+import { getBoardElement, getProgressTokens, getMilitaryTokens, getConflictPawn } from './board-utils';
 import { getCoins } from './coins-utils';
 import Element from '../../components/Element/Element';
 import { socket }  from '../../websocketClient';
@@ -23,6 +23,7 @@ interface StateProps {
   wonderCards: Array<GameElement>;
   progressTokens: Array<GameElement>;
   militaryTokens: Array<GameElement>;
+  conflictPawn: GameElement | null;
 }
 
 interface DispatchProps {
@@ -105,7 +106,9 @@ const Board = (props: Props) => {
   const loadProgressBoard = () => {
     const progressTokens = getProgressTokens();
     const militaryTokens = getMilitaryTokens();
-    const tokens = [ ...progressTokens, ...militaryTokens ];
+    const conflictPawn = getConflictPawn();
+
+    const tokens = [ ...progressTokens, ...militaryTokens, conflictPawn ];
     const apiEvent: AddElementsAPIEvent = tokens;
 
     socket.emit('add_elements', apiEvent);
@@ -155,6 +158,13 @@ const Board = (props: Props) => {
             onDrag={handleMoveElement}
             onDoubleClick={handleFlipElement}
           />)}
+        {props.conflictPawn && 
+          <Element 
+            key={props.conflictPawn.id}
+            element={props.conflictPawn}
+            onDrag={handleMoveElement}
+            onDoubleClick={handleFlipElement}
+          />}
         {props.buildingCards.map((card) =>
           <Element 
             key={card.id}
@@ -183,6 +193,7 @@ const Board = (props: Props) => {
 
 const mapStateToProps = (state: AppState): StateProps => ({
   elements: getElements(state),
+  conflictPawn: getElementOfType(state, ElementTypes.CONFLICT_PAWN) || null,
   coins: [ 
     ...getElements(state, ElementTypes.COIN_6),
     ...getElements(state, ElementTypes.COIN_3),

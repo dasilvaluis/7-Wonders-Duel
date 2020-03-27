@@ -95,14 +95,14 @@ const getElementRealSize = (elementType: ElementTypes) => {
     
     case ElementTypes.MILITARY_TOKEN_5:
       return {
-        width: 20,
-        height: 45
+        width: 45,
+        height: 20
       }
   
     case ElementTypes.MILITARY_TOKEN_2:
       return {
-        width: 17,
-        height: 38
+        width: 38,
+        height: 17
       }
     
     case ElementTypes.PROGRESS_TOKEN:
@@ -113,8 +113,8 @@ const getElementRealSize = (elementType: ElementTypes) => {
     
     case ElementTypes.CONFLICT_PAWN:
       return {
-        width: 28,
-        height: 14
+        width: 14,
+        height: 45
       }
     case ElementTypes.COIN_1:
       return {
@@ -136,8 +136,8 @@ const getElementRealSize = (elementType: ElementTypes) => {
     
     case ElementTypes.BOARD:
       return {
-        width: 110,
-        height: 390
+        width: 390,
+        height: 110
       }
     default:
       return {
@@ -215,7 +215,9 @@ export const getElementStyles = (elementType: ElementTypes): React.CSSProperties
     case ElementTypes.CONFLICT_PAWN:
       return {
         width: `${ width }px`,
-        height: `${ height }px`
+        height: `${ height }px`,
+        borderRadius: 'initial',
+        boxShadow: 'initial'
       }
     case ElementTypes.COIN_1:
       return {
