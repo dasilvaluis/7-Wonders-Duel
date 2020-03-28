@@ -24,8 +24,11 @@
     top: 8px;
     left: 8px;
 
-    > :not(:last-child) {
-      margin-bottom: 10px;
+    hr {
+      margin: 20px 0 10px;
+      border-color: #c2b4ac;
+      border-style: ridge;
+      opacity: 0.5;
     }
 
     select {
@@ -40,6 +43,18 @@
       &:focus {
         outline: none;
       }
+    }
+  }
+
+  &__tool {
+    box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, .75);
+
+    & + & {
+      margin-top: 7px;
+    }
+
+    &.-no-shadow {
+      box-shadow: none;
     }
   }
 }

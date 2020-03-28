@@ -1,11 +1,11 @@
 import { GameElement, ElementTypes, Position } from "../../types";
 import { tokens as tokensDb } from '../../data/progress-tokens.json';
 import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from "../../utils";
-import { CARD_MARGIN, BOARD_WIDTH } from "../../contants";
+import { ELEMENT_MARGIN, BOARD_WIDTH } from "../../contants";
 
 const boardPosition = {
   x: (BOARD_WIDTH - getElementSize(ElementTypes.BOARD).width) / 2,
-  y: CARD_MARGIN,
+  y: ELEMENT_MARGIN,
 };
 
 export const getBoardElement = (): GameElement => ({

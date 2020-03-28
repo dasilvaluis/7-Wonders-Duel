@@ -24,7 +24,6 @@ export default ({
   ...props
 }: Props) => {
   const [ dragging, setDragging ] = useState<boolean>(false);
-  const [ faceDown, setFaceDown ] = useState<boolean>(element.faceDown);
 
   const handleStart = (e, data) => {
     setDragging(true);
@@ -41,13 +40,12 @@ export default ({
   };
 
   const handleDoubleClick = () => {
-    setFaceDown(!faceDown);
     onDoubleClick && onDoubleClick(element.id);
   }
 
   const elementStyle = {
     ...getElementStyles(element.type),
-    backgroundImage: !faceDown
+    backgroundImage: !element.faceDown
       ? element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''
       : element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''
   }

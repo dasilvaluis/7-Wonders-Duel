@@ -13,7 +13,7 @@ import { getWonderCards } from './wondercards-utils';
 import { getBoardElement, getProgressTokens, getMilitaryTokens, getConflictPawn } from './board-utils';
 import { getCoins } from './coins-utils';
 import Element from '../../components/Element/Element';
-import { socket }  from '../../websocketClient';
+import { socket }  from '../../client';
 import './Board.scss';
 
 interface StateProps {
@@ -135,12 +135,15 @@ const Board = (props: Props) => {
         <PlayerArea civilization="egyptian" />
       </div>
       <div className="board__tools">
-        <AgeSelect value={age} onChange={setAge}/>
-        <button onClick={loadProgressBoard}>Load Progress Board</button>
-        <button onClick={loadCoins}>Deal Coins</button>
-        <button onClick={loadWonderCards}>Deal Wonders</button>
-        <button onClick={loadBuildingCards}>Deal Buildings</button>
-        <button onClick={handleClear}>Clear</button>
+        <button className="board__tool" onClick={loadProgressBoard}>Load Progress Board</button>
+        <button className="board__tool" onClick={loadCoins}>Deal Coins</button>
+        <button className="board__tool" onClick={loadWonderCards}>Deal Wonders</button>
+        <button className="board__tool" onClick={handleClear}>Clear</button>
+        <hr/>
+        <div className="board__tool -no-shadow">
+          <AgeSelect value={age} onChange={setAge}/>
+        </div>
+        <button className="board__tool" onClick={loadBuildingCards}>Deal Buildings</button>
       </div>
       <div>
         <Element element={getBoardElement()}/>

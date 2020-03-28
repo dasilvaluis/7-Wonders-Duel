@@ -9,7 +9,7 @@ import {
   getElementSize
 } from "../../utils";
 import { Position, GameElement, ElementTypes, Age } from "../../types";
-import { CARD_MARGIN, MAX_CARDS } from "../../contants";
+import { ELEMENT_MARGIN, MAX_CARDS } from "../../contants";
 import { flattenDeep, createElement } from "../../utils";
 import {
   buildings_i as buildingsIDb,
@@ -53,8 +53,8 @@ export const fixThirdAgeCards = (cards: Array<GameElement>) => {
   const _cards = [ ...cards ];
   const buildingWidth = getElementSize(ElementTypes.BUILDING_CARD).width;
 
-  _cards[9].x = cards[9].x - (buildingWidth + CARD_MARGIN) / 2;
-  _cards[10].x = cards[10].x + (buildingWidth + CARD_MARGIN) / 2;
+  _cards[9].x = cards[9].x - (buildingWidth + ELEMENT_MARGIN) / 2;
+  _cards[10].x = cards[10].x + (buildingWidth + ELEMENT_MARGIN) / 2;
 
   return _cards;
 }
@@ -124,7 +124,7 @@ export const getBuildingCards = (age: Age): Array<GameElement> => {
   const cardsPlacement = getBuildingCardsPlacement(scheme);
   const cardsPlacementShifted = movePositions(cardsPlacement, {
     x: 0,
-    y: CARD_MARGIN * 2.5 + getElementSize(ElementTypes.BOARD).height
+    y: ELEMENT_MARGIN * 2.5 + getElementSize(ElementTypes.BOARD).height
   });
   const shuffledCards = getShuffledCards(age);
   const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacementShifted);

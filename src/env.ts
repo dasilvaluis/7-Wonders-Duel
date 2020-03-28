@@ -1,4 +1,6 @@
-import dotenv from 'dotenv';
-dotenv.config();
+require('dotenv').config();
 
-export const { NODE_ENV = 'development' } = process.env;
+export const {
+  NODE_ENV = 'development',
+  SERVER_ADDRESS
+} = process.env;

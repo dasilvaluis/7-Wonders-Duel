@@ -1,6 +1,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { CARD_MARGIN, BOARD_WIDTH, BOARD_HEIGHT } from './contants';
+import { ELEMENT_MARGIN, BOARD_WIDTH } from './contants';
 import { GameElement, ElementTypes, Position } from './types';
 
 export const getRowOf = (howMany: number, cardWidth: number): Array<Position> => {
@@ -8,7 +8,7 @@ export const getRowOf = (howMany: number, cardWidth: number): Array<Position> =>
 
   for (let index = 0; index < howMany; index++) {
     positions.push({
-      x: (cardWidth + CARD_MARGIN) * index,
+      x: (cardWidth + ELEMENT_MARGIN) * index,
       y: 0
     });
   }
@@ -19,19 +19,13 @@ export const getRowOf = (howMany: number, cardWidth: number): Array<Position> =>
 export const centerRow = (row: Array<Position>, cardsQuantity: number, cardWidth: number) =>
   row.map((position) => ({
     ...position,
-    x: position.x - (cardsQuantity * cardWidth + (cardsQuantity - 1) * CARD_MARGIN) / 2
+    x: position.x - (cardsQuantity * cardWidth + (cardsQuantity - 1) * ELEMENT_MARGIN) / 2
   }));
 
 export const centerHorizontally = (positions: Array<Position>) =>
   movePositions(positions, {
     x: BOARD_WIDTH / 2,
     y: 0
-  });
-
-export const centerVertically = (positions: Array<Position>, elementsHeight: number) =>
-  movePositions(positions, {
-    x: 0,
-    y: (BOARD_HEIGHT - elementsHeight)/ 2
   });
 
 export const movePositions = (positions: Array<Position>, offset: Position): Array<Position> => 
