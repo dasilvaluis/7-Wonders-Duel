@@ -145,17 +145,17 @@ export const getElementScale = (elementType: ElementTypes) => {
   switch (elementType) {
     case ElementTypes.BUILDING_CARD:
     case ElementTypes.WONDER_CARD:
-      return 2.84;
+      return 2.25;
     case ElementTypes.COIN_1:
     case ElementTypes.COIN_3:
     case ElementTypes.COIN_6:
-      return 3.33;
+      return 2.5;
     case ElementTypes.CONFLICT_PAWN:
     case ElementTypes.MILITARY_TOKEN_5:
     case ElementTypes.MILITARY_TOKEN_2:
     case ElementTypes.PROGRESS_TOKEN:
     case ElementTypes.BOARD:
-      return 1.9;
+      return 1.75;
     default:
       return 1;
   }
