@@ -17,6 +17,10 @@ describe('board-utils', () => {
       }));
   });
 
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getConflictPawn', () => {
     it('matches snapshot', () => {
       expect(getConflictPawn()).toMatchSnapshot();

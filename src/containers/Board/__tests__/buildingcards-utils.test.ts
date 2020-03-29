@@ -41,6 +41,10 @@ describe('buildingcards-utils', () => {
         .mockImplementation((array) => array);
     });
 
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+    
     it('matches snapshot', () => {
         expect(getBuildingCards('I')).toMatchSnapshot();
         expect(getBuildingCards('II')).toMatchSnapshot();
