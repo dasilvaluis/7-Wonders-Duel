@@ -14,7 +14,7 @@ export const getBoardElement = (): GameElement => ({
   type: ElementTypes.BOARD,
   faceDown: false,
   imageFile: 'board.png',
-  imageFileBackface: 'board-back.png'
+  imageFileBackface: 'board.png'
 });
 
 export const getProgressTokens = (): Array<GameElement> => {

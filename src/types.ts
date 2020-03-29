@@ -5,6 +5,7 @@ export type ElementsMap = {
 export type Age = 'I' | 'II' | 'III' | 'G';
 
 export enum ElementTypes {
+  MOCK = 'mock',
   WONDER_CARD = 'wonder',
   BUILDING_CARD = 'building',
   MILITARY_TOKEN_5 = 'military_token_5',

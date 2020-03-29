@@ -1,46 +1,47 @@
-import { movePositions, getRandomElements } from "../board-utils";
+import { getConflictPawn, getMilitaryTokens, getProgressTokens, getBoardElement } from "../board-utils";
+import * as utils from '../../../utils';
+import { ElementTypes } from "../../../types";
 
-describe('movePositions', () => {
-  const positions = [
-    {
-      x: 0,
-      y: 0
-    },
-    {
-      x: 1,
-      y: 2
-    }
-  ];
-
-  it('moves positions by offset', () => {
-    expect(movePositions(positions, { x: 0, y: 0 })).toEqual(positions);
-    expect(movePositions(positions, { x: 10, y: 20 })).toEqual([
-      {
-        x: 10,
-        y: 20
-      },
-      {
-        x: 11,
-        y: 22
-      }
-    ]);
-  });
-});
-
-describe('getRandomElements', () => {
-  const array = [1, 2, 3, 4, 5];
-
-  it('returns random elements of an array up to a given limit', () => {
-    expect(getRandomElements(array, array.length - 1)).toHaveLength(array.length - 1);
-    expect(getRandomElements(array, array.length - 2)).toHaveLength(array.length - 2);
+describe('board-utils', () => {
+  beforeAll(() => {
+    jest
+      .spyOn(utils, 'createElement')
+      .mockImplementation((el) => ({ 
+        id: '',
+        x: 0,
+        y: 0,
+        type: ElementTypes.MOCK,
+        faceDown: false,
+        imageFile: '',
+        imageFileBackface: ''
+      }));
   });
 
-  it('returns randomized array if limit is equal to arrays length', () => {
-    expect(getRandomElements(array, array.length)).not.toEqual(array);
-    expect(getRandomElements(array, array.length)).toHaveLength(array.length);
+  describe('getConflictPawn', () => {
+    it('matches snapshot', () => {
+      expect(getConflictPawn()).toMatchSnapshot();
+    });
   });
 
-  it('same input does snot create the same output twice', () => {
-    expect(getRandomElements(array, array.length)).not.toEqual(getRandomElements(array, array.length));
+  describe('getMilitaryTokens', () => {
+    it('matches snapshot', () => {
+      expect(getMilitaryTokens()).toMatchSnapshot();
+    });
+  });
+
+  describe('getProgressTokens', () => {
+    it('matches snapshot', () => {
+      jest
+        .spyOn(utils, 'getRandomElements')
+        .mockImplementation((array, limit) => array.slice(0, limit));
+
+      expect(getProgressTokens()).toMatchSnapshot();
+    });
+  });
+
+  describe('getBoardElement', () => {
+    it('matches snapshot', () => {
+      expect(getBoardElement()).toMatchSnapshot();
+    });
   });
 });
