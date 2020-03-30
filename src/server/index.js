@@ -16,7 +16,8 @@ const events = {
   MOVE_ELEMENT: 'move_element',
   GET_ELEMENTS: 'get_elements',
   SET_ELEMENTS: 'set_elements',
-  ADD_ELEMENTS: 'add_elements'
+  ADD_ELEMENTS: 'add_elements',
+  BRING_ELEMENT: 'bring_element'
 };
 
 io.on('connect', (socket) => {
@@ -38,5 +39,9 @@ io.on('connect', (socket) => {
 
   socket.on(events.ADD_ELEMENTS, (data)=> {
     socket.broadcast.emit(events.ADD_ELEMENTS, data);
+  });
+
+  socket.on(events.BRING_ELEMENT, (data)=> {
+    socket.broadcast.emit(events.BRING_ELEMENT, data);
   });
 });

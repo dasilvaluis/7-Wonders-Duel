@@ -32,12 +32,17 @@ export interface GameElement extends Position {
 }
 
 export interface MoveElementAPIEvent {
-  elementId: string,
-  position: Position
+  elementId: string;
+  position: Position;
 }
 
 export interface FlipElementAPIEvent {
-  elementId: string
+  elementId: string;
+}
+
+export interface BringElementAPIEvent {
+  elementId: string;
+  direction: string;
 }
 
 export interface SetElementsAPIEvent extends Array<GameElement> {}

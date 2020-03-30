@@ -16,6 +16,11 @@ export const getRowOf = (howMany: number, cardWidth: number): Array<Position> =>
   return positions;
 };
 
+export const reverse = <T>(array: Array<T>) => [ ...array ].reverse();
+
+export const moveElementBackward = <T>(array: Array<T>, elMatchersPredicate:(el: T) => boolean) =>
+  array.reduce((acc, curr, index) => index > 0 && elMatchersPredicate(curr) ? swap(acc, index, index - 1) : acc, array);
+
 export const centerRow = (row: Array<Position>, cardsQuantity: number, cardWidth: number) =>
   row.map((position) => ({
     ...position,
@@ -46,6 +51,14 @@ export const injectPositions = <T>(elements: Array<T>, positions: Array<Position
   }, []);
 
 export const shuffleArray = <T>(array: Array<T>) => [ ...array ].sort(() => Math.random() - 0.5);
+
+export const swap = <T>(array: Array<T>, i: number, j: number): Array<T> => {
+  const _array = [ ...array ];
+
+  [ _array[i], _array[j] ] = [ _array[j], _array[i] ];
+
+  return _array;
+};
 
 export const getRandomElements = <T>(array: Array<T>, howMany?: number) => {
   const shuffledElements = shuffleArray<T>(array);

@@ -10,7 +10,7 @@ interface Props {
   onDrag?(id: string, position: Position): void;
   onStart?(id: string, position: Position): void;
   onStop?(id: string, position: Position): void;
-  onDoubleClick?(id: string): void;
+  onDoubleClick?(e: React.MouseEvent<HTMLDivElement, MouseEvent>, id: string): void;
   [ key: string ]: any;
 }
 
@@ -39,8 +39,8 @@ export default ({
     onDrag && onDrag(element.id, { x: data.x, y: data.y })
   };
 
-  const handleDoubleClick = () => {
-    onDoubleClick && onDoubleClick(element.id);
+  const handleDoubleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    onDoubleClick && onDoubleClick(e, element.id);
   }
 
   const elementStyle = {

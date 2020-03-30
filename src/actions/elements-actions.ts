@@ -1,4 +1,4 @@
-import { SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS, FLIP_ELEMENT } from "./types";
+import { SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS, FLIP_ELEMENT, BRING_ELEMENT } from "./types";
 import { Position, GameElement } from "../types";
 
 interface SetElementsAction {
@@ -26,6 +26,14 @@ interface FlipElementAction {
   type: typeof FLIP_ELEMENT;
 }
 
+interface BringElementAction {
+  payload: {
+    id: string,
+    direction: string
+  };
+  type: typeof BRING_ELEMENT;
+}
+
 export const setElements = (elements: Array<GameElement>): SetElementsAction => ({
   payload: elements,
   type: SET_ELEMENTS
@@ -51,4 +59,16 @@ export const flipElement = (elementId: string): FlipElementAction => ({
   type: FLIP_ELEMENT
 });
 
-export type ElementsActionType = SetElementsAction | AddElementsAction | MoveElementAction | FlipElementAction;
+export const bringElement = (elementId: string, direction: string): BringElementAction => ({
+  payload: {
+    direction,
+    id: elementId
+  },
+  type: BRING_ELEMENT
+});
+
+export type ElementsActionType = SetElementsAction |
+  AddElementsAction |
+  MoveElementAction |
+  FlipElementAction |
+  BringElementAction;

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import { Position, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, AddElementsAPIEvent, SetElementsAPIEvent } from '../../types';
+import { Position, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent } from '../../types';
 import { getElements, getElementOfType } from '../../reducers/selectors';
 import { setMoney } from '../../actions/players-actions';
-import { setElementPosition, setElements, flipElement, addElements } from '../../actions/elements-actions';
+import { setElementPosition, setElements, flipElement, addElements, bringElement } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
 import PlayerArea from '../PlayerArea/PlayerArea';
 import AgeSelect from '../../components/AgeSelect/AgeSelect';
@@ -32,6 +32,7 @@ interface DispatchProps {
   onAddElements(elements: Array<GameElement>): void;
   onMoveElement(elementId: string, position: Position): void;
   onFlipElement(elementId: string): void;
+  onBringElement(elementId: string, direction: string): void;
 }
 
 interface Props extends StateProps, DispatchProps {};
@@ -54,12 +55,16 @@ const Board = (props: Props) => {
       props.onMoveElement(elementId, position);
     });
 
+    socket.on('add_elements', (data: AddElementsAPIEvent) => {
+      props.onAddElements(data);
+    });
+
     socket.on('flip_element', (data: FlipElementAPIEvent) => {
       props.onFlipElement(data.elementId);
     });
 
-    socket.on('add_elements', (data: AddElementsAPIEvent) => {
-      props.onAddElements(data);
+    socket.on('bring_element', (data: BringElementAPIEvent) => {
+      props.onBringElement(data.elementId, data.direction);
     });
   }, []);
   
@@ -80,7 +85,19 @@ const Board = (props: Props) => {
     props.onMoveElement(elementId, position);
   };
 
-  const handleFlipElement = (elementId: string) => {
+  const handleDoubleClickElement = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
+    if (e.shiftKey) {
+      const direction = e.getModifierState('CapsLock') 
+        ? !e.altKey ? 'forward' : 'backward'
+        : !e.altKey ? 'front' : 'back';
+      const apiEvent: BringElementAPIEvent = { elementId, direction };
+  
+      socket.emit('bring_element', apiEvent);
+      props.onBringElement(elementId, direction);
+
+      return; 
+    }
+
     const apiEvent: FlipElementAPIEvent = { elementId };
 
     socket.emit('flip_element', apiEvent);
@@ -152,42 +169,42 @@ const Board = (props: Props) => {
             key={token.id}
             element={token}
             onDrag={handleMoveElement}
-            onDoubleClick={handleFlipElement}
+            onDoubleClick={handleDoubleClickElement}
           />)}
         {props.progressTokens.map((token) =>
           <Element 
             key={token.id}
             element={token}
             onDrag={handleMoveElement}
-            onDoubleClick={handleFlipElement}
+            onDoubleClick={handleDoubleClickElement}
           />)}
         {props.conflictPawn && 
           <Element 
             key={props.conflictPawn.id}
             element={props.conflictPawn}
             onDrag={handleMoveElement}
-            onDoubleClick={handleFlipElement}
+            onDoubleClick={handleDoubleClickElement}
           />}
         {props.buildingCards.map((card) =>
           <Element 
             key={card.id}
             element={card}
             onDrag={handleMoveElement}
-            onDoubleClick={handleFlipElement}
+            onDoubleClick={handleDoubleClickElement}
           />)}
         {props.wonderCards.map((card) =>
           <Element 
             key={card.id}
             element={card}
             onDrag={handleMoveElement}
-            onDoubleClick={handleFlipElement}
+            onDoubleClick={handleDoubleClickElement}
           />)}
         {props.coins.map((coin) =>
           <Element 
             key={coin.id}
             element={coin}
             onDrag={handleMoveElement}
-            onDoubleClick={handleFlipElement}
+            onDoubleClick={handleDoubleClickElement}
           />)}
       </div>
     </div>
@@ -216,7 +233,8 @@ const mapDispatchToProps: DispatchProps = {
   onSetElements: (elements: Array<GameElement>) => setElements(elements),
   onAddElements: (elements: Array<GameElement>) => addElements(elements),
   onMoveElement: (elementId: string, position: Position) => setElementPosition(elementId, position),
-  onFlipElement: (elementId: string) => flipElement(elementId)
+  onFlipElement: (elementId: string) => flipElement(elementId),
+  onBringElement: (elementId: string, direction: string) => bringElement(elementId, direction)
 };
 
 export default connect(
