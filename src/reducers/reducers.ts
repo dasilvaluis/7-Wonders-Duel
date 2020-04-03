@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
-import players, { Players } from './players-reducer';
 import { ElementsMap } from '../types';
 import elements from './elements-reducer';
+import selectedElements from './selected-elements-reducer';
 
 export interface AppState {
-  players: Players;
   elements: ElementsMap;
+  selectedElements: Array<string>;
 }
 
 export default combineReducers<AppState>({
-  players,
-  elements
+  elements,
+  selectedElements
 });

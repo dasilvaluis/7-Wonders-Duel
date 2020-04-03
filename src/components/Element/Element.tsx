@@ -1,47 +1,53 @@
 import React, { useState } from "react";
-import Draggable from "react-draggable";
-import { Position, GameElement } from '../../types';
+import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
+import { GameElement, DraggedData } from '../../types';
 import './Element.scss';
 import { getElementStyles } from "../../utils";
+import cn from 'classnames';
 
 interface Props {
   element: GameElement;
+  selected?: boolean;
   enableDrag?: boolean
-  onDrag?(id: string, position: Position): void;
-  onStart?(id: string, position: Position): void;
-  onStop?(id: string, position: Position): void;
-  onDoubleClick?(e: React.MouseEvent<HTMLDivElement, MouseEvent>, id: string): void;
+  onDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
+  onStartDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
+  onStopDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
   [ key: string ]: any;
 }
 
 export default ({
   element,
-  onStart,
-  onStop,
+  onStartDrag,
+  onStopDrag,
   onDrag,
-  onDoubleClick,
   enableDrag,
+  selected,
   ...props
 }: Props) => {
   const [ dragging, setDragging ] = useState<boolean>(false);
 
-  const handleStart = (e, data) => {
+  const handleStart = (
+    e: DraggableEvent,
+    data: DraggableData
+  ) => {
     setDragging(true);
-    onStart && onStart(element.id, { x: data.x, y: data.y });
+    onStartDrag && onStartDrag(e, { ...data }, element.id);
   };
 
-  const handleStop = (e, data) => {
+  const handleStop = (
+    e: DraggableEvent,
+    data: DraggableData
+  ) => {
     setDragging(false);
-    onStop && onStop(element.id, { x: data.x, y: data.y })
+    onStopDrag && onStopDrag(e, { ...data }, element.id)
   };
 
-  const handleDrag = (e, data) => {
-    onDrag && onDrag(element.id, { x: data.x, y: data.y })
+  const handleDrag = (
+    e: DraggableEvent,
+    data: DraggableData
+  ) => {
+    onDrag && onDrag(e, { ...data }, element.id);
   };
-
-  const handleDoubleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    onDoubleClick && onDoubleClick(e, element.id);
-  }
 
   const elementStyle = {
     ...getElementStyles(element.type),
@@ -49,6 +55,13 @@ export default ({
       ? element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''
       : element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''
   }
+
+  const elementClasses = cn(
+    'element',
+    `-${ element.type }`,
+    { '-dragging': dragging },
+    { '-selected': selected }
+  );
 
   return (
     <Draggable 
@@ -61,8 +74,7 @@ export default ({
       <div className="element-container">
         <div
           { ...props }
-          className={`element -${ element.type } ${ dragging ? '-dragging' : ''}`} 
-          onDoubleClick={handleDoubleClick}
+          className={elementClasses}
           style={elementStyle}
         />
       </div>

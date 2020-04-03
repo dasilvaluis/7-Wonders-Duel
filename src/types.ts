@@ -23,6 +23,11 @@ export interface Position {
   y: number;
 }
 
+export interface DraggedData extends Position {
+  deltaX: number;
+  deltaY: number;
+}
+
 export interface GameElement extends Position {
   id: string;
   type: ElementTypes;

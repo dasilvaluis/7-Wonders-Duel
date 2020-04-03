@@ -5,10 +5,16 @@
   background-position: center;
   border-radius: 10px;
   box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, .75);
+  transition: box-shadow 0.15s ease-in;
   cursor: grab;
 
   &.-dragging {
     cursor: grabbing;
+    box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 1);
+  }
+
+  &.-selected {
+    box-shadow: 10px 10px 20px -5px rgba(0, 0, 0, 1);
   }
 
   &.-board {
