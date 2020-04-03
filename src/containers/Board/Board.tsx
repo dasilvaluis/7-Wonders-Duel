@@ -182,18 +182,23 @@ const Board = (props: Props) => {
     props.onAddElements(coins);
   };
 
+  const startGame = () => {
+    loadProgressBoard();
+    loadCoins();
+    loadWonderCards();
+  }
+
   const handleClear = () => {
     socket.emit('set_elements', []);
     props.onSetElements([]);
+    setAge('I');
   };
   
   return (
     <div className="board" id="draggingarea" onClick={handleBoardClick}>
       <div className="board__players" />
       <div className="board__tools">
-        <button className="board__tool" onClick={loadProgressBoard}>Load Progress Board</button>
-        <button className="board__tool" onClick={loadCoins}>Deal Coins</button>
-        <button className="board__tool" onClick={loadWonderCards}>Deal Wonders</button>
+        <button className="board__tool" onClick={startGame}>Start Game</button>
         <button className="board__tool" onClick={handleClear}>Clear</button>
         <hr/>
         <div className="board__tool -no-shadow">
