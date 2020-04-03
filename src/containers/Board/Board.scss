@@ -15,6 +15,28 @@
     position: absolute;
     bottom: 0;
     left: 0;
+
+    &::after, &::before {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: .4;
+      top: 0;
+    }
+
+    &::before {
+      background-image: url('../../data/images/player-roman.jpg');
+      left: 0
+    }
+
+    &::after {
+      background-image: url('../../data/images/player-egyptian.jpg');
+      right: 0;
+    }
   }
 
   &__tools {
