@@ -129,14 +129,13 @@ const Board = (props: Props) => {
   
       socket.emit('bring_element', apiEvent);
       props.onBringElement(elementId, direction);
+    } else {
+      const apiEvent: FlipElementAPIEvent = { elementId };
 
-      return; 
+      socket.emit('flip_element', apiEvent);
+      props.onFlipElement(elementId);
     }
 
-    const apiEvent: FlipElementAPIEvent = { elementId };
-
-    socket.emit('flip_element', apiEvent);
-    props.onFlipElement(elementId);
     props.onUnselectElements();
   };
 
