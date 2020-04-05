@@ -153,41 +153,29 @@ const Board = (props: Props) => {
     props.onAddElements(cards);
   };
 
-  const loadWonderCards = () => {
-    const cards = getWonderCards();
-    const apiEvent: AddElementsAPIEvent = cards;
-
-    socket.emit('add_elements', apiEvent);
-    props.onAddElements(cards);
-  };
-
-  const loadProgressBoard = () => {
+  const startGame = () => {
     const progressTokens = getProgressTokens();
     const militaryTokens = getMilitaryTokens();
     const conflictPawn = getConflictPawn();
-
-    const tokens = [ ...progressTokens, ...militaryTokens, conflictPawn ];
-    const apiEvent: AddElementsAPIEvent = tokens;
-
-    socket.emit('add_elements', apiEvent);
-    props.onAddElements(tokens);
-  };
-
-  const loadCoins = () => {
     const coins = getCoins();
-    const apiEvent: AddElementsAPIEvent = coins;
+    const wonders = getWonderCards();
 
-    socket.emit('add_elements', apiEvent);
-    props.onAddElements(coins);
-  };
+    const initialElements = [
+      ...progressTokens,
+      ...militaryTokens,
+      conflictPawn,
+      ...coins,
+      ...wonders
+    ];
 
-  const startGame = () => {
-    loadProgressBoard();
-    loadCoins();
-    loadWonderCards();
+    const apiEvent: SetElementsAPIEvent = initialElements;
+
+    socket.emit('set_elements', apiEvent);
+    props.onSetElements(initialElements);
+    setAge('I');
   }
 
-  const handleClear = () => {
+  const clearGame = () => {
     socket.emit('set_elements', []);
     props.onSetElements([]);
     setAge('I');
@@ -198,7 +186,7 @@ const Board = (props: Props) => {
       <div className="board__players" />
       <div className="board__tools">
         <button className="board__tool" onClick={startGame}>Start Game</button>
-        <button className="board__tool" onClick={handleClear}>Clear</button>
+        <button className="board__tool" onClick={clearGame}>Clear</button>
         <hr/>
         <div className="board__tool -no-shadow">
           <AgeSelect value={age} onChange={setAge}/>
