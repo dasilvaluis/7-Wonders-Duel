@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import { Position, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap } from '../../types';
+import {
+  CONNECT, GET_ELEMENTS, SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT
+} from '../../contants';
+import {
+  Coordinates, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, 
+  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap
+} from '../../types';
 import { getElements, getElementOfType, getSelectedElements } from '../../reducers/selectors';
-import { setElementPosition, setElements, flipElement, addElements, bringElement } from '../../actions/elements-actions';
+import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
 import AgeSelect from '../../components/AgeSelect/AgeSelect';
 import { getBuildingCards } from './buildingcards-utils';
@@ -30,7 +36,7 @@ interface StateProps {
 interface DispatchProps {
   onSetElements(elements: Array<GameElement>): void;
   onAddElements(elements: Array<GameElement>): void;
-  onMoveElement(elementId: string, position: Position): void;
+  onMoveElement(elementId: string, position: Coordinates): void;
   onFlipElement(elementId: string): void;
   onBringElement(elementId: string, direction: string): void;
   onSelectElement(elementId: string, selected: boolean): void;
@@ -43,40 +49,42 @@ const Board = (props: Props) => {
   const [ age, setAge ] = useState<Age>('I');
 
   useEffect(() => {
-    socket.on('connect', () => {
-      socket.emit('get_elements');
+    socket.on(CONNECT, () => {
+      socket.emit(GET_ELEMENTS);
     });
 
-    socket.on('set_elements', (data: SetElementsAPIEvent) => {
+    socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
       props.onSetElements(data);
     });
 
-    socket.on('move_element', (data: MoveElementAPIEvent) => {
-      const { elementId, position } = data;
+    socket.on(MOVE_ELEMENT, (data: MoveElementAPIEvent) => {
+      const { elementsIds, delta } = data;
 
-      props.onMoveElement(elementId, position);
+      elementsIds.forEach((id) => {
+        props.onMoveElement(id, delta);
+      });
     });
 
-    socket.on('add_elements', (data: AddElementsAPIEvent) => {
+    socket.on(ADD_ELEMENTS, (data: AddElementsAPIEvent) => {
       props.onAddElements(data);
     });
 
-    socket.on('flip_element', (data: FlipElementAPIEvent) => {
+    socket.on(FLIP_ELEMENT, (data: FlipElementAPIEvent) => {
       props.onFlipElement(data.elementId);
     });
 
-    socket.on('bring_element', (data: BringElementAPIEvent) => {
+    socket.on(BRING_ELEMENT, (data: BringElementAPIEvent) => {
       props.onBringElement(data.elementId, data.direction);
     });
   }, []);
   
   useEffect(() => {
-    if (socket.hasListeners('get_elements') ) {
-      socket.off('get_elements');
+    if (socket.hasListeners(GET_ELEMENTS) ) {
+      socket.off(GET_ELEMENTS);
     }
 
-    socket.on('get_elements', () => {
-      socket.emit('set_elements', props.elements);
+    socket.on(GET_ELEMENTS, () => {
+      socket.emit(SET_ELEMENTS, props.elements);
     });
   }, [ props.elements ]);
 
@@ -91,33 +99,18 @@ const Board = (props: Props) => {
   };
 
   const handleMoveElement = (event: DraggableEvent, data: DraggedData, elementId: string) => {
-    const isSelected = !!props.selectedElements[elementId];
-    
-    if (isSelected) {
-      Object.values(props.selectedElements).forEach((element) => {
-        const newPosition = {
-          x: element.x + data.deltaX,
-          y: element.y + data.deltaY
-        };
+    const delta = {
+      x: data.deltaX,
+      y: data.deltaY
+    };
 
-        const apiEvent: MoveElementAPIEvent = {
-          elementId: element.id,
-          position: newPosition
-        };
-    
-        socket.emit('move_element', apiEvent);
-        props.onMoveElement(element.id, newPosition);
-      });
-    } else {
-      const position = {
-        x: data.x,
-        y: data.y
-      };
-      const apiEvent: MoveElementAPIEvent = { elementId, position };
-  
-      socket.emit('move_element', apiEvent);
-      props.onMoveElement(elementId, position);
-    }
+    const elementsIds = !!props.selectedElements[elementId] ? Object.keys(props.selectedElements) : [ elementId ];
+    const apiEvent: MoveElementAPIEvent = { elementsIds, delta };
+
+    socket.emit(MOVE_ELEMENT, apiEvent);
+    elementsIds.forEach((id) => {
+      props.onMoveElement(id, delta);
+    });
   };
 
   const handleDoubleClickElement = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
@@ -127,12 +120,12 @@ const Board = (props: Props) => {
         : !e.altKey ? 'front' : 'back';
       const apiEvent: BringElementAPIEvent = { elementId, direction };
   
-      socket.emit('bring_element', apiEvent);
+      socket.emit(BRING_ELEMENT, apiEvent);
       props.onBringElement(elementId, direction);
     } else {
       const apiEvent: FlipElementAPIEvent = { elementId };
 
-      socket.emit('flip_element', apiEvent);
+      socket.emit(FLIP_ELEMENT, apiEvent);
       props.onFlipElement(elementId);
     }
 
@@ -149,7 +142,7 @@ const Board = (props: Props) => {
     const cards = getBuildingCards(age);
     const apiEvent: AddElementsAPIEvent = cards;
 
-    socket.emit('add_elements', apiEvent);
+    socket.emit(ADD_ELEMENTS, apiEvent);
     props.onAddElements(cards);
   };
 
@@ -170,13 +163,13 @@ const Board = (props: Props) => {
 
     const apiEvent: SetElementsAPIEvent = initialElements;
 
-    socket.emit('set_elements', apiEvent);
+    socket.emit(SET_ELEMENTS, apiEvent);
     props.onSetElements(initialElements);
     setAge('I');
   }
 
   const clearGame = () => {
-    socket.emit('set_elements', []);
+    socket.emit(SET_ELEMENTS, []);
     props.onSetElements([]);
     setAge('I');
   };
@@ -271,7 +264,7 @@ const mapStateToProps = (state: AppState): StateProps => ({
 const mapDispatchToProps: DispatchProps = {
   onSetElements: (elements: Array<GameElement>) => setElements(elements),
   onAddElements: (elements: Array<GameElement>) => addElements(elements),
-  onMoveElement: (elementId: string, position: Position) => setElementPosition(elementId, position),
+  onMoveElement: (elementId: string, position: Coordinates) => moveElement(elementId, position),
   onFlipElement: (elementId: string) => flipElement(elementId),
   onBringElement: (elementId: string, direction: string) => bringElement(elementId, direction),
   onSelectElement: (elementId: string, selected: boolean) => selectElement(elementId, selected),

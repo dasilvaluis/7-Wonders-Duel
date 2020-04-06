@@ -1,4 +1,4 @@
-import { GameElement, ElementTypes, Position } from "../../types";
+import { GameElement, ElementTypes, Coordinates } from "../../types";
 import { tokens as tokensDb } from '../../data/progress-tokens.json';
 import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from "../../utils";
 import { ELEMENT_MARGIN, BOARD_WIDTH } from "../../contants";
@@ -75,7 +75,7 @@ export const getMilitaryTokens = (): Array<GameElement> => {
     }
   };
 
-  const tokensPlacement: Array<Position> = [
+  const tokensPlacement: Array<Coordinates> = [
     {
       x: 0,
       y: 0

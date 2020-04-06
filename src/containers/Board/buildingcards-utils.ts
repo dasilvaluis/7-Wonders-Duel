@@ -8,7 +8,7 @@ import {
   injectPositions,
   getElementSize
 } from "../../utils";
-import { Position, GameElement, ElementTypes, Age } from "../../types";
+import { Coordinates, GameElement, ElementTypes, Age } from "../../types";
 import { ELEMENT_MARGIN, MAX_CARDS } from "../../contants";
 import { flattenDeep, createElement } from "../../utils";
 import {
@@ -18,7 +18,7 @@ import {
   buildings_g as buildingsGDb
 } from '../../data/buildings.json';
 
-const moveRowVertically = (row: Array<Position>, rowIndex: number) =>
+const moveRowVertically = (row: Array<Coordinates>, rowIndex: number) =>
   row.map((position) => ({
     ...position,
     y: rowIndex * (getElementSize(ElementTypes.BUILDING_CARD).height / 3)
@@ -69,7 +69,7 @@ export const getBuildingCardsPlacement = (scheme: Array<number>) => {
     return rowCentered;
   });
 
-  return centerHorizontally(flattenDeep<Position>(rows));
+  return centerHorizontally(flattenDeep<Coordinates>(rows));
 };
 
 export const getShuffledCards = (age: Age): Array<GameElement> => {

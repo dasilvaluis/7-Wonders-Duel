@@ -1,13 +1,13 @@
 import React from 'react';
 import Draggable from 'react-draggable';
-import { Position } from '../../types';
+import { Coordinates } from '../../types';
 import './BaseElement.scss'
 
 interface Props {
   id: string;
-  position: Position;
-  onDrag?(id: string, position: Position): void;
-  onMoveStop?(id: string, position: Position): void;
+  position: Coordinates;
+  onDrag?(id: string, position: Coordinates): void;
+  onMoveStop?(id: string, position: Coordinates): void;
   onDoubleClick?(id: string): void;
   children: JSX.Element | Array<JSX.Element>;
 }

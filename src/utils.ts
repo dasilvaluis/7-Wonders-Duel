@@ -1,9 +1,9 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_MARGIN, BOARD_WIDTH } from './contants';
-import { GameElement, ElementTypes, Position } from './types';
+import { GameElement, ElementTypes, Coordinates } from './types';
 
-export const getRowOf = (howMany: number, cardWidth: number): Array<Position> => {
+export const getRowOf = (howMany: number, cardWidth: number): Array<Coordinates> => {
   const positions = []
 
   for (let index = 0; index < howMany; index++) {
@@ -21,25 +21,25 @@ export const reverse = <T>(array: Array<T>) => [ ...array ].reverse();
 export const moveElementBackward = <T>(array: Array<T>, elMatchersPredicate:(el: T) => boolean) =>
   array.reduce((acc, curr, index) => index > 0 && elMatchersPredicate(curr) ? swap(acc, index, index - 1) : acc, array);
 
-export const centerRow = (row: Array<Position>, cardsQuantity: number, cardWidth: number) =>
+export const centerRow = (row: Array<Coordinates>, cardsQuantity: number, cardWidth: number) =>
   row.map((position) => ({
     ...position,
     x: position.x - (cardsQuantity * cardWidth + (cardsQuantity - 1) * ELEMENT_MARGIN) / 2
   }));
 
-export const centerHorizontally = (positions: Array<Position>) =>
+export const centerHorizontally = (positions: Array<Coordinates>) =>
   movePositions(positions, {
     x: BOARD_WIDTH / 2,
     y: 0
   });
 
-export const movePositions = (positions: Array<Position>, offset: Position): Array<Position> => 
+export const movePositions = (positions: Array<Coordinates>, offset: Coordinates): Array<Coordinates> => 
   positions.map((position) => ({
     x: position.x + offset.x,
     y: position.y + offset.y
   }));
 
-export const injectPositions = <T>(elements: Array<T>, positions: Array<Position>) =>
+export const injectPositions = <T>(elements: Array<T>, positions: Array<Coordinates>) =>
   elements.reduce((cards, card, index) => {
     if (index < positions.length) {
       const { x, y } = { x: positions[index].x, y: positions[index].y };

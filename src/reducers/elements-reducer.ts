@@ -1,4 +1,4 @@
-import { SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS, FLIP_ELEMENT, BRING_ELEMENT } from '../actions/types';
+import { SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS, FLIP_ELEMENT, BRING_ELEMENT, MOVE_ELEMENT } from '../actions/types';
 import { ElementsActionType } from '../actions/elements-actions';
 import { ElementsMap } from '../types';
 import { keyBy, reverse, moveElementBackward } from '../utils';
@@ -14,11 +14,21 @@ export default (state = initialState, action: ElementsActionType) => {
     case ADD_ELEMENTS:
       return { ...state, ...keyBy(action.payload, 'id') };
     case SET_ELEMENT_POSITION: {
-      const { id, position: { x, y } } = action.payload;
+      const { id, position } = action.payload;
 
       if (typeof _state[id] !== 'undefined') {
-        _state[id].x = x;
-        _state[id].y = y; 
+        _state[id].x = position.x;
+        _state[id].y = position.y; 
+      }
+
+      return _state;
+    }
+    case MOVE_ELEMENT: {
+      const { id, delta } = action.payload;
+
+      if (typeof _state[id] !== 'undefined') {
+        _state[id].x += delta.x;
+        _state[id].y += delta.y; 
       }
 
       return _state;

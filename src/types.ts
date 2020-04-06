@@ -18,17 +18,17 @@ export enum ElementTypes {
   BOARD = 'board'
 }
 
-export interface Position {
+export interface Coordinates {
   x: number;
   y: number;
 }
 
-export interface DraggedData extends Position {
+export interface DraggedData extends Coordinates {
   deltaX: number;
   deltaY: number;
 }
 
-export interface GameElement extends Position {
+export interface GameElement extends Coordinates {
   id: string;
   type: ElementTypes;
   faceDown: boolean;
@@ -37,8 +37,8 @@ export interface GameElement extends Position {
 }
 
 export interface MoveElementAPIEvent {
-  elementId: string;
-  position: Position;
+  elementsIds: Array<string>;
+  delta: Coordinates;
 }
 
 export interface FlipElementAPIEvent {
