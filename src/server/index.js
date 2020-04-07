@@ -21,27 +21,11 @@ const events = {
 };
 
 io.on('connect', (socket) => {
-  socket.on(events.FLIP_ELEMENT, (data)=> {
-    socket.broadcast.emit(events.FLIP_ELEMENT, data);
-  });
+  socket.broadcast.emit(events.GET_ELEMENTS);
 
-  socket.on(events.MOVE_ELEMENT, (data)=> {
-    socket.broadcast.emit(events.MOVE_ELEMENT, data);
-  });
-
-  socket.on(events.SET_ELEMENTS, (data)=> {
-    socket.broadcast.emit(events.SET_ELEMENTS, data);
-  });
-
-  socket.on(events.GET_ELEMENTS, ()=> {
-    socket.broadcast.emit(events.GET_ELEMENTS);
-  });
-
-  socket.on(events.ADD_ELEMENTS, (data)=> {
-    socket.broadcast.emit(events.ADD_ELEMENTS, data);
-  });
-
-  socket.on(events.BRING_ELEMENT, (data)=> {
-    socket.broadcast.emit(events.BRING_ELEMENT, data);
+  Object.values(events).forEach((event) => {
+    socket.on(event, (data)=> {
+      socket.broadcast.emit(event, data);
+    });
   });
 });

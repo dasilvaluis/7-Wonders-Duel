@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  CONNECT, GET_ELEMENTS, SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT
+  GET_ELEMENTS, SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT
 } from '../../contants';
 import {
   Coordinates, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, 
@@ -49,10 +49,6 @@ const Board = (props: Props) => {
   const [ age, setAge ] = useState<Age>('I');
 
   useEffect(() => {
-    socket.on(CONNECT, () => {
-      socket.emit(GET_ELEMENTS);
-    });
-
     socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
       props.onSetElements(data);
     });
