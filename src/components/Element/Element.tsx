@@ -52,8 +52,8 @@ export default ({
   const elementStyle = {
     ...getElementStyles(element.type),
     backgroundImage: !element.faceDown
-      ? element.imageFile ? `url(${ require(`../../data/images/${ element.imageFile }`) })` : ''
-      : element.imageFileBackface ? `url(${ require(`../../data/images/${ element.imageFileBackface }`) })` : ''
+      ? element.imageFile ? `url(${ require(`../../images/${ element.imageFile }`) })` : ''
+      : element.imageFileBackface ? `url(${ require(`../../images/${ element.imageFileBackface }`) })` : ''
   }
 
   const elementClasses = cn(
