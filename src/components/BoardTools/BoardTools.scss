@@ -1,0 +1,48 @@
+.board-tools {
+  display: flex;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+
+  select {
+    background: #fdf7e8;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 8px 12px;
+    background: #fdf7e8;
+    border-radius: 4px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-of-type) {
+      padding-right: 20px;
+      border-right: 1px solid #c2b4ac;
+    }
+
+    & + & {
+      margin-left: 20px;
+    }
+  }
+
+  &__tool {
+    box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, .75);
+
+    & + & {
+      margin-top: 8px;
+    }
+
+    &.-no-shadow {
+      box-shadow: none;
+    }
+  }
+}
+ 

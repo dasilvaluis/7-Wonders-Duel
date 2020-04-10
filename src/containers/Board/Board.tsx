@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
 import { connect } from 'react-redux';
 import {
   GET_ELEMENTS, SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT
@@ -11,7 +10,6 @@ import {
 import { getElements, getElementOfType, getSelectedElements } from '../../reducers/selectors';
 import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
-import AgeSelect from '../../components/AgeSelect/AgeSelect';
 import { getBuildingCards } from './buildingcards-utils';
 import { getWonderCards } from './wondercards-utils';
 import { getBoardElement, getProgressTokens, getMilitaryTokens, getConflictPawn } from './board-utils';
@@ -21,9 +19,10 @@ import { socket }  from '../../client';
 import { selectElement, unselectElements } from '../../actions/selected-elements-actions';
 import { DraggableEvent } from 'react-draggable';
 import './Board.scss';
+import '../../styles/helpers.scss';
+import BoardTools from '../../components/BoardTools/BoardTools';
 
 interface StateProps {
-  elements: Array<GameElement>;
   selectedElements: ElementsMap;
   coins: Array<GameElement>;
   buildingCards: Array<GameElement>;
@@ -46,8 +45,6 @@ interface DispatchProps {
 interface Props extends StateProps, DispatchProps {};
 
 const Board = (props: Props) => {
-  const [ age, setAge ] = useState<Age>('I');
-
   useEffect(() => {
     socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
       props.onSetElements(data);
@@ -79,10 +76,29 @@ const Board = (props: Props) => {
       socket.off(GET_ELEMENTS);
     }
 
+    const elements: Array<GameElement> = [
+      ...props.coins,
+      ...props.buildingCards,
+      ...props.wonderCards,
+      ...props.progressTokens,
+      ...props.militaryTokens
+    ];
+
+    if (props.conflictPawn !== null) {
+      elements.push(props.conflictPawn);
+    }
+
     socket.on(GET_ELEMENTS, () => {
-      socket.emit(SET_ELEMENTS, props.elements);
+      socket.emit(SET_ELEMENTS, elements);
     });
-  }, [ props.elements ]);
+  }, [
+    props.coins,
+    props.buildingCards,
+    props.wonderCards,
+    props.progressTokens,
+    props.militaryTokens,
+    props.conflictPawn
+  ]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
     const isSelected = !!props.selectedElements[elementId];
@@ -134,7 +150,7 @@ const Board = (props: Props) => {
     }
   };
 
-  const loadBuildingCards = () => {
+  const loadBuildingCards = (age: Age) => {
     const cards = getBuildingCards(age);
     const apiEvent: AddElementsAPIEvent = cards;
 
@@ -161,27 +177,17 @@ const Board = (props: Props) => {
 
     socket.emit(SET_ELEMENTS, apiEvent);
     props.onSetElements(initialElements);
-    setAge('I');
   }
 
   const clearGame = () => {
     socket.emit(SET_ELEMENTS, []);
     props.onSetElements([]);
-    setAge('I');
   };
   
   return (
     <div className="board" id="draggingarea" onClick={handleBoardClick}>
       <div className="board__players" />
-      <div className="board__tools">
-        <button className="board__tool" onClick={startGame}>Start Game</button>
-        <button className="board__tool" onClick={clearGame}>Clear</button>
-        <hr/>
-        <div className="board__tool -no-shadow">
-          <AgeSelect value={age} onChange={setAge}/>
-        </div>
-        <button className="board__tool" onClick={loadBuildingCards}>Deal Buildings</button>
-      </div>
+      <BoardTools onStart={startGame} onClear={clearGame} onDealBuildings={loadBuildingCards} />
       <div>
         <Element element={getBoardElement()}/>
         {props.militaryTokens.map((el) =>
@@ -240,7 +246,6 @@ const Board = (props: Props) => {
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  elements: getElements(state),
   selectedElements: getSelectedElements(state),
   conflictPawn: getElementOfType(state, ElementTypes.CONFLICT_PAWN) || null,
   coins: [ 

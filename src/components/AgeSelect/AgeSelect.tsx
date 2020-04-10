@@ -1,9 +1,10 @@
 import React from 'react';
+import { Age } from '../../types';
 import './AgeSelect.scss';
 
 interface Props {
   value: string;
-  onChange(value: 'I' | 'II' | 'III'): void;
+  onChange(value: Age): void;
 }
 
 export default (props: Props) => {
@@ -12,7 +13,7 @@ export default (props: Props) => {
   };
 
   return (
-    <label htmlFor="age-selection">
+    <label className="age-select" htmlFor="age-selection">
       Age:
       <select className="select" name="age-selection" value={props.value} onChange={handleChange}>
         <option value="I">I</option>

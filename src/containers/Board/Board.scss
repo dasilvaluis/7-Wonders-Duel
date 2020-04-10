@@ -1,4 +1,4 @@
-@import '../../constants.scss';
+@import '../../styles/constants.scss';
 
 .board {
   padding: 8px;
@@ -24,7 +24,7 @@
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      opacity: .4;
+      opacity: .3;
       top: 0;
     }
 
@@ -36,47 +36,6 @@
     &::after {
       background-image: url('../../data/images/player-egyptian.jpg');
       right: 0;
-    }
-  }
-
-  &__tools {
-    display: inline-flex;
-    flex-direction: column;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-
-    hr {
-      margin: 20px 0 10px;
-      border-color: #c2b4ac;
-      border-style: ridge;
-      opacity: 0.5;
-    }
-
-    select {
-      background: #fdf7e8;
-    }
-
-    button {
-      font-size: 12px;
-      padding: 5px 10px;
-      background: #fdf7e8;
-
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-
-  &__tool {
-    box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, .75);
-
-    & + & {
-      margin-top: 7px;
-    }
-
-    &.-no-shadow {
-      box-shadow: none;
     }
   }
 }
