@@ -13,3 +13,5 @@ export const MOVE_ELEMENT = 'move_element';
 export const ADD_ELEMENTS = 'add_elements';
 export const FLIP_ELEMENT = 'flip_element';
 export const BRING_ELEMENT = 'bring_element';
+export const SET_AGE = 'set_age';
+export const GET_AGE = 'get_age';

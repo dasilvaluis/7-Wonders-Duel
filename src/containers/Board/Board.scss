@@ -40,4 +40,17 @@
       background-position: left bottom;
     }
   }
+
+  &__tools {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__age-progress-container {
+    width: 450px;
+    display: inline-block;
+  }
 }

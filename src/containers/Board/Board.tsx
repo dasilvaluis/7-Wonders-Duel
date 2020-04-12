@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  GET_ELEMENTS, SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT
+  GET_ELEMENTS, SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT, SET_AGE, GET_AGE
 } from '../../contants';
 import {
   Coordinates, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, 
-  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap
+  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap, SetAgeAPIEvent
 } from '../../types';
 import { getElements, getElementOfType, getSelectedElements } from '../../reducers/selectors';
 import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
@@ -21,6 +21,7 @@ import { DraggableEvent } from 'react-draggable';
 import './Board.scss';
 import '../../styles/helpers.scss';
 import BoardTools from '../../components/BoardTools/BoardTools';
+import AgeProgress from '../../components/AgeProgress/AgeProgress';
 
 interface StateProps {
   selectedElements: ElementsMap;
@@ -45,6 +46,8 @@ interface DispatchProps {
 interface Props extends StateProps, DispatchProps {};
 
 const Board = (props: Props) => {
+  const [ age, setAge ] = useState<Age | null>(null);
+
   useEffect(() => {
     socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
       props.onSetElements(data);
@@ -69,11 +72,19 @@ const Board = (props: Props) => {
     socket.on(BRING_ELEMENT, (data: BringElementAPIEvent) => {
       props.onBringElement(data.elementId, data.direction);
     });
+    
+    socket.on(SET_AGE, (data: SetAgeAPIEvent) => {
+      setAge(data.age);
+    });
   }, []);
   
   useEffect(() => {
     if (socket.hasListeners(GET_ELEMENTS) ) {
       socket.off(GET_ELEMENTS);
+    }
+
+    if (socket.hasListeners(GET_AGE) ) {
+      socket.off(GET_AGE);
     }
 
     const elements: Array<GameElement> = [
@@ -91,13 +102,18 @@ const Board = (props: Props) => {
     socket.on(GET_ELEMENTS, () => {
       socket.emit(SET_ELEMENTS, elements);
     });
+
+    socket.on(GET_AGE, () => {
+      socket.emit(SET_AGE, { age });
+    });
   }, [
     props.coins,
     props.buildingCards,
     props.wonderCards,
     props.progressTokens,
     props.militaryTokens,
-    props.conflictPawn
+    props.conflictPawn,
+    age
   ]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
@@ -168,26 +184,34 @@ const Board = (props: Props) => {
     const initialElements = [
       ...progressTokens,
       ...militaryTokens,
-      conflictPawn,
       ...coins,
-      ...wonders
+      ...wonders,
+      conflictPawn
     ];
 
     const apiEvent: SetElementsAPIEvent = initialElements;
 
     socket.emit(SET_ELEMENTS, apiEvent);
     props.onSetElements(initialElements);
+    setAge(null);
+    socket.emit(SET_AGE, { age: null });
   }
 
-  const clearGame = () => {
-    socket.emit(SET_ELEMENTS, []);
-    props.onSetElements([]);
+  const handleChangeAge = (age: Age) => {
+    socket.emit(SET_AGE, { age });
+    setAge(age);
+    loadBuildingCards(age);
   };
   
   return (
     <div className="board" id="draggingarea" onClick={handleBoardClick}>
       <div className="board__players" />
-      <BoardTools onStart={startGame} onClear={clearGame} onDealBuildings={loadBuildingCards} />
+      <div className="board__tools">
+        <BoardTools onStart={startGame} onDealBuildings={loadBuildingCards} />
+        <div className="board__age-progress-container">
+          <AgeProgress age={age} onChange={handleChangeAge} />
+        </div>
+      </div>
       <div>
         <Element element={getBoardElement()}/>
         {props.militaryTokens.map((el) =>

@@ -1,7 +1,5 @@
 .board-tools {
-  position: absolute;
-  top: 18px;
-  left: 20px;
+  display: inline-block;
 
   select {
     background: #fdf7e8;
@@ -9,7 +7,7 @@
 
   button {
     font-size: 12px;
-    padding: 10px 14px;
+    padding: 12px 16px;
     background: #fdf7e8;
     border-radius: 4px;
 

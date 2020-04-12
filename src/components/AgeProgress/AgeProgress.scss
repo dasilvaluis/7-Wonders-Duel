@@ -1,0 +1,75 @@
+$button-width: 35px;
+$active-color: rgba(10, 110, 23, 1);
+$inactive-color: rgba(100, 100, 100, .25);
+
+.age-progress {
+  width: 100%;
+  height: $button-width;
+  display: inline-flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: space-between;
+  position: relative;
+
+  &__button {
+    width: 100%;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 12px;
+      top: 50%;
+      right: 0;
+      transform: translate(-50%, -50%);
+      background-color: $inactive-color;
+    }
+
+    &:first-of-type::before {
+      content: none;
+    }
+
+    &::after {
+      content: attr(data-age);
+      display: inline-flex;
+      height: $button-width;
+      width: $button-width;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-image: url('../../images/token-progress-back.jpg');
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 1;
+      justify-content: center;
+      align-items: center;
+      color: #e5e4e3;
+      font-family: serif;
+    }
+
+    &.-active {
+      &::before {
+        background-color: $active-color;
+      }
+    }
+    
+    &:not(.-active) {
+      cursor: pointer;
+
+      &::after {
+        color: #b5b5b5;
+        filter: grayscale(100%);
+        opacity: .85;
+      }
+
+      & + & {
+        cursor: default;
+      }
+    }
+  }
+}

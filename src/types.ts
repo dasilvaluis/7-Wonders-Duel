@@ -50,6 +50,10 @@ export interface BringElementAPIEvent {
   direction: string;
 }
 
+export interface SetAgeAPIEvent {
+  age: Age | null;
+}
+
 export interface SetElementsAPIEvent extends Array<GameElement> {}
 
 export interface AddElementsAPIEvent extends Array<GameElement> {}
