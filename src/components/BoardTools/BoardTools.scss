@@ -1,7 +1,6 @@
 .board-tools {
-  display: flex;
   position: absolute;
-  top: 20px;
+  top: 18px;
   left: 20px;
 
   select {
@@ -19,13 +18,20 @@
     }
   }
 
+  hr {
+    border-color: #c5c0bac7;
+    width: 100%;
+    border-style: ridge;
+    margin: 18px 0 12px;
+  }
+
   &__column {
     display: flex;
     flex-direction: column;
 
     &:not(:last-of-type) {
       padding-right: 20px;
-      border-right: 1px solid #c2b4ac;
+      border-right: 1px solid #c5c0bac7;
     }
 
     & + & {
@@ -37,7 +43,7 @@
     box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, .75);
 
     & + & {
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     &.-no-shadow {
