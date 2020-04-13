@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { DraggableEvent } from 'react-draggable';
 import {
-  GET_ELEMENTS, SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT, SET_AGE, GET_AGE
+  SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT, SET_AGE, GET_STATE, SET_STATE, YOU_START
 } from '../../contants';
 import {
   Coordinates, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, 
-  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap, SetAgeAPIEvent
+  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap, SetAgeAPIEvent, SetStateAPIEvent
 } from '../../types';
 import { getElements, getElementOfType, getSelectedElements } from '../../reducers/selectors';
 import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
@@ -17,11 +18,10 @@ import { getCoins } from './coins-utils';
 import Element from '../../components/Element/Element';
 import { socket }  from '../../client';
 import { selectElement, unselectElements } from '../../actions/selected-elements-actions';
-import { DraggableEvent } from 'react-draggable';
-import './Board.scss';
-import '../../styles/helpers.scss';
 import BoardTools from '../../components/BoardTools/BoardTools';
 import AgeProgress from '../../components/AgeProgress/AgeProgress';
+import './Board.scss';
+import '../../styles/helpers.scss';
 
 interface StateProps {
   selectedElements: ElementsMap;
@@ -49,6 +49,15 @@ const Board = (props: Props) => {
   const [ age, setAge ] = useState<Age | null>(null);
 
   useEffect(() => {
+    socket.on(YOU_START, () => {
+      startGame();
+    });
+
+    socket.on(SET_STATE, (data: SetStateAPIEvent) => {
+      props.onSetElements(data.elements);
+      setAge(data.age);
+    });
+    
     socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
       props.onSetElements(data);
     });
@@ -79,14 +88,6 @@ const Board = (props: Props) => {
   }, []);
   
   useEffect(() => {
-    if (socket.hasListeners(GET_ELEMENTS) ) {
-      socket.off(GET_ELEMENTS);
-    }
-
-    if (socket.hasListeners(GET_AGE) ) {
-      socket.off(GET_AGE);
-    }
-
     const elements: Array<GameElement> = [
       ...props.coins,
       ...props.buildingCards,
@@ -99,13 +100,13 @@ const Board = (props: Props) => {
       elements.push(props.conflictPawn);
     }
 
-    socket.on(GET_ELEMENTS, () => {
-      socket.emit(SET_ELEMENTS, elements);
-    });
+    const eventPayload: SetStateAPIEvent = { elements, age };
 
-    socket.on(GET_AGE, () => {
-      socket.emit(SET_AGE, { age });
-    });
+    socket
+      .off(GET_STATE)
+      .on(GET_STATE, () => {
+        socket.emit(SET_STATE, eventPayload);
+      });
   }, [
     props.coins,
     props.buildingCards,

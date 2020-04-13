@@ -19,12 +19,18 @@ const events = {
   ADD_ELEMENTS: 'add_elements',
   BRING_ELEMENT: 'bring_element',
   SET_AGE: 'set_age',
-  GET_AGE: 'get_age'
+  GET_AGE: 'get_age',
+  SET_STATE: 'set_state',
+  GET_STATE: 'get_state',
+  YOU_START: 'you_start'
 };
 
 io.on('connect', (socket) => {
-  socket.broadcast.emit(events.GET_ELEMENTS);
-  socket.broadcast.emit(events.GET_AGE);
+  if (Object.keys(io.sockets.sockets).length > 1) {
+    socket.broadcast.emit(events.GET_STATE);
+  } else {
+    socket.emit(events.YOU_START);
+  }
 
   Object.values(events).forEach((event) => {
     socket.on(event, (data)=> {
