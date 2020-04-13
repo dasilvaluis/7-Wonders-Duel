@@ -219,6 +219,7 @@ const Board = (props: Props) => {
             key={el.id}
             element={el}
             onDrag={handleMoveElement}
+            onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
           />)}
         {props.progressTokens.map((el) =>

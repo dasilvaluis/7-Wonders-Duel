@@ -2,7 +2,7 @@ export type ElementsMap = {
   [key: string]: GameElement
 }
 
-export type Age = 'I' | 'II' | 'III' | 'G';
+export type Age = 'I' | 'II' | 'III';
 
 export enum ElementTypes {
   MOCK = 'mock',

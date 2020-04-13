@@ -26,7 +26,6 @@ const moveRowVertically = (row: Array<Coordinates>, rowIndex: number) =>
 
 export const getAgeScheme = (age: Age) => {
   switch (age) {
-    case "G":
     case "III":
       return [ 2, 3, 4, 2, 4, 3, 2 ];
     case "II":
@@ -38,8 +37,6 @@ export const getAgeScheme = (age: Age) => {
 
 export const getAgeDeck = (age: Age) => {
   switch (age) {
-    case "G":
-      return buildingsGDb;
     case "III":
       return buildingsIIIDb;
     case "II":
@@ -80,7 +77,7 @@ export const getShuffledCards = (age: Age): Array<GameElement> => {
     imageFileBackface: `building-${ age.toLowerCase() }-back.jpg`
   }));
   
-  if (age === 'III' || age === 'G') {
+  if (age === 'III') {
     const thirdAgeCards = ageCards.slice(0, MAX_CARDS - 3)
 
     const guildCards = getRandomElements(buildingsGDb, 3).map((card) => ({
@@ -109,7 +106,6 @@ export const flipBuildingCards = (cards: Array<GameElement>, age: Age) =>
           faceDown: (6 <= index && index <= 10) || (15 <= index && index <= 17)
         };
       case 'III':
-      case 'G':
         return {
           ...card,
           faceDown: (2 <= index && index <= 4) || (9 <= index && index <= 10) || (15 <= index && index <= 17)
