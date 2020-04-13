@@ -208,9 +208,9 @@ const Board = (props: Props) => {
       <div className="board__players" />
       <div className="board__tools">
         <BoardTools onStart={startGame} onDealBuildings={loadBuildingCards} />
-        <div className="board__age-progress-container">
-          <AgeProgress age={age} onChange={handleChangeAge} />
-        </div>
+      </div>
+      <div className="board__age-progress-container">
+        <AgeProgress age={age} onChange={handleChangeAge} />
       </div>
       <div>
         <Element element={getBoardElement()}/>
