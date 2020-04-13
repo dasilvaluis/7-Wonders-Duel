@@ -19,7 +19,6 @@ export default (props: Props) => {
     <li 
       data-age={ props.age }
       className={`age-progress__dot ${ props.age && isActive() ? '-active' : '' }`}
-      onClick={() => props.onClick(props.age)}
     >
       <button onClick={() => props.onClick(props.age)} disabled={!isTakingOneStep()}>{ props.age }</button>
     </li> 
