@@ -16,10 +16,7 @@ export default (props: Props) => {
   const isTakingOneStep = () => currentAgeIndex + 1 === ageIndex;
 
   return ( 
-    <li 
-      data-age={ props.age }
-      className={`age-progress__dot ${ props.age && isActive() ? '-active' : '' }`}
-    >
+    <li className={`age-progress__dot ${ props.age && isActive() ? '-active' : '' }`}>
       <button onClick={() => props.onClick(props.age)} disabled={!isTakingOneStep()}>{ props.age }</button>
     </li> 
   );
