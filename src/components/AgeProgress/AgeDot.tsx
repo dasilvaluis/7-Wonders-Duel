@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Age } from '../../types';
 
 interface Props {
@@ -7,18 +7,21 @@ interface Props {
   onClick(age: Age): void;
 }
 
-const isActive = (age: Age, currentAge: Age) => {
+export default (props: Props) => {
   const ages: Array<Age> = [ 'I', 'II', 'III' ];
+  const ageIndex = useMemo<number>(() => ages.findIndex((el) => el === props.age), [ ages, props.age ]);
+  const currentAgeIndex = useMemo<number>(() => ages.findIndex((el) => el === props.currentAge), [ ages, props.currentAge ]);
 
-  const ageIndex = ages.findIndex((el) => el === age);
-  const currentAgeIndex = ages.findIndex((el) => el === currentAge);
+  const isActive = () => ageIndex <= currentAgeIndex;
+  const isTakingOneStep = () => currentAgeIndex + 1 === ageIndex;
 
-  return ageIndex <= currentAgeIndex;
-};
-
-export default (props: Props) => 
-  <li 
-    data-age={ props.age }
-    className={`age-progress__button ${ props.age && isActive(props.age, props.currentAge) ? '-active' : '' }`}
-    onClick={() => props.onClick(props.age)}
-  />;
+  return ( 
+    <li 
+      data-age={ props.age }
+      className={`age-progress__dot ${ props.age && isActive() ? '-active' : '' }`}
+      onClick={() => props.onClick(props.age)}
+    >
+      <button onClick={() => props.onClick(props.age)} disabled={!isTakingOneStep()}>{ props.age }</button>
+    </li> 
+  );
+}

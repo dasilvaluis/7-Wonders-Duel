@@ -8,27 +8,10 @@ interface Props {
   onChange(age: Age): void;
 }
 
-export default (props: Props) => {
-  const isTakingOneStep = (age: Age, currentAge: Age) => {
-    const ages: Array<Age> = [ 'I', 'II', 'III' ];
+const ages: Array<Age> = [ 'I', 'II', 'III' ];
 
-    const ageIndex = ages.findIndex((el) => el === age);
-    const currentAgeIndex = ages.findIndex((el) => el === currentAge);
-
-    return currentAgeIndex + 1 === ageIndex;
-  };
-
-  const handleClick = (age: Age) => {
-    if (isTakingOneStep(age, props.age)) {
-      props.onChange(age);
-    }
-  };
-
-  return (
-    <ul className="age-progress">
-      <AgeDot age="I" currentAge={props.age} onClick={handleClick} />
-      <AgeDot age="II" currentAge={props.age} onClick={handleClick} />
-      <AgeDot age="III" currentAge={props.age} onClick={handleClick} />
-    </ul>
-  );
-};
+export default (props: Props) => (
+  <ul className="age-progress">
+    {ages.map((age) => <AgeDot age={age} currentAge={props.age} onClick={props.onChange} key={age} />)}
+  </ul>
+);

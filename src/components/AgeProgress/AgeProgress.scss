@@ -12,7 +12,7 @@ $inactive-color: rgba(100, 100, 100, .25);
   justify-content: space-between;
   position: relative;
 
-  &__button {
+  &__dot {
     width: 100%;
     position: relative;
     
@@ -30,9 +30,8 @@ $inactive-color: rgba(100, 100, 100, .25);
     &:first-of-type::before {
       content: none;
     }
-
-    &::after {
-      content: attr(data-age);
+    
+    button {
       display: inline-flex;
       height: $button-width;
       width: $button-width;
@@ -50,6 +49,17 @@ $inactive-color: rgba(100, 100, 100, .25);
       align-items: center;
       color: #e5e4e3;
       font-family: serif;
+      font-size: 14px;
+      border: none;
+
+      &:not([disabled]) {
+        cursor: pointer;
+      }
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
     }
 
     &.-active {
@@ -59,16 +69,10 @@ $inactive-color: rgba(100, 100, 100, .25);
     }
     
     &:not(.-active) {
-      cursor: pointer;
-
-      &::after {
+      button {
         color: #b5b5b5;
         filter: grayscale(100%);
         opacity: .85;
-      }
-
-      & + & {
-        cursor: default;
       }
     }
   }
