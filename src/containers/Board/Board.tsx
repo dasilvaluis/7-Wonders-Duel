@@ -6,7 +6,8 @@ import {
 } from '../../contants';
 import {
   Coordinates, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, 
-  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap, SetAgeAPIEvent, SetStateAPIEvent
+  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap,
+  SetAgeAPIEvent, SetStateAPIEvent
 } from '../../types';
 import { getElements, getElementOfType, getSelectedElements } from '../../reducers/selectors';
 import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
@@ -220,8 +221,10 @@ const Board = (props: Props) => {
             key={el.id}
             element={el}
             onDrag={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            elementDivProps={{
+              onMouseDown: (e) => handleMouseDown(e, el.id),
+              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
+            }}
           />)}
         {props.progressTokens.map((el) =>
           <Element 
@@ -229,15 +232,19 @@ const Board = (props: Props) => {
             element={el}
             selected={!!props.selectedElements[el.id]}
             onDrag={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            elementDivProps={{
+              onMouseDown: (e) => handleMouseDown(e, el.id),
+              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
+            }}
           />)}
         {props.conflictPawn && 
           <Element 
             key={props.conflictPawn.id}
             element={props.conflictPawn}
             onDrag={handleMoveElement}
-            onDoubleClick={(e) => handleDoubleClickElement(e, props.conflictPawn.id)}
+            elementDivProps={{
+              onDoubleClick: (e) => handleDoubleClickElement(e, props.conflictPawn.id)
+            }}
           />}
         {props.buildingCards.map((el) =>
           <Element 
@@ -245,8 +252,10 @@ const Board = (props: Props) => {
             element={el}
             selected={!!props.selectedElements[el.id]}
             onDrag={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            elementDivProps={{
+              onMouseDown: (e) => handleMouseDown(e, el.id),
+              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
+            }}
           />)}
         {props.wonderCards.map((el) =>
           <Element 
@@ -254,8 +263,10 @@ const Board = (props: Props) => {
             element={el}
             selected={!!props.selectedElements[el.id]}
             onDrag={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            elementDivProps={{
+              onMouseDown: (e) => handleMouseDown(e, el.id),
+              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
+            }}
           />)}
         {props.coins.map((el) =>
           <Element 
@@ -263,8 +274,10 @@ const Board = (props: Props) => {
             element={el}
             selected={!!props.selectedElements[el.id]}
             onDrag={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            elementDivProps={{
+              onMouseDown: (e) => handleMouseDown(e, el.id),
+              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
+            }}
           />)}
       </div>
     </div>

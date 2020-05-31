@@ -8,11 +8,12 @@ import cn from 'classnames';
 interface Props {
   element: GameElement;
   selected?: boolean;
-  enableDrag?: boolean
   onDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
   onStartDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
   onStopDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
-  [ key: string ]: any;
+  elementDivProps?: {
+    [ key: string ]: any;
+  }
 }
 
 export default ({
@@ -20,9 +21,8 @@ export default ({
   onStartDrag,
   onStopDrag,
   onDrag,
-  enableDrag,
   selected,
-  ...props
+  elementDivProps = {}
 }: Props) => {
   const [ dragging, setDragging ] = useState<boolean>(false);
 
@@ -73,7 +73,7 @@ export default ({
     >
       <div className="element-container">
         <div
-          { ...props }
+          { ...elementDivProps }
           className={elementClasses}
           style={elementStyle}
         />
