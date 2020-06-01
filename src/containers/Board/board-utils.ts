@@ -1,11 +1,11 @@
-import { GameElement, ElementTypes, Coordinates } from "../../types";
+import { GameElement, ElementTypes, Coordinates } from '../../types';
 import { tokens as tokensDb } from '../../data/progress-tokens.json';
-import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from "../../utils";
-import { ELEMENT_MARGIN, BOARD_WIDTH } from "../../contants";
+import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from '../../utils';
+import { BOARD_WIDTH } from '../../contants';
 
 const boardPosition = {
   x: (BOARD_WIDTH - getElementSize(ElementTypes.BOARD).width) / 2,
-  y: ELEMENT_MARGIN,
+  y: 0,
 };
 
 export const getBoardElement = (): GameElement => ({

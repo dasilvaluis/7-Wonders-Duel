@@ -36,6 +36,8 @@ export interface GameElement extends Coordinates {
   imageFileBackface: string;
 }
 
+export type Player = 'playerA' | 'playerB';
+
 export interface MoveElementAPIEvent {
   elementsIds: Array<string>;
   delta: Coordinates;
@@ -62,3 +64,9 @@ export interface SetStateAPIEvent {
 export interface SetElementsAPIEvent extends Array<GameElement> {}
 
 export interface AddElementsAPIEvent extends Array<GameElement> {}
+
+export interface SetScoreAPIEvent {
+  player: Player,
+  value: number,
+  scoreType: string
+}

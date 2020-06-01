@@ -22,7 +22,10 @@ const events = {
   GET_AGE: 'get_age',
   SET_STATE: 'set_state',
   GET_STATE: 'get_state',
-  YOU_START: 'you_start'
+  YOU_START: 'you_start',
+  SET_SCORE: 'set_score',
+  SET_SCORES: 'set_scores',
+  GET_SCORES: 'get_scores'
 };
 
 io.on('connect', (socket) => {

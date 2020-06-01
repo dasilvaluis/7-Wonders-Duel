@@ -1,0 +1,143 @@
+$score-pad-width: 400px;
+
+.score-pad {
+  display: flex;
+  width: $score-pad-width;
+  border: 1px solid #333333;
+  box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 0.75);
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &.-heading {
+      max-width: 21.33%;
+    }
+  }
+
+  &__label {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 75%;
+
+    &.-civilisation {
+      background-image: url('../../images/icon-civilisation.png');
+    }
+    &.-science {
+      background-image: url('../../images/icon-science.png');
+    }
+    &.-commerce {
+      background-image: url('../../images/icon-commerce.png');
+    }
+    &.-guild {
+      background-image: url('../../images/icon-guild.png');
+    }
+    &.-wonder {
+      background-image: url('../../images/icon-wonder.png');
+    }
+    &.-progress {
+      background-image: url('../../images/icon-progress.png');
+    }
+    &.-money {
+      background-image: url('../../images/icon-money.png');
+    }
+    &.-military {
+      background-image: url('../../images/icon-military.png');
+    }
+
+    &[class*="suddendeath"] {
+      background-image: url('../../images/icon-sudden-death.png');
+
+      &Military {
+        background-image: url('../../images/icon-sudden-death.png');
+      }
+  
+      &Science {
+        background-image: url('../../images/icon-sudden-death.png');
+      }
+    }
+
+    &.-total {
+      background-color: black;
+      background-image: url('../../images/icon-total.png');
+    }
+  }
+
+  &__cell {
+    width: 100%;
+    height: 0.1133 * $score-pad-width;
+  }
+
+  &__input {
+    font-size: 18px;
+    padding: 10px;
+
+    &:focus {
+      outline: none;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    &[type=number] {
+      -moz-appearance: textfield;
+    }
+  }
+
+  &__checkbox {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 100%;
+      height: 40%;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__cell {
+    background-color: white;
+    border: 1px solid #333333;
+
+    &.-civilisation {
+      background-color: #beebfc;
+    }
+    &.-science {
+      background-color: #d3ebd1;
+    }
+    &.-commerce {
+      background-color: #fefbd3;
+    }
+    &.-guild {
+      background-color: #cfd4ec
+    }
+    &.-wonder {
+      background-color: #e6e7e9;
+    }
+    &.-progress {
+      background-color: #d3ebd1;
+    }
+    &.-money {
+      background-color: #fefbd3;
+    }
+    &.-military {
+      background-color: #fccebe;
+    }
+    &.-suddendeathMilitary {
+      background-color: #d60001;
+    }
+    &.-suddendeathScience {
+      background-color: #008d39;
+    }
+  }
+}

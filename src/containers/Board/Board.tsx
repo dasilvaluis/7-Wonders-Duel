@@ -16,13 +16,15 @@ import { getBuildingCards } from './buildingcards-utils';
 import { getWonderCards } from './wondercards-utils';
 import { getBoardElement, getProgressTokens, getMilitaryTokens, getConflictPawn } from './board-utils';
 import { getCoins } from './coins-utils';
-import Element from '../../components/Element/Element';
-import { socket }  from '../../client';
+import Element from '../../components/Element';
+import socket  from '../../wsClient';
 import { selectElement, unselectElements } from '../../actions/selected-elements-actions';
-import BoardTools from '../../components/BoardTools/BoardTools';
-import AgeProgress from '../../components/AgeProgress/AgeProgress';
+import AgeProgress from '../../components/AgeProgress';
 import './Board.scss';
+import './BoardTools.scss';
 import '../../styles/helpers.scss';
+import Modal from '../../components/Modal';
+import ScorePad from '../../components/ScorePad';
 
 interface StateProps {
   selectedElements: ElementsMap;
@@ -48,6 +50,7 @@ interface Props extends StateProps, DispatchProps {};
 
 const Board = (props: Props) => {
   const [ age, setAge ] = useState<Age | null>(null);
+  const [ visibleScorePad, setVisibleScorePad ] = useState<boolean>(false);
 
   useEffect(() => {
     socket.on(YOU_START, () => {
@@ -208,13 +211,14 @@ const Board = (props: Props) => {
   return (
     <div className="board" id="draggingarea" onClick={handleBoardClick}>
       <div className="board__players" />
-      <div className="board__tools">
-        <BoardTools onStart={startGame} onDealBuildings={loadBuildingCards} />
+      <div className="board__tools board-tools">
+        <button className="board-tools__tool" onClick={startGame}>Start Game</button>
+        <button className="board-tools__tool" onClick={() => setVisibleScorePad(true)}>Count Points</button>
       </div>
       <div className="board__age-progress-container">
         <AgeProgress age={age} onChange={handleChangeAge} />
       </div>
-      <div>
+      <div className="board__elements">
         <Element element={getBoardElement()}/>
         {props.militaryTokens.map((el) =>
           <Element 
@@ -280,6 +284,9 @@ const Board = (props: Props) => {
             }}
           />)}
       </div>
+      <Modal open={visibleScorePad} onClose={() => setVisibleScorePad(false)}>
+        <ScorePad />
+      </Modal>
     </div>
   )
 };
@@ -309,7 +316,6 @@ const mapDispatchToProps: DispatchProps = {
   onBringElement: (elementId: string, direction: string) => bringElement(elementId, direction),
   onSelectElement: (elementId: string, selected: boolean) => selectElement(elementId, selected),
   onUnselectElements: () => unselectElements()
-
 };
 
 export default connect(
