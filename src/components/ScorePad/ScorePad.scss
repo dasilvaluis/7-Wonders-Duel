@@ -47,15 +47,7 @@ $score-pad-width: 400px;
     }
 
     &[class*="suddendeath"] {
-      background-image: url('../../images/icon-sudden-death.png');
-
-      &Military {
-        background-image: url('../../images/icon-sudden-death.png');
-      }
-  
-      &Science {
-        background-image: url('../../images/icon-sudden-death.png');
-      }
+      background-image: url('../../images/icon-suddendeath.png');
     }
 
     &.-total {
