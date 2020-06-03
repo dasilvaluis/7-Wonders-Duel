@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
+import React, { useState } from 'react';
+import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { GameElement, DraggedData } from '../../types';
-import './Element.scss';
-import { getElementStyles } from "../../utils";
+import { getElementStyles } from '../../utils';
 import cn from 'classnames';
+import './Element.scss';
 
 interface Props {
   element: GameElement;

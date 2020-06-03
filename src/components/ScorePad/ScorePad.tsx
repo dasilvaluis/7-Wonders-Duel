@@ -1,9 +1,8 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useRef } from 'react';
 import ScorePadColumn from './ScorePadColumn';
-import socket from '../../wsClient';
+import { Player } from '../../types';
+import ScorePadClient from './ScorePadClient';
 import './ScorePad.scss';
-import { SET_SCORE, GET_SCORES, SET_SCORES } from '../../contants';
-import { Player, SetScoreAPIEvent } from '../../types';
 
 export interface PlayerScore {
   civilisation: number;
@@ -18,7 +17,7 @@ export interface PlayerScore {
   suddendeathScience: boolean;
 }
 
-interface GameScores {
+export interface GameScores {
   playerA: PlayerScore,
   playerB: PlayerScore,
 }
@@ -41,13 +40,9 @@ const initalScores: GameScores = {
   playerB: initalScore,
 };
 
-const sendScoreUpdate = (apiEvent: SetScoreAPIEvent) => {
-  socket.emit(SET_SCORE, apiEvent)
-}
-
 const scoresReducer = (state: GameScores, action) => {
   switch (action.type) {
-    case 'single_score':
+    case 'SET_UNITARY_SCORE':
       const { player, value, scoreType } = action.payload;
       const newState = { ...state };
       const playerState = { ...state[player] };
@@ -60,7 +55,7 @@ const scoresReducer = (state: GameScores, action) => {
       newState[player] = playerState;
 
       return newState;
-    case 'all_scores':
+    case 'SET_SCORES':
       return action.payload;
     default:
       break;
@@ -75,63 +70,44 @@ const scoresReducer = (state: GameScores, action) => {
 };
 
 export default () => {
+  const clientRef = useRef(null);
   const [ scores, dispatchScoreUpdate ] = useReducer(scoresReducer, initalScores);
-
-  useEffect(() => {
-    socket.emit(GET_SCORES)
-
-    socket.on(SET_SCORE, (data: SetScoreAPIEvent) => {
-      dispatchScoreUpdate({ type: 'single_score', payload: data });
-    });
-
-    socket.on(SET_SCORES, (data: GameScores) => {
-      dispatchScoreUpdate({ type: 'all_scores', payload: data });
-    });
-
-    return () => {
-      socket.off(SET_SCORES).off(SET_SCORE)
-    }
-  }, []);
-
-  useEffect(() => {
-    socket
-      .off(GET_SCORES)
-      .on(GET_SCORES, () => {
-        console.log(scores);
-        
-        socket.emit(SET_SCORES, scores);
-      });
-
-    return () => {
-      socket.off(GET_SCORES)
-    }
-  }, [ scores ]);
 
   const handleInputChange = (player: Player) => (scoreType: string, value: number) => {
     dispatchScoreUpdate({
-      type: 'single_score',
+      type: 'SET_UNITARY_SCORE',
       payload: { player, scoreType, value }
     });
-    sendScoreUpdate({ player, value, scoreType })
+
+    clientRef.current && clientRef.current.sendScoreUpdate({ player, value, scoreType });
   };
 
   return (
-    <div className="score-pad">
-      <div className="score-pad__column -heading">
-        <div className="score-pad__cell score-pad__label -civilisation" />
-        <div className="score-pad__cell score-pad__label -science" />
-        <div className="score-pad__cell score-pad__label -commerce" />
-        <div className="score-pad__cell score-pad__label -guild" />
-        <div className="score-pad__cell score-pad__label -wonder" />
-        <div className="score-pad__cell score-pad__label -progress" />
-        <div className="score-pad__cell score-pad__label -money" />
-        <div className="score-pad__cell score-pad__label -military" />
-        <div className="score-pad__cell score-pad__label -total" />
-        <div className="score-pad__cell score-pad__label -suddendeathMilitary" />
-        <div className="score-pad__cell score-pad__label -suddendeathScience" />
+    <>
+      <div className="score-pad">
+        <div className="score-pad__column -heading">
+          <div className="score-pad__cell score-pad__label -civilisation" />
+          <div className="score-pad__cell score-pad__label -science" />
+          <div className="score-pad__cell score-pad__label -commerce" />
+          <div className="score-pad__cell score-pad__label -guild" />
+          <div className="score-pad__cell score-pad__label -wonder" />
+          <div className="score-pad__cell score-pad__label -progress" />
+          <div className="score-pad__cell score-pad__label -money" />
+          <div className="score-pad__cell score-pad__label -military" />
+          <div className="score-pad__cell score-pad__label -total" />
+          <div className="score-pad__cell score-pad__label -suddendeathMilitary" />
+          <div className="score-pad__cell score-pad__label -suddendeathScience" />
+        </div>
+        <ScorePadColumn score={scores.playerA} onUpdate={handleInputChange('playerA')} />
+        <ScorePadColumn score={scores.playerB} onUpdate={handleInputChange('playerB')} />
       </div>
-      <ScorePadColumn score={scores.playerA} onUpdate={handleInputChange('playerA')} />
-      <ScorePadColumn score={scores.playerB} onUpdate={handleInputChange('playerB')} />
-    </div>
+      <ScorePadClient
+        ref={clientRef}
+        scores={scores}
+        onUpdateScore={(data) => { dispatchScoreUpdate({ type: 'SET_UNITARY_SCORE', payload: data }); }}
+        onSetScore={(data) => { dispatchScoreUpdate({ type: 'SET_SCORES', payload: data }); }}
+      />
+    </>
   )
 };
+

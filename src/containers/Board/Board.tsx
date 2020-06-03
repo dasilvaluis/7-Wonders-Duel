@@ -23,8 +23,7 @@ import AgeProgress from '../../components/AgeProgress';
 import './Board.scss';
 import './BoardTools.scss';
 import '../../styles/helpers.scss';
-import Modal from '../../components/Modal';
-import ScorePad from '../../components/ScorePad';
+import ScorePadModal from '../../components/ScorePad/ScorePadModal';
 
 interface StateProps {
   selectedElements: ElementsMap;
@@ -284,9 +283,7 @@ const Board = (props: Props) => {
             }}
           />)}
       </div>
-      <Modal open={visibleScorePad} onClose={() => setVisibleScorePad(false)}>
-        <ScorePad />
-      </Modal>
+      <ScorePadModal open={visibleScorePad} onClose={() => setVisibleScorePad(false)}/>
     </div>
   )
 };

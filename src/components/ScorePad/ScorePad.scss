@@ -5,6 +5,8 @@ $score-pad-width: 400px;
   width: $score-pad-width;
   border: 1px solid #333333;
   box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 0.75);
+  background: #f3d8ad;
+  padding: 20px;
 
   &__column {
     display: flex;
@@ -130,6 +132,17 @@ $score-pad-width: 400px;
     }
     &.-suddendeathScience {
       background-color: #008d39;
+    }
+  }
+
+  &__modal-container {
+    position: absolute;
+    z-index: 1;
+    cursor: grab;
+
+    &.-dragging {
+      cursor: grabbing;
+      box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 1);
     }
   }
 }
