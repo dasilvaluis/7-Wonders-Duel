@@ -1,17 +1,17 @@
 import {
   centerHorizontally,
-  getRowOf,
+  getRowOfCards,
   centerRow,
   getRandomElements,
   movePositions,
   flipCards,
   injectPositions,
-  getElementSize
-} from "../../utils";
-import { ELEMENT_MARGIN } from "../../contants";
-import { Coordinates, GameElement, ElementTypes } from "../../types";
-import { flattenDeep } from "../../utils";
-import { wonders } from '../../data/wonders.json';
+  getElementSize,
+  flattenDeep
+} from "../../../utils";
+import { ELEMENT_MARGIN } from "../../../contants";
+import { Coordinates, GameElement, ElementTypes } from "../../../types";
+import { wonders } from '../../../data/wonders.json';
 import { v4 as uuidv4 } from 'uuid';
 
 const moveRowVertically = (row: Array<Coordinates>, rowIndex: number) =>
@@ -22,7 +22,7 @@ const moveRowVertically = (row: Array<Coordinates>, rowIndex: number) =>
 
 export const getWonderCardsPlacement = (cardWidth: number) => {
   const rows = [4, 4].map((howMany, rowIndex) => {
-    const row = getRowOf(howMany, cardWidth);
+    const row = getRowOfCards(howMany, cardWidth);
     const rowMovedVertically = moveRowVertically(row, rowIndex);
     const rowCentered = centerRow(rowMovedVertically, howMany, cardWidth);
 
@@ -48,8 +48,7 @@ export const getWonderCards = (): Array<GameElement> => {
   const wonderCards = getShuffledCards();
   const cardsPlacement = getWonderCardsPlacement(wonderWidth);
   const cardsPlacementShifted = movePositions(cardsPlacement, {
-    x: 0, 
-    y: ELEMENT_MARGIN * 2.5 + getElementSize(ElementTypes.BOARD).height
+    y: ELEMENT_MARGIN + getElementSize(ElementTypes.BOARD).height
   });
   const cards: Array<GameElement> = flipCards(injectPositions(wonderCards, cardsPlacementShifted));
 

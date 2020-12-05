@@ -12,10 +12,10 @@ import {
 import { getElements, getElementOfType, getSelectedElements } from '../../reducers/selectors';
 import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
-import { getBuildingCards } from './buildingcards-utils';
-import { getWonderCards } from './wondercards-utils';
-import { getBoardElement, getProgressTokens, getMilitaryTokens, getConflictPawn } from './board-utils';
-import { getCoins } from './coins-utils';
+import { getBuildingCards } from './utils/buildingcards-utils';
+import { getWonderCards } from './utils/wondercards-utils';
+import { getBoardElement, getProgressTokens, getMilitaryTokens, getConflictPawn } from './utils/board-utils';
+import { getCoins } from './utils/coins-utils';
 import Element from '../../components/Element';
 import socket  from '../../wsClient';
 import { selectElement, unselectElements } from '../../actions/selected-elements-actions';
@@ -25,7 +25,7 @@ import './BoardTools.scss';
 import '../../styles/helpers.scss';
 import ScorePadModal from '../../components/ScorePad/ScorePadModal';
 
-interface StateProps {
+type StateProps = {
   selectedElements: ElementsMap;
   coins: Array<GameElement>;
   buildingCards: Array<GameElement>;
@@ -33,9 +33,9 @@ interface StateProps {
   progressTokens: Array<GameElement>;
   militaryTokens: Array<GameElement>;
   conflictPawn: GameElement | null;
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   onSetElements(elements: Array<GameElement>): void;
   onAddElements(elements: Array<GameElement>): void;
   onMoveElement(elementId: string, position: Coordinates): void;
@@ -43,9 +43,9 @@ interface DispatchProps {
   onBringElement(elementId: string, direction: string): void;
   onSelectElement(elementId: string, selected: boolean): void;
   onUnselectElements(): void;
-}
+};
 
-interface Props extends StateProps, DispatchProps {};
+type Props = StateProps & DispatchProps;
 
 const Board = (props: Props) => {
   const [ age, setAge ] = useState<Age | null>(null);
@@ -223,65 +223,53 @@ const Board = (props: Props) => {
           <Element 
             key={el.id}
             element={el}
-            onDrag={handleMoveElement}
-            elementDivProps={{
-              onMouseDown: (e) => handleMouseDown(e, el.id),
-              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
-            }}
-          />)}
+            onMove={handleMoveElement}
+            onMouseDown={(e) => handleMouseDown(e, el.id)}
+            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
+        )}
         {props.progressTokens.map((el) =>
           <Element 
             key={el.id}
             element={el}
             selected={!!props.selectedElements[el.id]}
-            onDrag={handleMoveElement}
-            elementDivProps={{
-              onMouseDown: (e) => handleMouseDown(e, el.id),
-              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
-            }}
-          />)}
+            onMove={handleMoveElement}
+            onMouseDown={(e) => handleMouseDown(e, el.id)}
+            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
+        )}
         {props.conflictPawn && 
           <Element 
             key={props.conflictPawn.id}
             element={props.conflictPawn}
-            onDrag={handleMoveElement}
-            elementDivProps={{
-              onDoubleClick: (e) => handleDoubleClickElement(e, props.conflictPawn.id)
-            }}
-          />}
+            onMove={handleMoveElement}
+            onDoubleClick={(e) => handleDoubleClickElement(e, props.conflictPawn.id)} />
+        }
         {props.buildingCards.map((el) =>
           <Element 
             key={el.id}
             element={el}
             selected={!!props.selectedElements[el.id]}
-            onDrag={handleMoveElement}
-            elementDivProps={{
-              onMouseDown: (e) => handleMouseDown(e, el.id),
-              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
-            }}
-          />)}
+            onMove={handleMoveElement}
+            onMouseDown={(e) => handleMouseDown(e, el.id)}
+            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
+        )}
         {props.wonderCards.map((el) =>
           <Element 
             key={el.id}
             element={el}
             selected={!!props.selectedElements[el.id]}
-            onDrag={handleMoveElement}
-            elementDivProps={{
-              onMouseDown: (e) => handleMouseDown(e, el.id),
-              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
-            }}
-          />)}
+            onMove={handleMoveElement}
+            onMouseDown={(e) => handleMouseDown(e, el.id)}
+            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
+        )}
         {props.coins.map((el) =>
           <Element 
             key={el.id}
             element={el}
             selected={!!props.selectedElements[el.id]}
-            onDrag={handleMoveElement}
-            elementDivProps={{
-              onMouseDown: (e) => handleMouseDown(e, el.id),
-              onDoubleClick: (e) => handleDoubleClickElement(e, el.id)
-            }}
-          />)}
+            onMove={handleMoveElement}
+            onMouseDown={(e) => handleMouseDown(e, el.id)}
+            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
+        )}
       </div>
       <ScorePadModal open={visibleScorePad} onClose={() => setVisibleScorePad(false)}/>
     </div>

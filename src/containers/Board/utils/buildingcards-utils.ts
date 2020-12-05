@@ -1,22 +1,23 @@
 import {
   centerHorizontally,
   centerRow,
-  getRowOf,
+  getRowOfCards,
   getRandomElements,
   shuffleArray,
   movePositions,
   injectPositions,
-  getElementSize
-} from "../../utils";
-import { Coordinates, GameElement, ElementTypes, Age } from "../../types";
-import { ELEMENT_MARGIN, MAX_CARDS } from "../../contants";
-import { flattenDeep, createElement } from "../../utils";
+  getElementSize,
+  flattenDeep,
+  createElement
+} from '../../../utils';
+import { Coordinates, GameElement, ElementTypes, Age } from '../../../types';
+import { ELEMENT_MARGIN, MAX_CARDS } from '../../../contants';
 import {
   buildings_i as buildingsIDb,
   buildings_ii as buildingsIIDb,
   buildings_iii as buildingsIIIDb,
   buildings_g as buildingsGDb
-} from '../../data/buildings.json';
+} from '../../../data/buildings.json';
 
 const moveRowVertically = (row: Array<Coordinates>, rowIndex: number) =>
   row.map((position) => ({
@@ -59,7 +60,7 @@ export const fixThirdAgeCards = (cards: Array<GameElement>) => {
 export const getBuildingCardsPlacement = (scheme: Array<number>) => {
   const buildingWidth = getElementSize(ElementTypes.BUILDING_CARD).width;
   const rows = scheme.map((howMany, rowIndex) => {
-    const row = getRowOf(howMany, buildingWidth);
+    const row = getRowOfCards(howMany, buildingWidth);
     const rowMovedVertically = moveRowVertically(row, rowIndex);
     const rowCentered = centerRow(rowMovedVertically, howMany, buildingWidth);
 
@@ -119,11 +120,10 @@ export const getBuildingCards = (age: Age): Array<GameElement> => {
   const scheme = getAgeScheme(age);
   const cardsPlacement = getBuildingCardsPlacement(scheme);
   const cardsPlacementShifted = movePositions(cardsPlacement, {
-    x: 0,
-    y: ELEMENT_MARGIN * 2.5 + getElementSize(ElementTypes.BOARD).height
+    y: ELEMENT_MARGIN + getElementSize(ElementTypes.BOARD).height
   });
   const shuffledCards = getShuffledCards(age);
-  const cards: Array<GameElement> = injectPositions(shuffledCards, cardsPlacementShifted);
+  const cards = injectPositions<GameElement>(shuffledCards, cardsPlacementShifted);
   const fixedCards = age === 'III' ? fixThirdAgeCards(cards) : cards;
   const flippedCards = flipBuildingCards(fixedCards, age);
 

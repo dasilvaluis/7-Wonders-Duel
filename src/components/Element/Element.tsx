@@ -5,33 +5,30 @@ import { getElementStyles } from '../../utils';
 import cn from 'classnames';
 import './Element.scss';
 
-interface Props {
+type Props = React.HTMLAttributes<HTMLDivElement> & {
   element: GameElement;
   selected?: boolean;
-  onDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
-  onStartDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
-  onStopDrag?(event: DraggableEvent, data: DraggedData, id: string): void;
-  elementDivProps?: {
-    [ key: string ]: any;
-  }
+  onMove?(event: DraggableEvent, data: DraggedData, id: string): void;
+  onStartMove?(event: DraggableEvent, data: DraggedData, id: string): void;
+  onStopMove?(event: DraggableEvent, data: DraggedData, id: string): void;
 }
 
 export default ({
   element,
-  onStartDrag,
-  onStopDrag,
-  onDrag,
+  onMove = () => {},
+  onStartMove = () => {},
+  onStopMove = () => {},
   selected,
-  elementDivProps = {}
+  ...props
 }: Props) => {
-  const [ dragging, setDragging ] = useState<boolean>(false);
+  const [ dragging, setDragging ] = useState(false);
 
   const handleStart = (
     e: DraggableEvent,
     data: DraggableData
   ) => {
     setDragging(true);
-    onStartDrag && onStartDrag(e, { ...data }, element.id);
+    onStartMove(e, { ...data }, element.id);
   };
 
   const handleStop = (
@@ -39,14 +36,14 @@ export default ({
     data: DraggableData
   ) => {
     setDragging(false);
-    onStopDrag && onStopDrag(e, { ...data }, element.id)
+    onStopMove(e, { ...data }, element.id)
   };
 
   const handleDrag = (
     e: DraggableEvent,
     data: DraggableData
   ) => {
-    onDrag && onDrag(e, { ...data }, element.id);
+    onMove(e, { ...data }, element.id);
   };
 
   const elementStyle = {
@@ -72,8 +69,7 @@ export default ({
       onDrag={handleDrag}
     >
       <div className="element-container">
-        <div
-          { ...elementDivProps }
+        <div { ...props }
           className={elementClasses}
           style={elementStyle}
         />

@@ -3,17 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_MARGIN, BOARD_WIDTH } from './contants';
 import { GameElement, ElementTypes, Coordinates } from './types';
 
-export const getRowOf = (howMany: number, cardWidth: number): Array<Coordinates> => {
-  const positions = []
+export const getRowOfCards = (howMany: number, cardWidth: number): Array<Coordinates> => {
+  const filling: Coordinates = {
+    x: (cardWidth + ELEMENT_MARGIN),
+    y: 0
+  };
 
-  for (let index = 0; index < howMany; index++) {
-    positions.push({
-      x: (cardWidth + ELEMENT_MARGIN) * index,
-      y: 0
-    });
-  }
-
-  return positions;
+  return new Array(howMany)
+    .fill(filling)
+    .map((pos, index) => ({ ...pos, x: pos.x * index}));
 };
 
 export const reverse = <T>(array: Array<T>) => [ ...array ].reverse();
@@ -27,27 +25,23 @@ export const centerRow = (row: Array<Coordinates>, cardsQuantity: number, cardWi
     x: position.x - (cardsQuantity * cardWidth + (cardsQuantity - 1) * ELEMENT_MARGIN) / 2
   }));
 
-export const centerHorizontally = (positions: Array<Coordinates>) =>
-  movePositions(positions, {
-    x: BOARD_WIDTH / 2,
-    y: 0
-  });
-
-export const movePositions = (positions: Array<Coordinates>, offset: Coordinates): Array<Coordinates> => 
+export const movePositions = (positions: Array<Coordinates>, { x = 0, y = 0 }: Partial<Coordinates>): Array<Coordinates> => 
   positions.map((position) => ({
-    x: position.x + offset.x,
-    y: position.y + offset.y
+    x: position.x + x,
+    y: position.y + y
   }));
 
-export const injectPositions = <T>(elements: Array<T>, positions: Array<Coordinates>) =>
-  elements.reduce((cards, card, index) => {
-    if (index < positions.length) {
-      const { x, y } = { x: positions[index].x, y: positions[index].y };
+export const centerHorizontally = (positions: Array<Coordinates>) => movePositions(positions, { x: BOARD_WIDTH / 2 });
 
-      return [ ...cards, { ...card, x, y } ];
+export const injectPositions = <T>(elements: Array<T>, positions: Array<Coordinates>): Array<T> =>
+  elements.reduce((acc, curr, index) => {
+    if (index < positions.length) {
+      const { x, y } = positions[index];
+
+      return [ ...acc, { ...curr, x, y } ];
     }
 
-    return cards;
+    return acc;
   }, []);
 
 export const shuffleArray = <T>(array: Array<T>) => [ ...array ].sort(() => Math.random() - 0.5);

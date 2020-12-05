@@ -1,7 +1,7 @@
-import { MAX_COINS_6, MAX_COINS_3, MAX_COINS_1, BOARD_WIDTH, ELEMENT_MARGIN } from "../../contants";
-import { ElementTypes, GameElement } from "../../types";
+import { MAX_COINS_6, MAX_COINS_3, MAX_COINS_1, BOARD_WIDTH, ELEMENT_MARGIN } from '../../../contants';
+import { ElementTypes, GameElement } from '../../../types';
 import { v4 as uuidv4 } from 'uuid';
-import { movePositions, injectPositions, getElementSize } from "../../utils";
+import { movePositions, injectPositions, getElementSize } from '../../../utils';
 
 export const getCoinElement = (value: 1 | 3 | 6): GameElement => {
   const base = {
@@ -98,18 +98,15 @@ export const getCoins = (): Array<GameElement> => {
   const coinPlacements1 = getCoinsPlacement(1);
 
   const coinPlacements6Shifted = movePositions(coinPlacements6, {
-    x: BOARD_WIDTH - (coindWidth6 * 2) - ELEMENT_MARGIN,
-    y: ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coindWidth6 * 2) - ELEMENT_MARGIN
   });
 
   const coinPlacements3Shifted = movePositions(coinPlacements3, {
-    x: BOARD_WIDTH - (coindWidth3 + coindWidth6 * 2) - ELEMENT_MARGIN,
-    y: ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coindWidth3 + coindWidth6 * 2) - ELEMENT_MARGIN
   });
 
   const coinPlacements1Shifted = movePositions(coinPlacements1, {
-    x: BOARD_WIDTH - (coindWidth1 + coindWidth3 + coindWidth6 * 2) - ELEMENT_MARGIN,
-    y: ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coindWidth1 + coindWidth3 + coindWidth6 * 2) - ELEMENT_MARGIN
   });
 
   const coins6 = injectPositions(coinElements6, coinPlacements6Shifted);

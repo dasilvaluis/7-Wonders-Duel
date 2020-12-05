@@ -3,37 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "12.16.x"
+    "node": ">12.16.x"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/express": "^4.17.3",
-    "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.1",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
-    "@types/react-redux": "^7.1.7",
-    "@types/react-router-dom": "^5.1.3",
-    "@types/socket.io": "^2.1.4",
-    "@types/socket.io-client": "^1.4.32",
     "classnames": "^2.2.6",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "path": "^0.12.7",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-draggable": "^4.2.0",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.1.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-draggable": "^4.4.3",
+    "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
     "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0",
-    "typescript": "^3.8.3",
-    "uuid": "^7.0.2"
+    "socket.io-client": "^2.3.1",
+    "typescript": "^3.9.7",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/classnames": "^2.2.11",
+    "@types/express": "^4.17.8",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^13.13.30",
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "@types/react-redux": "^7.1.11",
+    "@types/react-router-dom": "^5.1.6",
+    "@types/socket.io": "^2.1.11",
+    "@types/socket.io-client": "^1.4.34",
+    "dotenv": "^8.2.0",
+    "react-test-renderer": "^16.14.0"
   },
   "scripts": {
     "start": "PORT=3000 react-scripts start",
@@ -56,8 +60,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "react-test-renderer": "^16.13.1"
   }
 }
