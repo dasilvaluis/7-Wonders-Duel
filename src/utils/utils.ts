@@ -1,7 +1,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { ELEMENT_MARGIN, BOARD_WIDTH } from './contants';
-import { GameElement, ElementTypes, Coordinates } from './types';
+import { ELEMENT_MARGIN, BOARD_WIDTH } from '../contants';
+import { GameElement, ElementTypes, Coordinates } from '../types';
 
 export const getRowOfCards = (howMany: number, cardWidth: number): Array<Coordinates> => {
   const filling: Coordinates = {

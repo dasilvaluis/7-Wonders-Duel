@@ -1,6 +1,6 @@
 import { GameElement, ElementTypes, Coordinates } from '../../../types';
 import { tokens as tokensDb } from '../../../data/progress-tokens.json';
-import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from '../../../utils';
+import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from '../../../utils/utils';
 import { BOARD_WIDTH } from '../../../contants';
 
 const boardPosition = {

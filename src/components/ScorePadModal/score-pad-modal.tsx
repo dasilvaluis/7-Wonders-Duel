@@ -1,16 +1,16 @@
 import Modal from '../Modal';
 import React, { useState } from 'react';
-import ScorePad from './ScorePad';
+import ScorePad from './score-pad';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { Coordinates, ElementTypes } from '../../types';
 import { BOARD_WIDTH, ELEMENT_MARGIN } from '../../contants';
-import { getElementSize } from '../../utils';
+import { getElementSize } from '../../utils/utils';
 import cn from 'classnames';
 
-interface Props {
+type Props = {
   open: boolean;
   onClose(): void;
-}
+};
 
 export default ({
   open,

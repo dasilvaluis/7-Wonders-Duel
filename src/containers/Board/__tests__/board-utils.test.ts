@@ -1,5 +1,5 @@
-import { getConflictPawn, getMilitaryTokens, getProgressTokens, getBoardElement } from "../board-utils";
-import * as utils from '../../../utils';
+import { getConflictPawn, getMilitaryTokens, getProgressTokens, getBoardElement } from "../utils/board-utils";
+import * as utils from '../../../utils/utils';
 import { ElementTypes } from "../../../types";
 
 describe('board-utils', () => {

@@ -1,7 +1,7 @@
 import { MAX_COINS_6, MAX_COINS_3, MAX_COINS_1, BOARD_WIDTH, ELEMENT_MARGIN } from '../../../contants';
 import { ElementTypes, GameElement } from '../../../types';
 import { v4 as uuidv4 } from 'uuid';
-import { movePositions, injectPositions, getElementSize } from '../../../utils';
+import { movePositions, injectPositions, getElementSize } from '../../../utils/utils';
 
 export const getCoinElement = (value: 1 | 3 | 6): GameElement => {
   const base = {

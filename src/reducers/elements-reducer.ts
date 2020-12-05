@@ -1,7 +1,7 @@
 import { SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS, FLIP_ELEMENT, BRING_ELEMENT, MOVE_ELEMENT } from '../actions/types';
 import { ElementsActionType } from '../actions/elements-actions';
 import { ElementsMap } from '../types';
-import { keyBy, reverse, moveElementBackward } from '../utils';
+import { keyBy, reverse, moveElementBackward } from '../utils/utils';
 
 const initialState: ElementsMap = {};
 

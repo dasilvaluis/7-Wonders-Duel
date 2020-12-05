@@ -1,13 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
-import './Modal.scss';
+import './modal.scss';
 
-interface Props {
+type Props = {
   open: boolean;
   children: JSX.Element | Array<JSX.Element>;
   noPosition?: boolean;
   onClose(): void;
-}
+};
 
 export default ({
   open,

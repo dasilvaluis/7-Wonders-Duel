@@ -1,7 +1,7 @@
-import { getBuildingCards } from "../buildingcards-utils";
-import * as utils from '../../../utils';
+import { getBuildingCards } from "../utils/buildingcards-utils";
+import * as utils from '../../../utils/utils';
 import { ElementTypes } from "../../../types";
-import { getAgeScheme, getBuildingCardsPlacement } from "../buildingcards-utils"
+import { getAgeScheme, getBuildingCardsPlacement } from "../utils/buildingcards-utils"
 
 describe('buildingcards-utils', () => {
   describe('getBuildingCardsPlacement', () => {

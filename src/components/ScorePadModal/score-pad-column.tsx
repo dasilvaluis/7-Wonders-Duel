@@ -1,7 +1,7 @@
-import { PlayerScore } from "./ScorePad"
+import { PlayerScore } from "./score-pad"
 import React from "react"
-import ScorePadInput from "./ScorePadInput"
-import ScorePadCheckbox from "./ScorePadCheckbox"
+import ScorePadInput from "./score-pad-input"
+import ScorePadCheckbox from "./score-pad-checkbox"
 
 interface Props {
   score: PlayerScore;
@@ -21,7 +21,7 @@ export default ({
   }
 
   const total = Object.values(score).reduce((acc, curr) => 
-    typeof curr === 'number' ? acc + curr : acc, 0);
+    typeof curr === 'number' ? Number(acc) + Number(curr) : acc, 0);
 
   return (
     <div className="score-pad__column">
@@ -33,7 +33,7 @@ export default ({
       <ScorePadInput type="progress" value={score.progress} onChange={handleInputChange('progress')} />
       <ScorePadInput type="money" value={score.money} onChange={handleInputChange('money')} />
       <ScorePadInput type="military" value={score.military} onChange={handleInputChange('military')} />
-      <ScorePadInput type="total" value={total} disabled={true} />
+      <ScorePadInput type="total" value={total as number} disabled={true} />
       <ScorePadCheckbox type="suddendeathMilitary" checked={score.suddendeathMilitary} onChange={handleCheckboxChange('suddendeathMilitary')} />
       <ScorePadCheckbox type="suddendeathScience" checked={score.suddendeathScience} onChange={handleCheckboxChange('suddendeathScience')} />
     </div>

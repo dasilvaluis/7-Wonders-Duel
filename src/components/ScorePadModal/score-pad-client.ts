@@ -2,7 +2,7 @@ import { useEffect, forwardRef, useImperativeHandle } from 'react';
 import socket from '../../wsClient';
 import { SET_SCORE, GET_SCORES, SET_SCORES } from '../../contants';
 import { SetScoreAPIEvent } from '../../types';
-import { GameScores } from './ScorePad';
+import { GameScores } from './score-pad';
 
 
 interface Props {

@@ -8,9 +8,9 @@ import {
   injectPositions,
   getElementSize,
   flattenDeep
-} from "../../../utils";
-import { ELEMENT_MARGIN } from "../../../contants";
-import { Coordinates, GameElement, ElementTypes } from "../../../types";
+} from '../../../utils/utils';
+import { ELEMENT_MARGIN } from '../../../contants';
+import { Coordinates, GameElement, ElementTypes } from '../../../types';
 import { wonders } from '../../../data/wonders.json';
 import { v4 as uuidv4 } from 'uuid';
 

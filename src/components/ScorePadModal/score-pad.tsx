@@ -1,10 +1,10 @@
 import React, { useReducer, useRef } from 'react';
-import ScorePadColumn from './ScorePadColumn';
+import ScorePadColumn from './score-pad-column';
 import { Player } from '../../types';
-import ScorePadClient from './ScorePadClient';
+import ScorePadClient from './score-pad-client';
 import './ScorePad.scss';
 
-export interface PlayerScore {
+export type PlayerScore = {
   civilisation: number;
   science: number;
   commerce: number;
@@ -15,12 +15,12 @@ export interface PlayerScore {
   military: number;
   suddendeathMilitary: boolean;
   suddendeathScience: boolean;
-}
+};
 
-export interface GameScores {
+export type GameScores = {
   playerA: PlayerScore,
   playerB: PlayerScore,
-}
+};
 
 const initalScore: PlayerScore = {
   civilisation: 0,

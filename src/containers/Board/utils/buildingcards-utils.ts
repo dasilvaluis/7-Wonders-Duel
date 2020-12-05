@@ -9,7 +9,7 @@ import {
   getElementSize,
   flattenDeep,
   createElement
-} from '../../../utils';
+} from '../../../utils/utils';
 import { Coordinates, GameElement, ElementTypes, Age } from '../../../types';
 import { ELEMENT_MARGIN, MAX_CARDS } from '../../../contants';
 import {
