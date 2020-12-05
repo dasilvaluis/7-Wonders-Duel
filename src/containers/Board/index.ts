@@ -1,3 +1,3 @@
-import Board from './xoard'
+import Board from './board'
 
 export default Board;
