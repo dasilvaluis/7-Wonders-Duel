@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { connect } from 'react-redux';
 import { DraggableEvent } from 'react-draggable';
 import {
-  SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT, SET_AGE, GET_STATE, SET_STATE, YOU_START
-} from '../../contants';
-import {
-  Coordinates, GameElement, ElementTypes, Age, MoveElementAPIEvent, FlipElementAPIEvent, 
-  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent, DraggedData, ElementsMap,
-  SetAgeAPIEvent, SetStateAPIEvent
+  Coordinates, GameElement, ElementTypes, Age, DraggedData, ElementsMap
 } from '../../types';
-import { getElements, getElementOfType, getSelectedElements } from '../../reducers/selectors';
+import { getElements, getSelectedElements } from '../../reducers/selectors';
 import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
 import { AppState } from '../../reducers/reducers';
-import { getBuildingCards } from './utils/buildingcards-utils';
-import { getWonderCards } from './utils/wondercards-utils';
-import { getBoardElement, getProgressTokens, getMilitaryTokens, getConflictPawn } from './utils/board-utils';
-import { getCoins } from './utils/coins-utils';
+import { generateBuildingCards } from '../../utils/buildingcards-utils';
+import { generateBoardElement } from '../../utils/board-utils';
 import Element from '../../components/Element';
-import socket  from '../../wsClient';
 import { selectElement, unselectElements } from '../../actions/selected-elements-actions';
 import AgeProgress from '../../components/AgeProgress';
+import ScorePadModal from '../../components/ScorePadModal';
+import { WebSocketContext } from '../WebSocketProvider/websocket-provider';
 import './board.scss';
 import './board-tools.scss';
 import '../../styles/helpers.scss';
-import ScorePadModal from '../../components/ScorePadModal';
 
 type StateProps = {
   selectedElements: ElementsMap;
@@ -48,77 +41,8 @@ type DispatchProps = {
 type Props = StateProps & DispatchProps;
 
 const Board = (props: Props) => {
-  const [ age, setAge ] = useState<Age | null>(null);
   const [ visibleScorePad, setVisibleScorePad ] = useState<boolean>(false);
-
-  useEffect(() => {
-    socket.on(YOU_START, () => {
-      startGame();
-    });
-
-    socket.on(SET_STATE, (data: SetStateAPIEvent) => {
-      props.onSetElements(data.elements);
-      setAge(data.age);
-    });
-    
-    socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
-      props.onSetElements(data);
-    });
-
-    socket.on(MOVE_ELEMENT, (data: MoveElementAPIEvent) => {
-      const { elementsIds, delta } = data;
-
-      elementsIds.forEach((id) => {
-        props.onMoveElement(id, delta);
-      });
-    });
-
-    socket.on(ADD_ELEMENTS, (data: AddElementsAPIEvent) => {
-      props.onAddElements(data);
-    });
-
-    socket.on(FLIP_ELEMENT, (data: FlipElementAPIEvent) => {
-      props.onFlipElement(data.elementId);
-    });
-
-    socket.on(BRING_ELEMENT, (data: BringElementAPIEvent) => {
-      props.onBringElement(data.elementId, data.direction);
-    });
-    
-    socket.on(SET_AGE, (data: SetAgeAPIEvent) => {
-      setAge(data.age);
-    });
-  }, []);
-  
-  useEffect(() => {
-    const elements: Array<GameElement> = [
-      ...props.coins,
-      ...props.buildingCards,
-      ...props.wonderCards,
-      ...props.progressTokens,
-      ...props.militaryTokens
-    ];
-
-    if (props.conflictPawn !== null) {
-      elements.push(props.conflictPawn);
-    }
-
-    const eventPayload: SetStateAPIEvent = { elements, age };
-
-    socket
-      .off(GET_STATE)
-      .on(GET_STATE, () => {
-        socket.emit(SET_STATE, eventPayload);
-      });
-  }, [
-    props.coins,
-    props.buildingCards,
-    props.wonderCards,
-    props.progressTokens,
-    props.militaryTokens,
-    props.conflictPawn,
-    age
-  ]);
+  const wsContext = useContext(WebSocketContext);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
     const isSelected = !!props.selectedElements[elementId];
@@ -130,155 +54,118 @@ const Board = (props: Props) => {
     }
   };
 
-  const handleMoveElement = (event: DraggableEvent, data: DraggedData, elementId: string) => {
+  const handleMoveElement = (_event: DraggableEvent, data: DraggedData, elementId: string) => {
     const delta = {
       x: data.deltaX,
       y: data.deltaY
     };
 
-    const elementsIds = !!props.selectedElements[elementId] ? Object.keys(props.selectedElements) : [ elementId ];
-    const apiEvent: MoveElementAPIEvent = { elementsIds, delta };
+    const elementsIds = !!props.selectedElements[elementId]
+      ? Object.keys(props.selectedElements)
+      : [ elementId ];
 
-    socket.emit(MOVE_ELEMENT, apiEvent);
+    wsContext?.moveElement(elementsIds, delta);
     elementsIds.forEach((id) => {
       props.onMoveElement(id, delta);
     });
   };
 
-  const handleDoubleClickElement = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
+  const handleDoubleClickElement = (e: React.MouseEvent, elementId: string) => {
     if (e.shiftKey) {
       const direction = e.getModifierState('CapsLock') 
         ? !e.altKey ? 'forward' : 'backward'
         : !e.altKey ? 'front' : 'back';
-      const apiEvent: BringElementAPIEvent = { elementId, direction };
-  
-      socket.emit(BRING_ELEMENT, apiEvent);
-      props.onBringElement(elementId, direction);
-    } else {
-      const apiEvent: FlipElementAPIEvent = { elementId };
 
-      socket.emit(FLIP_ELEMENT, apiEvent);
+      props.onBringElement(elementId, direction);
+      wsContext?.bringElement(elementId, direction);
+    } else {
       props.onFlipElement(elementId);
+      wsContext?.flipElement(elementId)
     }
 
     props.onUnselectElements();
   };
 
-  const handleBoardClick = (e: any) => {
-    if (!e.target.classList.contains('element')) {
+  const handleBoardClick = ({ target }: React.MouseEvent) => {
+    if (!(target as Element).classList.contains('element')) {
       props.onUnselectElements();
     }
   };
 
-  const loadBuildingCards = (age: Age) => {
-    const cards = getBuildingCards(age);
-    const apiEvent: AddElementsAPIEvent = cards;
+  const handleChangeAge = (age: Age) => {
+    const cards = generateBuildingCards(age);
 
-    socket.emit(ADD_ELEMENTS, apiEvent);
+    wsContext?.changeAge(age);
+    wsContext?.addElements(cards);
     props.onAddElements(cards);
-  };
-
-  const startGame = () => {
-    const progressTokens = getProgressTokens();
-    const militaryTokens = getMilitaryTokens();
-    const conflictPawn = getConflictPawn();
-    const coins = getCoins();
-    const wonders = getWonderCards();
-
-    const initialElements = [
-      ...progressTokens,
-      ...militaryTokens,
-      ...coins,
-      ...wonders,
-      conflictPawn
-    ];
-
-    const apiEvent: SetElementsAPIEvent = initialElements;
-
-    socket.emit(SET_ELEMENTS, apiEvent);
-    props.onSetElements(initialElements);
-    setAge(null);
-    socket.emit(SET_AGE, { age: null });
   }
 
-  const handleChangeAge = (age: Age) => {
-    socket.emit(SET_AGE, { age });
-    setAge(age);
-    loadBuildingCards(age);
-  };
-  
   return (
-    <div className="board" id="draggingarea" onClick={handleBoardClick}>
+    <div id="draggingarea" className="board" onClick={ handleBoardClick }>
       <div className="board__players" />
       <div className="board-tools">
-        <button className="board-tools__button" onClick={startGame}>Start Game</button>
-        <button className="board-tools__button" onClick={() => setVisibleScorePad(true)}>Count Points</button>
+        <button className="board-tools__button" onClick={ wsContext?.startGame }>Start Game</button>
+        <button className="board-tools__button" onClick={ () => setVisibleScorePad(true) }>Count Points</button>
       </div>
       <div className="board__age-progress-container">
-        <AgeProgress age={age} onChange={handleChangeAge} />
+        <AgeProgress age={ wsContext?.age } onChange={ handleChangeAge } />
       </div>
       <div className="board__elements">
-        <Element element={getBoardElement()}/>
-        {props.militaryTokens.map((el) =>
-          <Element 
-            key={el.id}
-            element={el}
-            onMove={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
-        )}
-        {props.progressTokens.map((el) =>
-          <Element 
-            key={el.id}
-            element={el}
-            selected={!!props.selectedElements[el.id]}
-            onMove={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
-        )}
-        {props.conflictPawn && 
-          <Element 
-            key={props.conflictPawn.id}
-            element={props.conflictPawn}
-            onMove={handleMoveElement}
-            onDoubleClick={(e) => handleDoubleClickElement(e, props.conflictPawn.id)} />
+        <Element element={ generateBoardElement() }/>
+        { props.militaryTokens.map((el) =>
+          <Element key={ el.id }
+            element={ el }
+            onMove={ handleMoveElement }
+            onMouseDown={ (e) => handleMouseDown(e, el.id) }
+            onDoubleClick={ (e) => handleDoubleClickElement(e, el.id) } />
+        ) }
+        { props.progressTokens.map((el) =>
+          <Element key={ el.id }
+            element={ el }
+            selected={ !!props.selectedElements[el.id] }
+            onMove={ handleMoveElement }
+            onMouseDown={ (e) => handleMouseDown(e, el.id) }
+            onDoubleClick={ (e) => handleDoubleClickElement(e, el.id) } />
+        ) }
+        { props.conflictPawn && 
+          <Element key={props.conflictPawn.id}
+            element={ props.conflictPawn }
+            onMove={ handleMoveElement }
+            onDoubleClick={ (e) => handleDoubleClickElement(e, props.conflictPawn.id) } />
         }
-        {props.buildingCards.map((el) =>
-          <Element 
-            key={el.id}
-            element={el}
-            selected={!!props.selectedElements[el.id]}
-            onMove={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
-        )}
-        {props.wonderCards.map((el) =>
-          <Element 
-            key={el.id}
-            element={el}
-            selected={!!props.selectedElements[el.id]}
-            onMove={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
-        )}
-        {props.coins.map((el) =>
-          <Element 
-            key={el.id}
-            element={el}
-            selected={!!props.selectedElements[el.id]}
-            onMove={handleMoveElement}
-            onMouseDown={(e) => handleMouseDown(e, el.id)}
-            onDoubleClick={(e) => handleDoubleClickElement(e, el.id)} />
-        )}
+        { props.buildingCards.map((el) =>
+          <Element key={ el.id }
+            element={ el }
+            selected={ !!props.selectedElements[el.id] }
+            onMove={ handleMoveElement }
+            onMouseDown={ (e) => handleMouseDown(e, el.id) }
+            onDoubleClick={ (e) => handleDoubleClickElement(e, el.id) } />
+        ) }
+        { props.wonderCards.map((el) =>
+          <Element key={ el.id }
+            element={ el }
+            selected={ !!props.selectedElements[el.id] }
+            onMove={ handleMoveElement }
+            onMouseDown={ (e) => handleMouseDown(e, el.id) }
+            onDoubleClick={ (e) => handleDoubleClickElement(e, el.id) } />
+        ) }
+        { props.coins.map((el) =>
+          <Element key={ el.id }
+            element={ el }
+            selected={ !!props.selectedElements[el.id] }
+            onMove={ handleMoveElement }
+            onMouseDown={ (e) => handleMouseDown(e, el.id) }
+            onDoubleClick={ (e) => handleDoubleClickElement(e, el.id) } />
+        ) }
       </div>
-      <ScorePadModal open={visibleScorePad} onClose={() => setVisibleScorePad(false)}/>
+      <ScorePadModal open={ visibleScorePad } onClose={ () => setVisibleScorePad(false) } />
     </div>
   )
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
   selectedElements: getSelectedElements(state),
-  conflictPawn: getElementOfType(state, ElementTypes.CONFLICT_PAWN) || null,
+  conflictPawn: getElements(state, ElementTypes.CONFLICT_PAWN)[0],
   coins: [ 
     ...getElements(state, ElementTypes.COIN_6),
     ...getElements(state, ElementTypes.COIN_3),

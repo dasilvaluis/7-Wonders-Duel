@@ -1,5 +1,8 @@
-import { SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS, FLIP_ELEMENT, BRING_ELEMENT, MOVE_ELEMENT } from "./types";
-import { Coordinates, GameElement } from "../types";
+import {
+  SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS,
+  FLIP_ELEMENT, BRING_ELEMENT, MOVE_ELEMENT
+} from './types';
+import { Coordinates, GameElement } from '../types';
 
 interface SetElementsAction {
   payload: Array<GameElement>;

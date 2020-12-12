@@ -1,7 +1,7 @@
-import { PlayerScore } from "./score-pad"
-import React from "react"
-import ScorePadInput from "./score-pad-input"
-import ScorePadCheckbox from "./score-pad-checkbox"
+import { PlayerScore } from './score-pad';
+import React from 'react';
+import ScorePadInput from './score-pad-input';
+import ScorePadCheckbox from './score-pad-checkbox';
 
 interface Props {
   score: PlayerScore;

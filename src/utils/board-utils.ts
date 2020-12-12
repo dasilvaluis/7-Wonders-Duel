@@ -1,14 +1,14 @@
-import { GameElement, ElementTypes, Coordinates } from '../../../types';
-import { tokens as tokensDb } from '../../../data/progress-tokens.json';
-import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from '../../../utils/utils';
-import { BOARD_WIDTH } from '../../../contants';
+import { GameElement, ElementTypes, Coordinates } from '../types';
+import { tokens as tokensDb } from '../data/progress-tokens.json';
+import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from './utils';
+import { BOARD_WIDTH } from '../contants';
 
 const boardPosition = {
   x: (BOARD_WIDTH - getElementSize(ElementTypes.BOARD).width) / 2,
   y: 0,
 };
 
-export const getBoardElement = (): GameElement => ({
+export const generateBoardElement = (): GameElement => ({
   ...boardPosition,
   id: 'board',
   type: ElementTypes.BOARD,
@@ -107,7 +107,7 @@ export const getMilitaryTokens = (): Array<GameElement> => {
   return tokens;
 };
 
-export const getConflictPawn = (): GameElement => {
+export const generateConflictPawn = (): GameElement => {
   const { width: pawnWidth, height: pawnHeight } = getElementSize(ElementTypes.CONFLICT_PAWN);
   const boardWidth  = getElementSize(ElementTypes.BOARD).width;
 

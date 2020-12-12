@@ -1,4 +1,4 @@
-import { SELECT_ELEMENT, UNSELECT_ELEMENTS } from "./types";
+import { SELECT_ELEMENT, UNSELECT_ELEMENTS } from './types';
 
 interface SelectElementAction {
   payload: {

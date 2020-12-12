@@ -1,7 +1,7 @@
-import { MAX_COINS_6, MAX_COINS_3, MAX_COINS_1, BOARD_WIDTH, ELEMENT_MARGIN } from '../../../contants';
-import { ElementTypes, GameElement } from '../../../types';
+import { MAX_COINS_6, MAX_COINS_3, MAX_COINS_1, BOARD_WIDTH, ELEMENT_MARGIN } from '../contants';
+import { ElementTypes, GameElement } from '../types';
 import { v4 as uuidv4 } from 'uuid';
-import { movePositions, injectPositions, getElementSize } from '../../../utils/utils';
+import { movePositions, injectPositions, getElementSize } from './utils';
 
 export const getCoinElement = (value: 1 | 3 | 6): GameElement => {
   const base = {
@@ -84,7 +84,7 @@ export const getCoinsPlacement = (value: 1 | 3 | 6) => {
   return getRandomPositions(variation, maxCoins);
 };
 
-export const getCoins = (): Array<GameElement> => {
+export const generateCoins = (): Array<GameElement> => {
   const coindWidth6 = getElementSize(ElementTypes.COIN_6).width;
   const coindWidth3 = getElementSize(ElementTypes.COIN_3).width;
   const coindWidth1 = getElementSize(ElementTypes.COIN_1).width;

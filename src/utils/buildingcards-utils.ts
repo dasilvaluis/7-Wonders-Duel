@@ -9,15 +9,15 @@ import {
   getElementSize,
   flattenDeep,
   createElement
-} from '../../../utils/utils';
-import { Coordinates, GameElement, ElementTypes, Age } from '../../../types';
-import { ELEMENT_MARGIN, MAX_CARDS } from '../../../contants';
+} from './utils';
+import { Coordinates, GameElement, ElementTypes, Age } from '../types';
+import { ELEMENT_MARGIN, MAX_CARDS } from '../contants';
 import {
   buildings_i as buildingsIDb,
   buildings_ii as buildingsIIDb,
   buildings_iii as buildingsIIIDb,
   buildings_g as buildingsGDb
-} from '../../../data/buildings.json';
+} from '../data/buildings.json';
 
 const moveRowVertically = (row: Array<Coordinates>, rowIndex: number) =>
   row.map((position) => ({
@@ -116,7 +116,7 @@ export const flipBuildingCards = (cards: Array<GameElement>, age: Age) =>
     }
   });
 
-export const getBuildingCards = (age: Age): Array<GameElement> => {
+export const generateBuildingCards = (age: Age): Array<GameElement> => {
   const scheme = getAgeScheme(age);
   const cardsPlacement = getBuildingCardsPlacement(scheme);
   const cardsPlacementShifted = movePositions(cardsPlacement, {

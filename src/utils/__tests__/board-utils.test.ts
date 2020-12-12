@@ -1,6 +1,6 @@
-import { getConflictPawn, getMilitaryTokens, getProgressTokens, getBoardElement } from "../utils/board-utils";
-import * as utils from '../../../utils/utils';
-import { ElementTypes } from "../../../types";
+import { generateConflictPawn, getMilitaryTokens, getProgressTokens, generateBoardElement } from '../board-utils';
+import * as utils from '../utils';
+import { ElementTypes } from '../../types';
 
 describe('board-utils', () => {
   beforeAll(() => {
@@ -23,7 +23,7 @@ describe('board-utils', () => {
 
   describe('getConflictPawn', () => {
     it('matches snapshot', () => {
-      expect(getConflictPawn()).toMatchSnapshot();
+      expect(generateConflictPawn()).toMatchSnapshot();
     });
   });
 
@@ -45,7 +45,7 @@ describe('board-utils', () => {
 
   describe('getBoardElement', () => {
     it('matches snapshot', () => {
-      expect(getBoardElement()).toMatchSnapshot();
+      expect(generateBoardElement()).toMatchSnapshot();
     });
   });
 });

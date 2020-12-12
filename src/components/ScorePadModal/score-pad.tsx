@@ -2,7 +2,7 @@ import React, { useReducer, useRef } from 'react';
 import ScorePadColumn from './score-pad-column';
 import { Player } from '../../types';
 import ScorePadClient from './score-pad-client';
-import './ScorePad.scss';
+import './score-pad.scss';
 
 export type PlayerScore = {
   civilisation: number;

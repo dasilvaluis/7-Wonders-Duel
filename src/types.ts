@@ -28,7 +28,7 @@ export interface DraggedData extends Coordinates {
   deltaY: number;
 }
 
-export interface GameElement extends Coordinates {
+export type GameElement = Coordinates & {
   id: string;
   type: ElementTypes;
   faceDown: boolean;
@@ -38,35 +38,35 @@ export interface GameElement extends Coordinates {
 
 export type Player = 'playerA' | 'playerB';
 
-export interface MoveElementAPIEvent {
+export type MoveElementAPIEvent = {
   elementsIds: Array<string>;
   delta: Coordinates;
-}
+};
 
-export interface FlipElementAPIEvent {
+export type FlipElementAPIEvent = {
   elementId: string;
-}
+};
 
-export interface BringElementAPIEvent {
+export type BringElementAPIEvent = {
   elementId: string;
   direction: string;
-}
+};
 
-export interface SetAgeAPIEvent {
+export type SetAgeAPIEvent = {
   age: Age | null;
-}
+};
 
-export interface SetStateAPIEvent {
+export type SetStateAPIEvent = {
   elements: Array<GameElement>;
   age: Age | null;
-}
+};
 
-export interface SetElementsAPIEvent extends Array<GameElement> {}
+export type SetElementsAPIEvent = Array<GameElement>;
 
-export interface AddElementsAPIEvent extends Array<GameElement> {}
+export type AddElementsAPIEvent = Array<GameElement>;
 
-export interface SetScoreAPIEvent {
+export type SetScoreAPIEvent = {
   player: Player,
   value: number,
   scoreType: string
-}
+};

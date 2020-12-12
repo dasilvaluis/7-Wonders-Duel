@@ -1,7 +1,7 @@
-import { getBuildingCards } from "../utils/buildingcards-utils";
-import * as utils from '../../../utils/utils';
-import { ElementTypes } from "../../../types";
-import { getAgeScheme, getBuildingCardsPlacement } from "../utils/buildingcards-utils"
+import { generateBuildingCards } from '../buildingcards-utils';
+import * as utils from '../utils';
+import { ElementTypes } from '../../types';
+import { getAgeScheme, getBuildingCardsPlacement } from '../buildingcards-utils';
 
 describe('buildingcards-utils', () => {
   describe('getBuildingCardsPlacement', () => {
@@ -46,9 +46,9 @@ describe('buildingcards-utils', () => {
     });
     
     it('matches snapshot', () => {
-        expect(getBuildingCards('I')).toMatchSnapshot();
-        expect(getBuildingCards('II')).toMatchSnapshot();
-        expect(getBuildingCards('III')).toMatchSnapshot();
+        expect(generateBuildingCards('I')).toMatchSnapshot();
+        expect(generateBuildingCards('II')).toMatchSnapshot();
+        expect(generateBuildingCards('III')).toMatchSnapshot();
     });
   });
 });

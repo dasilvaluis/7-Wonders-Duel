@@ -63,15 +63,15 @@ export default ({
   return (
     <Draggable 
       bounds="#draggingarea"
-      position={{x: element.x, y: element.y}}
-      onStart={handleStart}
-      onStop={handleStop}
-      onDrag={handleDrag}
+      position={ {x: element.x, y: element.y} }
+      onStart={ handleStart }
+      onStop={ handleStop }
+      onDrag={ handleDrag }
     >
       <div className="element-container">
         <div { ...props }
-          className={elementClasses}
-          style={elementStyle}
+          className={ elementClasses }
+          style={ elementStyle }
         />
       </div>
     </Draggable>
