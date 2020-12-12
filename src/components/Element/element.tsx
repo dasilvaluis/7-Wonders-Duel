@@ -3,7 +3,7 @@ import cn from 'classnames';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { GameElement, DraggedData } from '../../types';
 import { getElementStyles } from '../../utils/utils';
-import './element-lowercase.scss';
+import './element.scss';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   element: GameElement;

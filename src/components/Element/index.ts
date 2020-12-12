@@ -1,3 +1,3 @@
-import Element from './element-lowercase'
+import Element from './element'
 
 export default Element;

@@ -14,7 +14,7 @@ import { selectElement, unselectElements } from '../../actions/selected-elements
 import AgeProgress from '../../components/AgeProgress';
 import ScorePadModal from '../../components/ScorePadModal';
 import { WebSocketContext } from '../WebSocketProvider/websocket-provider';
-import './board-lowercase.scss';
+import './board.scss';
 import './board-tools.scss';
 import '../../styles/helpers.scss';
 

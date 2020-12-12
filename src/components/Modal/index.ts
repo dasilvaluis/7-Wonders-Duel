@@ -1,3 +1,3 @@
-import Modal from './modal-lowercase'
+import Modal from './modal'
 
 export default Modal;

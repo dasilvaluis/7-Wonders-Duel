@@ -1,3 +1,3 @@
-import Board from './board-lowercase'
+import Board from './board'
 
 export default Board;
