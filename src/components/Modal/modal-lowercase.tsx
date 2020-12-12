@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import './modal.scss';
+import './modal-lowercase.scss';
 
 type Props = {
   open: boolean;

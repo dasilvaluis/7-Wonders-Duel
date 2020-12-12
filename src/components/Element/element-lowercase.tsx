@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { GameElement, DraggedData } from '../../types';
 import { getElementStyles } from '../../utils/utils';
-import cn from 'classnames';
-import './element.scss';
+import './element-lowercase.scss';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   element: GameElement;
