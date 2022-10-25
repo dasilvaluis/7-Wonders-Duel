@@ -5,6 +5,6 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 99
-    target-branch: main
+    target-branch: master
     labels:
       - dependencies
