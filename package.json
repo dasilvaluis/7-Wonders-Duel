@@ -43,7 +43,7 @@
     "@types/react-router-dom": "5.3.3",
     "@types/socket.io": "2.1.11",
     "@types/socket.io-client": "1.4.34",
-    "dotenv": "16.0.3",
+    "dotenv": "16.3.1",
     "react-test-renderer": "16.14.0"
   },
   "eslintConfig": {
