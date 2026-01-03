@@ -18,8 +18,8 @@ export type PlayerScore = {
 };
 
 export type GameScores = {
-  playerA: PlayerScore,
-  playerB: PlayerScore,
+  playerA: PlayerScore;
+  playerB: PlayerScore;
 };
 
 const initialScore: PlayerScore = {
@@ -32,7 +32,7 @@ const initialScore: PlayerScore = {
   money: 0,
   military: 0,
   suddenDeathMilitary: false,
-  suddenDeathScience: false
+  suddenDeathScience: false,
 };
 
 const initialScores: GameScores = {
@@ -48,9 +48,7 @@ const scoresReducer = (state: GameScores, action: any) => {
       const playerState = { ...state[player] };
 
       playerState[scoreType] =
-        scoreType === 'suddenDeathMilitary' || scoreType === 'suddenDeathScience'
-          ? !!value
-          : value
+        scoreType === 'suddenDeathMilitary' || scoreType === 'suddenDeathScience' ? !!value : value;
 
       newState[player] = playerState;
 
@@ -71,12 +69,12 @@ const scoresReducer = (state: GameScores, action: any) => {
 
 export default () => {
   const clientRef = useRef<ComponentRef<typeof ScorePadClient>>(null);
-  const [ scores, dispatchScoreUpdate ] = useReducer(scoresReducer, initialScores);
+  const [scores, dispatchScoreUpdate] = useReducer(scoresReducer, initialScores);
 
   const handleInputChange = (player: Player) => (scoreType: string, value: number) => {
     dispatchScoreUpdate({
       type: 'SET_UNITARY_SCORE',
-      payload: { player, scoreType, value }
+      payload: { player, scoreType, value },
     });
 
     clientRef.current?.sendScoreUpdate({ player, value, scoreType });
@@ -104,9 +102,13 @@ export default () => {
       <ScorePadClient
         ref={clientRef}
         scores={scores}
-        onUpdateScore={(data) => { dispatchScoreUpdate({ type: 'SET_UNITARY_SCORE', payload: data }); }}
-        onSetScore={(data) => { dispatchScoreUpdate({ type: 'SET_SCORES', payload: data }); }}
+        onUpdateScore={(data) => {
+          dispatchScoreUpdate({ type: 'SET_UNITARY_SCORE', payload: data });
+        }}
+        onSetScore={(data) => {
+          dispatchScoreUpdate({ type: 'SET_SCORES', payload: data });
+        }}
       />
     </>
-  )
+  );
 };

@@ -11,7 +11,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   onMove?(event: DraggableEvent, data: DraggedData, id: string): void;
   onStartMove?(event: DraggableEvent, data: DraggedData, id: string): void;
   onStopMove?(event: DraggableEvent, data: DraggedData, id: string): void;
-}
+};
 
 const getImageUrl = (imageFile: string) => `url(/images/${imageFile})`;
 
@@ -23,59 +23,49 @@ export default ({
   selected,
   ...props
 }: Props) => {
-  const [ dragging, setDragging ] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
-  const handleStart = (
-    e: DraggableEvent,
-    data: DraggableData
-  ) => {
+  const handleStart = (e: DraggableEvent, data: DraggableData) => {
     setDragging(true);
     onStartMove(e, { ...data }, element.id);
   };
 
-  const handleStop = (
-    e: DraggableEvent,
-    data: DraggableData
-  ) => {
+  const handleStop = (e: DraggableEvent, data: DraggableData) => {
     setDragging(false);
-    onStopMove(e, { ...data }, element.id)
+    onStopMove(e, { ...data }, element.id);
   };
 
-  const handleDrag = (
-    e: DraggableEvent,
-    data: DraggableData
-  ) => {
+  const handleDrag = (e: DraggableEvent, data: DraggableData) => {
     onMove(e, { ...data }, element.id);
   };
-
 
   const elementStyle = {
     ...getElementStyles(element.type),
     backgroundImage: !element.faceDown
-      ? element.imageFile ? getImageUrl(element.imageFile) : ''
-      : element.imageFileBackface ? getImageUrl(element.imageFileBackface) : ''
-  }
+      ? element.imageFile
+        ? getImageUrl(element.imageFile)
+        : ''
+      : element.imageFileBackface
+        ? getImageUrl(element.imageFileBackface)
+        : '',
+  };
 
   const elementClasses = cn(
     'element',
-    `-${ element.type }`,
+    `-${element.type}`,
     { '-dragging': dragging },
-    { '-selected': selected }
+    { '-selected': selected },
   );
 
   return (
-    <Draggable 
+    <Draggable
       bounds="#draggingarea"
-      position={ {x: element.x, y: element.y} }
-      onStart={ handleStart }
-      onStop={ handleStop }
-      onDrag={ handleDrag }
-    >
+      position={{ x: element.x, y: element.y }}
+      onStart={handleStart}
+      onStop={handleStop}
+      onDrag={handleDrag}>
       <div className="element-container">
-        <div { ...props }
-          className={ elementClasses }
-          style={ elementStyle }
-        />
+        <div {...props} className={elementClasses} style={elementStyle} />
       </div>
     </Draggable>
   );

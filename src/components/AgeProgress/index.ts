@@ -1,3 +1,3 @@
-import AgeProgress from './age-progress'
+import AgeProgress from './age-progress';
 
 export default AgeProgress;

@@ -5,26 +5,29 @@ import ScorePadInput from './score-pad-input';
 type Props = {
   score: PlayerScore;
   onUpdate(type: string, value: number | boolean): void;
-}
+};
 
-export default ({
-  score,
-  onUpdate
-}: Props) => {
+export default ({ score, onUpdate }: Props) => {
   const handleInputChange = (type: string) => (value: number) => {
     onUpdate(type, value);
-  }
+  };
 
   const handleCheckboxChange = (type: string) => (checked: boolean) => {
     onUpdate(type, Number(checked));
-  }
+  };
 
-  const total = Object.values(score).reduce((acc, curr) => 
-    typeof curr === 'number' ? Number(acc) + Number(curr) : acc, 0);
+  const total = Object.values(score).reduce(
+    (acc, curr) => (typeof curr === 'number' ? Number(acc) + Number(curr) : acc),
+    0,
+  );
 
   return (
     <div className="score-pad__column">
-      <ScorePadInput type="civilization" value={score.civilization} onChange={handleInputChange('civilization')} />
+      <ScorePadInput
+        type="civilization"
+        value={score.civilization}
+        onChange={handleInputChange('civilization')}
+      />
       <ScorePadInput type="science" value={score.science} onChange={handleInputChange('science')} />
       <ScorePadInput type="commerce" value={score.commerce} onChange={handleInputChange('commerce')} />
       <ScorePadInput type="guild" value={score.guild} onChange={handleInputChange('guild')} />
@@ -33,8 +36,16 @@ export default ({
       <ScorePadInput type="money" value={score.money} onChange={handleInputChange('money')} />
       <ScorePadInput type="military" value={score.military} onChange={handleInputChange('military')} />
       <ScorePadInput type="total" value={total as number} disabled={true} />
-      <ScorePadCheckbox type="suddenDeathMilitary" checked={score.suddenDeathMilitary} onChange={handleCheckboxChange('suddenDeathMilitary')} />
-      <ScorePadCheckbox type="suddenDeathScience" checked={score.suddenDeathScience} onChange={handleCheckboxChange('suddenDeathScience')} />
+      <ScorePadCheckbox
+        type="suddenDeathMilitary"
+        checked={score.suddenDeathMilitary}
+        onChange={handleCheckboxChange('suddenDeathMilitary')}
+      />
+      <ScorePadCheckbox
+        type="suddenDeathScience"
+        checked={score.suddenDeathScience}
+        onChange={handleCheckboxChange('suddenDeathScience')}
+      />
     </div>
-  )
-}
+  );
+};

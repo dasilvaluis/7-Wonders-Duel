@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,md,html,yml}'"
   },
   "dependencies": {
     "classnames": "2.5.1",
@@ -44,6 +45,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "29",
     "jest-environment-jsdom": "^30.2.0",
+    "prettier": "3.7.4",
     "react-test-renderer": "16.14.0",
     "sass": "1.97.1",
     "ts-jest": "^29.4.6",

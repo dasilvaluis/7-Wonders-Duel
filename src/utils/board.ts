@@ -14,7 +14,7 @@ export const generateBoardElement = (): GameElement => ({
   type: GameElements.BOARD,
   faceDown: false,
   imageFile: 'board.png',
-  imageFileBackface: 'board.png'
+  imageFileBackface: 'board.png',
 });
 
 export const getProgressTokens = (): Array<GameElement> => {
@@ -28,27 +28,27 @@ export const getProgressTokens = (): Array<GameElement> => {
 
   const boardTokensPlacement = boardTokens.map((el, index) => ({
     x: (tokenWidth + 5 * tokenScale) * index,
-    y: 0
+    y: 0,
   }));
 
-  const placedBoardTokens: Array<GameElement> = boardTokens.map((token , index) => ({
+  const placedBoardTokens: Array<GameElement> = boardTokens.map((token, index) => ({
     ...createElement(GameElements.PROGRESS_TOKEN),
     x: boardPosition.x + 95 * boardScale + boardTokensPlacement[index].x,
     y: boardPosition.y + 3.75 * boardScale,
     imageFile: token.file,
-    imageFileBackface: 'token-progress-back.jpg'
+    imageFileBackface: 'token-progress-back.jpg',
   }));
 
-  const placedHiddenTokens: Array<GameElement> = hiddenTokens.map((token , index) => ({
+  const placedHiddenTokens: Array<GameElement> = hiddenTokens.map((token, index) => ({
     ...createElement(GameElements.PROGRESS_TOKEN),
     faceDown: true,
     x: boardPosition.x + tokenWidth,
     y: boardPosition.y + 3 * boardScale,
     imageFile: token.file,
-    imageFileBackface: 'token-progress-back.jpg'
+    imageFileBackface: 'token-progress-back.jpg',
   }));
 
-  return [ ...placedBoardTokens, ...placedHiddenTokens ];
+  return [...placedBoardTokens, ...placedHiddenTokens];
 };
 
 export const getMilitaryTokens = (): Array<GameElement> => {
@@ -64,13 +64,13 @@ export const getMilitaryTokens = (): Array<GameElement> => {
         return {
           ...createElement(GameElements.MILITARY_TOKEN_5),
           imageFileBackface,
-          imageFile: 'token-military-5.jpg'
+          imageFile: 'token-military-5.jpg',
         };
       default:
         return {
           ...createElement(GameElements.MILITARY_TOKEN_2),
           imageFileBackface,
-          imageFile: 'token-military-2.jpg'
+          imageFile: 'token-military-2.jpg',
         };
     }
   };
@@ -78,7 +78,7 @@ export const getMilitaryTokens = (): Array<GameElement> => {
   const tokensPlacement: Array<Coordinates> = [
     {
       x: 0,
-      y: 0
+      y: 0,
     },
     {
       x: 60 * boardScale,
@@ -91,17 +91,17 @@ export const getMilitaryTokens = (): Array<GameElement> => {
     {
       x: 263 * boardScale,
       y: 0,
-    }
+    },
   ];
-  
+
   const tokensPlacementShifted = movePositions(tokensPlacement, {
     x: boardPosition.x + 40 * boardScale,
-    y: boardPosition.y + 81.5 * boardScale
+    y: boardPosition.y + 81.5 * boardScale,
   });
 
   const tokens = [5, 2, 2, 5].map((el, index) => ({
     ...getMilitaryToken(el),
-    ...tokensPlacementShifted[index]
+    ...tokensPlacementShifted[index],
   }));
 
   return tokens;
@@ -109,13 +109,13 @@ export const getMilitaryTokens = (): Array<GameElement> => {
 
 export const generateConflictPawn = (): GameElement => {
   const { width: pawnWidth, height: pawnHeight } = getElementSize(GameElements.CONFLICT_PAWN);
-  const boardWidth  = getElementSize(GameElements.BOARD).width;
+  const boardWidth = getElementSize(GameElements.BOARD).width;
 
- return {
+  return {
     ...createElement(GameElements.CONFLICT_PAWN),
     x: boardPosition.x + (boardWidth - pawnWidth) / 2 - 4,
     y: boardPosition.y + pawnHeight - 8,
     imageFile: 'conflict-pawn.png',
-    imageFileBackface: 'conflict-pawn-back.png'
-  }
+    imageFileBackface: 'conflict-pawn-back.png',
+  };
 };

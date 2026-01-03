@@ -1,6 +1,6 @@
 export type ElementsMap = {
-  [key: string]: GameElement
-}
+  [key: string]: GameElement;
+};
 
 export type Age = 'I' | 'II' | 'III';
 
@@ -15,20 +15,20 @@ export const GameElements = {
   COIN_1: 'coin_1',
   COIN_3: 'coin_3',
   COIN_6: 'coin_6',
-  BOARD: 'board'
+  BOARD: 'board',
 } as const;
 
-export type GameElementTypes = typeof GameElements[keyof typeof GameElements];
+export type GameElementTypes = (typeof GameElements)[keyof typeof GameElements];
 
 export type Coordinates = {
   x: number;
   y: number;
-}
+};
 
 export type DraggedData = Coordinates & {
   deltaX: number;
   deltaY: number;
-}
+};
 
 export type GameElement = Coordinates & {
   id: string;
@@ -36,7 +36,7 @@ export type GameElement = Coordinates & {
   faceDown: boolean;
   imageFile: string;
   imageFileBackface: string;
-}
+};
 
 export type Player = 'playerA' | 'playerB';
 
@@ -68,7 +68,7 @@ export type SetElementsAPIEvent = Array<GameElement>;
 export type AddElementsAPIEvent = Array<GameElement>;
 
 export type SetScoreAPIEvent = {
-  player: Player,
-  value: number,
-  scoreType: string
+  player: Player;
+  value: number;
+  scoreType: string;
 };

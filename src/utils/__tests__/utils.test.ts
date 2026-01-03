@@ -5,12 +5,12 @@ describe('utils', () => {
     const positions = [
       {
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         x: 1,
-        y: 2
-      }
+        y: 2,
+      },
     ];
 
     it('moves positions by offset', () => {
@@ -18,12 +18,12 @@ describe('utils', () => {
       expect(movePositions(positions, { x: 10, y: 20 })).toEqual([
         {
           x: 10,
-          y: 20
+          y: 20,
         },
         {
           x: 11,
-          y: 22
-        }
+          y: 22,
+        },
       ]);
     });
   });
@@ -40,13 +40,13 @@ describe('utils', () => {
       const results = [
         getRandomElements(array, array.length),
         getRandomElements(array, array.length),
-        getRandomElements(array, array.length)
+        getRandomElements(array, array.length),
       ];
 
-      const hasShuffled = results.some(result => JSON.stringify(result) !== JSON.stringify(array));
+      const hasShuffled = results.some((result) => JSON.stringify(result) !== JSON.stringify(array));
       expect(hasShuffled).toBe(true);
-      
-      results.forEach(result => {
+
+      results.forEach((result) => {
         expect(result).toHaveLength(array.length);
         expect(result.sort()).toEqual(array);
       });

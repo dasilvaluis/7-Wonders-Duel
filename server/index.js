@@ -7,12 +7,12 @@ require('dotenv').config();
 app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '../build', 'index.html')));
 
-const server = app.listen(8080);
+const server = app.listen(1337);
 
 const io = socketio(server, {
   cors: {
-    origin: "*"
-  }
+    origin: '*',
+  },
 });
 
 const events = {
@@ -29,7 +29,7 @@ const events = {
   YOU_START: 'you_start',
   SET_SCORE: 'set_score',
   SET_SCORES: 'set_scores',
-  GET_SCORES: 'get_scores'
+  GET_SCORES: 'get_scores',
 };
 
 io.on('connect', (socket) => {

@@ -19,35 +19,29 @@ describe('utils > buildingCards', () => {
 
   describe('getBuildingCards', () => {
     beforeAll(() => {
-      jest
-        .spyOn(utils, 'createElement')
-        .mockImplementation((el) => ({ 
-          id: '',
-          x: 0,
-          y: 0,
-          type: GameElements.BUILDING_CARD,
-          faceDown: false,
-          imageFile: '',
-          imageFileBackface: ''
-        }));
+      jest.spyOn(utils, 'createElement').mockImplementation((el) => ({
+        id: '',
+        x: 0,
+        y: 0,
+        type: GameElements.BUILDING_CARD,
+        faceDown: false,
+        imageFile: '',
+        imageFileBackface: '',
+      }));
 
-      jest
-        .spyOn(utils, 'getRandomElements')
-        .mockImplementation((array, limit) => array.slice(0, limit));
+      jest.spyOn(utils, 'getRandomElements').mockImplementation((array, limit) => array.slice(0, limit));
 
-      jest
-        .spyOn(utils, 'shuffleArray')
-        .mockImplementation((array) => array);
+      jest.spyOn(utils, 'shuffleArray').mockImplementation((array) => array);
     });
 
     afterAll(() => {
       jest.clearAllMocks();
     });
-    
+
     it('matches snapshot', () => {
-        expect(generateBuildingCards('I')).toMatchSnapshot();
-        expect(generateBuildingCards('II')).toMatchSnapshot();
-        expect(generateBuildingCards('III')).toMatchSnapshot();
+      expect(generateBuildingCards('I')).toMatchSnapshot();
+      expect(generateBuildingCards('II')).toMatchSnapshot();
+      expect(generateBuildingCards('III')).toMatchSnapshot();
     });
   });
 });

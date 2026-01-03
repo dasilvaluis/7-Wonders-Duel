@@ -5,7 +5,7 @@ import {
   bringElement,
   flipElement,
   moveElement,
-  setElements
+  setElements,
 } from '../../actions/elements-actions';
 import {
   ADD_ELEMENTS,
@@ -16,7 +16,7 @@ import {
   SET_AGE,
   SET_ELEMENTS,
   SET_STATE,
-  YOU_START
+  YOU_START,
 } from '../../constants';
 import type { AppState } from '../../reducers/reducers';
 import { getElements } from '../../reducers/selectors';
@@ -30,7 +30,7 @@ import type {
   MoveElementAPIEvent,
   SetAgeAPIEvent,
   SetElementsAPIEvent,
-  SetStateAPIEvent
+  SetStateAPIEvent,
 } from '../../types';
 import { generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../../utils/board';
 import { generateCoins } from '../../utils/coins';
@@ -83,7 +83,7 @@ const _WebSocketProvider = ({
   onMoveElement,
   onAddElements,
   onFlipElement,
-  onBringElement
+  onBringElement,
 }: Props) => {
   const [age, setAge] = useState<Age | null>(null);
 
@@ -169,7 +169,7 @@ const _WebSocketProvider = ({
       ...getMilitaryTokens(),
       ...generateCoins(),
       ...generateWonderCards(),
-      generateConflictPawn()
+      generateConflictPawn(),
     ];
 
     socket.emit(SET_ELEMENTS, initialElements as SetElementsAPIEvent);
@@ -185,16 +185,16 @@ const _WebSocketProvider = ({
       flipElement,
       bringElement,
       moveElement,
-      addElements
+      addElements,
     }),
-    [age, changeAge, startGame, flipElement, bringElement, moveElement, addElements]
+    [age, changeAge, startGame, flipElement, bringElement, moveElement, addElements],
   );
 
   return <WebSocketContext.Provider value={providerValue}>{children}</WebSocketContext.Provider>;
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  gameElements: getElements(state)
+  gameElements: getElements(state),
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -202,7 +202,7 @@ const mapDispatchToProps: DispatchProps = {
   onAddElements: (elements) => addElements(elements),
   onMoveElement: (elementId, position) => moveElement(elementId, position),
   onFlipElement: (elementId) => flipElement(elementId),
-  onBringElement: (elementId, direction) => bringElement(elementId, direction)
+  onBringElement: (elementId, direction) => bringElement(elementId, direction),
 };
 
 export const WebSocketProvider = connect(mapStateToProps, mapDispatchToProps)(_WebSocketProvider);

@@ -9,17 +9,12 @@ type Props = {
   onClose(): void;
 };
 
-export default ({
-  open,
-  children,
-  noPosition,
-  onClose
-}: Props) => open && (
-  <div className={cn(
-    'modal',
-    { '-no-position': noPosition }
-  )}>
-    <button className="modal__close" onClick={onClose}>X</button>
-    { children }
-  </div>
-);
+export default ({ open, children, noPosition, onClose }: Props) =>
+  open && (
+    <div className={cn('modal', { '-no-position': noPosition })}>
+      <button className="modal__close" onClick={onClose}>
+        X
+      </button>
+      {children}
+    </div>
+  );

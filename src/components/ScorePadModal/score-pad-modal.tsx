@@ -12,21 +12,15 @@ type Props = {
   onClose(): void;
 };
 
-export default ({
-  open,
-  onClose
-}: Props) => {
-  const [ dragging, setDragging ] = useState<boolean>(false);
-  const [ { x, y }, setPosition ] = useState<Coordinates>({
+export default ({ open, onClose }: Props) => {
+  const [dragging, setDragging] = useState<boolean>(false);
+  const [{ x, y }, setPosition] = useState<Coordinates>({
     x: (BOARD_WIDTH - 400) / 2,
-    y: getElementSize(GameElements.BOARD).height + ELEMENT_MARGIN
+    y: getElementSize(GameElements.BOARD).height + ELEMENT_MARGIN,
   });
 
-  const handleDrag = (
-    e: DraggableEvent,
-    data: DraggableData
-  ) => {
-    setPosition({ x: data.x, y: data.y })
+  const handleDrag = (e: DraggableEvent, data: DraggableData) => {
+    setPosition({ x: data.x, y: data.y });
   };
 
   const handleStart = () => {
@@ -38,22 +32,18 @@ export default ({
   };
 
   return (
-    <Draggable 
+    <Draggable
       bounds="#draggingarea"
       position={{ x, y }}
       onStart={handleStart}
       onStop={handleStop}
       onDrag={handleDrag}
-      enableUserSelectHack={false}
-    >
-      <div className={cn(
-        'score-pad__modal-container',
-        { '-dragging': dragging }
-      )}>
+      enableUserSelectHack={false}>
+      <div className={cn('score-pad__modal-container', { '-dragging': dragging })}>
         <Modal open={open} onClose={onClose} noPosition={true}>
           <ScorePad />
         </Modal>
       </div>
     </Draggable>
-  );  
+  );
 };

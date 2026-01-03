@@ -12,24 +12,24 @@ export const getCoinElement = (value: CoinValues): GameElement => {
     y: 0,
     faceDown: false,
     imageFile: `coin-${value}.jpg`,
-    imageFileBackface: `coin-${value}-back.jpg`
+    imageFileBackface: `coin-${value}-back.jpg`,
   };
 
   switch (value) {
     case 6:
       return {
         ...base,
-        type: GameElements.COIN_6
+        type: GameElements.COIN_6,
       };
     case 3:
       return {
         ...base,
-        type: GameElements.COIN_3
+        type: GameElements.COIN_3,
       };
     default:
       return {
         ...base,
-        type: GameElements.COIN_1
+        type: GameElements.COIN_1,
       };
   }
 };
@@ -50,7 +50,7 @@ export const getCoinElements = (value: CoinValues): Array<GameElement> => {
 
   const elements = [];
   for (let index = 0; index < maxCoins; index++) {
-    elements.push(getCoinElement(value))
+    elements.push(getCoinElement(value));
   }
 
   return elements;
@@ -63,12 +63,12 @@ export const getCoinsPlacement = (value: CoinValues) => {
       positions.push({
         x: Math.random() * variation,
         y: Math.random() * variation,
-      })
+      });
     }
 
     return positions;
-  }
-  
+  };
+
   let maxCoins = 0;
   switch (value) {
     case 6:
@@ -100,24 +100,20 @@ export const generateCoins = (): Array<GameElement> => {
   const coinPlacements1 = getCoinsPlacement(1);
 
   const coinPlacements6Shifted = movePositions(coinPlacements6, {
-    x: BOARD_WIDTH - (coinsWidth6 * 2) - ELEMENT_MARGIN
+    x: BOARD_WIDTH - coinsWidth6 * 2 - ELEMENT_MARGIN,
   });
 
   const coinPlacements3Shifted = movePositions(coinPlacements3, {
-    x: BOARD_WIDTH - (coinsWidth3 + coinsWidth6 * 2) - ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coinsWidth3 + coinsWidth6 * 2) - ELEMENT_MARGIN,
   });
 
   const coinPlacements1Shifted = movePositions(coinPlacements1, {
-    x: BOARD_WIDTH - (coinsWidth1 + coinsWidth3 + coinsWidth6 * 2) - ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coinsWidth1 + coinsWidth3 + coinsWidth6 * 2) - ELEMENT_MARGIN,
   });
 
   const coins6 = injectPositions(coinElements6, coinPlacements6Shifted);
   const coins3 = injectPositions(coinElements3, coinPlacements3Shifted);
   const coins1 = injectPositions(coinElements1, coinPlacements1Shifted);
 
-  return [
-    ...coins6,
-    ...coins3,
-    ...coins1
-  ];
+  return [...coins6, ...coins3, ...coins1];
 };

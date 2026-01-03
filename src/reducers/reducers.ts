@@ -6,9 +6,9 @@ import selectedElements from './selected-elements-reducer';
 export type AppState = {
   elements: ElementsMap;
   selectedElements: Array<string>;
-}
+};
 
 export default combineReducers<AppState>({
   elements,
-  selectedElements
+  selectedElements,
 });
