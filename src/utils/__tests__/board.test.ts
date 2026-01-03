@@ -1,4 +1,4 @@
-import { generateBoardElement, generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../board';
+import { boardElement, generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../board';
 import * as utils from '../utils';
 
 describe('utils > board', () => {
@@ -40,7 +40,7 @@ describe('utils > board', () => {
 
   describe('getBoardElement', () => {
     it('matches snapshot', () => {
-      expect(generateBoardElement()).toMatchSnapshot();
+      expect(boardElement).toMatchSnapshot();
     });
   });
 });

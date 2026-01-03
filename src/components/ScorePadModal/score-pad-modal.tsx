@@ -4,7 +4,7 @@ import Draggable, { type DraggableData, type DraggableEvent } from 'react-dragga
 import { BOARD_WIDTH, ELEMENT_MARGIN } from '../../constants';
 import { type Coordinates, GameElements } from '../../types';
 import { getElementSize } from '../../utils/utils';
-import Modal from '../Modal';
+import { Modal } from '../Modal/modal';
 import ScorePad from './score-pad';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
   onClose(): void;
 };
 
-export default ({ open, onClose }: Props) => {
+export const ScorePadModal = ({ open, onClose }: Props) => {
   const [dragging, setDragging] = useState<boolean>(false);
   const [{ x, y }, setPosition] = useState<Coordinates>({
     x: (BOARD_WIDTH - 400) / 2,

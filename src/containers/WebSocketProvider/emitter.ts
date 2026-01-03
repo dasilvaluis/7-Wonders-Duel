@@ -4,13 +4,13 @@ import type {
   Age,
   BringElementAPIEvent,
   Coordinates,
-  Direction,
   FlipElementAPIEvent,
   GameElement,
   MoveElementAPIEvent,
   SetAgeAPIEvent,
   SetElementsAPIEvent,
   SetStateAPIEvent,
+  VerticalDirectionTypes,
 } from '../../types';
 import socket from '../../wsClient';
 
@@ -26,7 +26,7 @@ export const emitFlipElement = (elementId: string) => {
   socket.emit(WEBSOCKET_EVENTS.FLIP_ELEMENT, apiEvent);
 };
 
-export const emitBringElement = (elementId: string, direction: Direction) => {
+export const emitBringElement = (elementId: string, direction: VerticalDirectionTypes) => {
   const apiEvent: BringElementAPIEvent = { elementId, direction };
 
   socket.emit(WEBSOCKET_EVENTS.BRING_ELEMENT, apiEvent);

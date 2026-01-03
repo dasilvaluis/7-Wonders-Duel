@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { WEBSOCKET_EVENTS } from '../../constants';
-import { elementsActions } from '../../reducers/elements-reducer';
-import { getElements } from '../../reducers/selectors';
-import type { Age, Coordinates, Direction, GameElement } from '../../types';
+import { elementsActions } from '../../state/elementsSlice';
+import { pickElements } from '../../state/selectors';
+import type { Age, Coordinates, GameElement, VerticalDirectionTypes } from '../../types';
 import { generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../../utils/board';
 import { generateCoins } from '../../utils/coins';
 import { generateWonderCards } from '../../utils/wonderCards';
@@ -28,7 +28,7 @@ type ContextValue = {
   changeAge: (age: Age | null) => void;
   startGame: () => void;
   flipElement: (elementId: string) => void;
-  bringElement: (elementId: string, direction: Direction) => void;
+  bringElement: (elementId: string, direction: VerticalDirectionTypes) => void;
   moveElement: (elementsIds: Array<string>, delta: Coordinates) => void;
   addElements: (elements: Array<GameElement>) => void;
 };

@@ -9,7 +9,7 @@ type Props = {
 
 const ages: Array<Age> = ['I', 'II', 'III'];
 
-export default (props: Props) => (
+export const AgeProgress = (props: Props) => (
   <ul className="age-progress">
     {ages.map((age) => (
       <AgeDot age={age} currentAge={props.age} onClick={props.onChange} key={age} />

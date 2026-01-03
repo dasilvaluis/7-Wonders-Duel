@@ -2,7 +2,14 @@ export type ElementsMap = Record<string, GameElement>;
 
 export type Age = 'I' | 'II' | 'III';
 
-export type Direction = 'front' | 'back' | 'forward' | 'backward';
+export const VerticalDirections = {
+  FRONT: 'front',
+  BACK: 'back',
+  FORWARD: 'forward',
+  BACKWARD: 'backward',
+} as const;
+
+export type VerticalDirectionTypes = (typeof VerticalDirections)[keyof typeof VerticalDirections];
 
 export const GameElements = {
   MOCK: 'mock',
@@ -51,7 +58,7 @@ export type FlipElementAPIEvent = {
 
 export type BringElementAPIEvent = {
   elementId: string;
-  direction: Direction;
+  direction: VerticalDirectionTypes;
 };
 
 export type SetAgeAPIEvent = {

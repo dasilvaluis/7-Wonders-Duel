@@ -8,14 +8,14 @@ const boardPosition = {
   y: 0,
 };
 
-export const generateBoardElement = (): GameElement => ({
+export const boardElement: GameElement = {
   ...boardPosition,
   id: 'board',
   type: GameElements.BOARD,
   faceDown: false,
   imageFile: 'board.png',
   imageFileBackface: 'board.png',
-});
+};
 
 export const getProgressTokens = (): Array<GameElement> => {
   const boardTokensCount = 5;
