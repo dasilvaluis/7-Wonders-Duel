@@ -1,5 +1,5 @@
-import { UNSELECT_ELEMENTS, SELECT_ELEMENT } from '../actions/types';
-import { SelectElementsActionType } from '../actions/selected-elements-actions';
+import type { SelectElementsActionType } from '../actions/selected-elements-actions';
+import { SELECT_ELEMENT, UNSELECT_ELEMENTS } from '../actions/types';
 
 const initialState: Array<string> = [];
 

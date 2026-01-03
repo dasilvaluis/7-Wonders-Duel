@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
-import { Age } from '../../types';
+import { useMemo } from 'react';
+import type { Age } from '../../types';
 
-interface Props {
+type Props = {
   age: Age;
   currentAge: Age | null;
   onClick(age: Age): void;

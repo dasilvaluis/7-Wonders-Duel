@@ -1,11 +1,11 @@
-import React, { useReducer, useRef } from 'react';
-import ScorePadColumn from './score-pad-column';
-import { Player } from '../../types';
+import { useReducer, useRef, type ComponentRef } from 'react';
+import type { Player } from '../../types';
 import ScorePadClient from './score-pad-client';
+import ScorePadColumn from './score-pad-column';
 import './score-pad.scss';
 
 export type PlayerScore = {
-  civilisation: number;
+  civilization: number;
   science: number;
   commerce: number;
   guild: number;
@@ -13,8 +13,8 @@ export type PlayerScore = {
   progress: number;
   money: number;
   military: number;
-  suddendeathMilitary: boolean;
-  suddendeathScience: boolean;
+  suddenDeathMilitary: boolean;
+  suddenDeathScience: boolean;
 };
 
 export type GameScores = {
@@ -22,8 +22,8 @@ export type GameScores = {
   playerB: PlayerScore,
 };
 
-const initalScore: PlayerScore = {
-  civilisation: 0,
+const initialScore: PlayerScore = {
+  civilization: 0,
   science: 0,
   commerce: 0,
   guild: 0,
@@ -31,16 +31,16 @@ const initalScore: PlayerScore = {
   progress: 0,
   money: 0,
   military: 0,
-  suddendeathMilitary: false,
-  suddendeathScience: false
+  suddenDeathMilitary: false,
+  suddenDeathScience: false
 };
 
-const initalScores: GameScores = {
-  playerA: initalScore,
-  playerB: initalScore,
+const initialScores: GameScores = {
+  playerA: initialScore,
+  playerB: initialScore,
 };
 
-const scoresReducer = (state: GameScores, action) => {
+const scoresReducer = (state: GameScores, action: any) => {
   switch (action.type) {
     case 'SET_UNITARY_SCORE':
       const { player, value, scoreType } = action.payload;
@@ -48,7 +48,7 @@ const scoresReducer = (state: GameScores, action) => {
       const playerState = { ...state[player] };
 
       playerState[scoreType] =
-        scoreType === 'suddendeathMilitary' || scoreType === 'suddendeathScience'
+        scoreType === 'suddenDeathMilitary' || scoreType === 'suddenDeathScience'
           ? !!value
           : value
 
@@ -70,8 +70,8 @@ const scoresReducer = (state: GameScores, action) => {
 };
 
 export default () => {
-  const clientRef = useRef(null);
-  const [ scores, dispatchScoreUpdate ] = useReducer(scoresReducer, initalScores);
+  const clientRef = useRef<ComponentRef<typeof ScorePadClient>>(null);
+  const [ scores, dispatchScoreUpdate ] = useReducer(scoresReducer, initialScores);
 
   const handleInputChange = (player: Player) => (scoreType: string, value: number) => {
     dispatchScoreUpdate({
@@ -79,14 +79,14 @@ export default () => {
       payload: { player, scoreType, value }
     });
 
-    clientRef.current && clientRef.current.sendScoreUpdate({ player, value, scoreType });
+    clientRef.current?.sendScoreUpdate({ player, value, scoreType });
   };
 
   return (
     <>
       <div className="score-pad">
         <div className="score-pad__column -heading">
-          <div className="score-pad__cell score-pad__label -civilisation" />
+          <div className="score-pad__cell score-pad__label -civilization" />
           <div className="score-pad__cell score-pad__label -science" />
           <div className="score-pad__cell score-pad__label -commerce" />
           <div className="score-pad__cell score-pad__label -guild" />
@@ -95,8 +95,8 @@ export default () => {
           <div className="score-pad__cell score-pad__label -money" />
           <div className="score-pad__cell score-pad__label -military" />
           <div className="score-pad__cell score-pad__label -total" />
-          <div className="score-pad__cell score-pad__label -suddendeathMilitary" />
-          <div className="score-pad__cell score-pad__label -suddendeathScience" />
+          <div className="score-pad__cell score-pad__label -suddenDeathMilitary" />
+          <div className="score-pad__cell score-pad__label -suddenDeathScience" />
         </div>
         <ScorePadColumn score={scores.playerA} onUpdate={handleInputChange('playerA')} />
         <ScorePadColumn score={scores.playerB} onUpdate={handleInputChange('playerB')} />
@@ -110,4 +110,3 @@ export default () => {
     </>
   )
 };
-

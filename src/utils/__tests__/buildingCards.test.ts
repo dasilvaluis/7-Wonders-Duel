@@ -1,9 +1,8 @@
-import { generateBuildingCards } from '../buildingcards-utils';
+import { GameElements } from '../../types';
+import { generateBuildingCards, getAgeScheme, getBuildingCardsPlacement } from '../buildingCards';
 import * as utils from '../utils';
-import { ElementTypes } from '../../types';
-import { getAgeScheme, getBuildingCardsPlacement } from '../buildingcards-utils';
 
-describe('buildingcards-utils', () => {
+describe('utils > buildingCards', () => {
   describe('getBuildingCardsPlacement', () => {
     it('places first age cards', () => {
       expect(getBuildingCardsPlacement(getAgeScheme('I'))).toMatchSnapshot();
@@ -26,7 +25,7 @@ describe('buildingcards-utils', () => {
           id: '',
           x: 0,
           y: 0,
-          type: ElementTypes.BUILDING_CARD,
+          type: GameElements.BUILDING_CARD,
           faceDown: false,
           imageFile: '',
           imageFileBackface: ''

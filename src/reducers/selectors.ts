@@ -1,7 +1,7 @@
-import { AppState } from './reducers';
-import { ElementTypes, ElementsMap } from '../types';
+import { type ElementsMap, type GameElementTypes } from '../types';
+import type { AppState } from './reducers';
 
-export const getElements = (state: AppState, type?: ElementTypes) => type
+export const getElements = (state: AppState, type?: GameElementTypes) => type
   ? Object.values(state.elements).filter((el) => el.type === type)
   : Object.values(state.elements);
 

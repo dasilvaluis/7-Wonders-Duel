@@ -1,9 +1,8 @@
-import React from 'react';
-import { Age } from '../../types';
+import type { Age } from '../../types';
 import AgeDot from './age-dot';
 import './age-progress.scss';
 
-interface Props {
+type Props = {
   age: Age | null;
   onChange(age: Age): void;
 }

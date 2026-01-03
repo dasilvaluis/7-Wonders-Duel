@@ -23,38 +23,38 @@ $score-pad-width: 400px;
     background-position: center;
     background-size: 75%;
 
-    &.-civilisation {
-      background-image: url('../../images/icon-civilisation.png');
+    &.-civilization {
+      background-image: url('/images/icon-civilization.png');
     }
     &.-science {
-      background-image: url('../../images/icon-science.png');
+      background-image: url('/images/icon-science.png');
     }
     &.-commerce {
-      background-image: url('../../images/icon-commerce.png');
+      background-image: url('/images/icon-commerce.png');
     }
     &.-guild {
-      background-image: url('../../images/icon-guild.png');
+      background-image: url('/images/icon-guild.png');
     }
     &.-wonder {
-      background-image: url('../../images/icon-wonder.png');
+      background-image: url('/images/icon-wonder.png');
     }
     &.-progress {
-      background-image: url('../../images/icon-progress.png');
+      background-image: url('/images/icon-progress.png');
     }
     &.-money {
-      background-image: url('../../images/icon-money.png');
+      background-image: url('/images/icon-money.png');
     }
     &.-military {
-      background-image: url('../../images/icon-military.png');
+      background-image: url('/images/icon-military.png');
     }
 
     &[class*="suddendeath"] {
-      background-image: url('../../images/icon-suddendeath.png');
+      background-image: url('/images/icon-suddendeath.png');
     }
 
     &.-total {
       background-color: black;
-      background-image: url('../../images/icon-total.png');
+      background-image: url('/images/icon-total.png');
     }
   }
 
@@ -103,7 +103,7 @@ $score-pad-width: 400px;
     background-color: white;
     border: 1px solid #333333;
 
-    &.-civilisation {
+    &.-civilization {
       background-color: #beebfc;
     }
     &.-science {
@@ -127,10 +127,10 @@ $score-pad-width: 400px;
     &.-military {
       background-color: #fccebe;
     }
-    &.-suddendeathMilitary {
+    &.-suddenDeathMilitary {
       background-color: #d60001;
     }
-    &.-suddendeathScience {
+    &.-suddenDeathScience {
       background-color: #008d39;
     }
   }

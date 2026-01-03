@@ -1,7 +1,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { ELEMENT_MARGIN, BOARD_WIDTH } from '../contants';
-import { GameElement, ElementTypes, Coordinates } from '../types';
+import { BOARD_WIDTH, ELEMENT_MARGIN } from '../constants';
+import { GameElements, type Coordinates, type GameElement, type GameElementTypes } from '../types';
 
 export const getRowOfCards = (howMany: number, cardWidth: number): Array<Coordinates> => {
   const filling: Coordinates = {
@@ -42,7 +42,7 @@ export const injectPositions = <T>(elements: Array<T>, positions: Array<Coordina
     }
 
     return acc;
-  }, []);
+  }, [] as T[]);
 
 export const shuffleArray = <T>(array: Array<T>) => [ ...array ].sort(() => Math.random() - 0.5);
 
@@ -63,14 +63,14 @@ export const getRandomElements = <T>(array: Array<T>, howMany?: number) => {
 
 export const flipCards = (cards: Array<GameElement>) => cards.map((card) => ({ ...card, faceDown: true }));
 
-export const keyBy = <ArrayT>(array: Array<ArrayT>, key: string) => 
-  (array || []).reduce((r, x) => ({ ...r, [key ? x[key] : x]: x }), {});
+export const keyBy = <T extends Record<string, any>>(array: Array<T>, key: string) => 
+  (array || []).reduce((accumulator, element) => ({ ...accumulator, [key ? element[key] : element]: element }), {} as { [key: string]: T });
 
-export const flattenDeep = <T>(array): Array<T> => Array.isArray(array)
-  ? array.reduce((acc: Array<any>, curr) => acc.concat(flattenDeep(curr)) , [])
+export const flattenDeep = <T>(array: T[][] | T): Array<T> => Array.isArray(array)
+  ? array.reduce((acc: Array<any>, curr) => acc.concat(flattenDeep(curr)) , [] as T[])
   : [ array ]
 
-export const createElement = (type: ElementTypes) => ({
+export const createElement = (type: GameElementTypes) => ({
   type,
   id: uuidv4(),
   x: 0,
@@ -80,62 +80,62 @@ export const createElement = (type: ElementTypes) => ({
   imageFileBackface: ''
 });
 
-const getElementRealSize = (elementType: ElementTypes) => {
+const getElementRealSize = (elementType: GameElementTypes) => {
   switch (elementType) {
-    case ElementTypes.WONDER_CARD:
+    case GameElements.WONDER_CARD:
       return {
         width: 100,
         height: 66
       }
 
-    case ElementTypes.BUILDING_CARD:
+    case GameElements.BUILDING_CARD:
       return {
         width: 44,
         height: 68
       }
     
-    case ElementTypes.MILITARY_TOKEN_5:
+    case GameElements.MILITARY_TOKEN_5:
       return {
         width: 45,
         height: 20
       }
   
-    case ElementTypes.MILITARY_TOKEN_2:
+    case GameElements.MILITARY_TOKEN_2:
       return {
         width: 38,
         height: 17
       }
     
-    case ElementTypes.PROGRESS_TOKEN:
+    case GameElements.PROGRESS_TOKEN:
       return {
         width: 35,
         height: 35
       }
     
-    case ElementTypes.CONFLICT_PAWN:
+    case GameElements.CONFLICT_PAWN:
       return {
         width: 14,
         height: 45
       }
-    case ElementTypes.COIN_1:
+    case GameElements.COIN_1:
       return {
         width: 20,
         height: 20
       }
     
-    case ElementTypes.COIN_3:
+    case GameElements.COIN_3:
       return {
         width: 25,
         height: 25
       }
     
-    case ElementTypes.COIN_6:
+    case GameElements.COIN_6:
       return {
         width: 30,
         height: 30
       }
     
-    case ElementTypes.BOARD:
+    case GameElements.BOARD:
       return {
         width: 390,
         height: 110
@@ -148,27 +148,27 @@ const getElementRealSize = (elementType: ElementTypes) => {
   }
 };
 
-export const getElementScale = (elementType: ElementTypes) => {
+export const getElementScale = (elementType: GameElementTypes) => {
   switch (elementType) {
-    case ElementTypes.BUILDING_CARD:
-    case ElementTypes.WONDER_CARD:
+    case GameElements.BUILDING_CARD:
+    case GameElements.WONDER_CARD:
       return 2.25;
-    case ElementTypes.COIN_1:
-    case ElementTypes.COIN_3:
-    case ElementTypes.COIN_6:
+    case GameElements.COIN_1:
+    case GameElements.COIN_3:
+    case GameElements.COIN_6:
       return 2.5;
-    case ElementTypes.CONFLICT_PAWN:
-    case ElementTypes.MILITARY_TOKEN_5:
-    case ElementTypes.MILITARY_TOKEN_2:
-    case ElementTypes.PROGRESS_TOKEN:
-    case ElementTypes.BOARD:
+    case GameElements.CONFLICT_PAWN:
+    case GameElements.MILITARY_TOKEN_5:
+    case GameElements.MILITARY_TOKEN_2:
+    case GameElements.PROGRESS_TOKEN:
+    case GameElements.BOARD:
       return 1.75;
     default:
       return 1;
   }
 };
 
-export const getElementSize = (elementType: ElementTypes) => {
+export const getElementSize = (elementType: GameElementTypes) => {
   const { width, height } = getElementRealSize(elementType);
   const scale = getElementScale(elementType);
 
@@ -178,70 +178,70 @@ export const getElementSize = (elementType: ElementTypes) => {
   };
 };
 
-export const getElementStyles = (elementType: ElementTypes): React.CSSProperties => {
+export const getElementStyles = (elementType: GameElementTypes): React.CSSProperties => {
   const { width, height } = getElementSize(elementType);
   
   switch (elementType) {
-    case ElementTypes.WONDER_CARD:
+    case GameElements.WONDER_CARD:
       return {
         width: `${ width }px`,
         height: `${ height }px`
       }
 
-    case ElementTypes.BUILDING_CARD:
+    case GameElements.BUILDING_CARD:
       return {
         width: `${ width }px`,
         height: `${ height }px`
       }
     
-    case ElementTypes.MILITARY_TOKEN_5:
+    case GameElements.MILITARY_TOKEN_5:
       return {
         width: `${ width }px`,
         height: `${ height }px`
       }
 
-    case ElementTypes.MILITARY_TOKEN_2:
+    case GameElements.MILITARY_TOKEN_2:
       return {
         width: `${ width }px`,
         height: `${ height }px`
       }
     
-    case ElementTypes.PROGRESS_TOKEN:
+    case GameElements.PROGRESS_TOKEN:
       return {
         width: `${ width }px`,
         height: `${ height }px`,
         borderRadius: '50%'
       }
     
-    case ElementTypes.CONFLICT_PAWN:
+    case GameElements.CONFLICT_PAWN:
       return {
         width: `${ width }px`,
         height: `${ height }px`,
         borderRadius: 'initial',
         boxShadow: 'initial'
       }
-    case ElementTypes.COIN_1:
+    case GameElements.COIN_1:
       return {
         width: `${ width }px`,
         height: `${ height }px`,
         borderRadius: '50%'
       }
     
-    case ElementTypes.COIN_3:
+    case GameElements.COIN_3:
       return {
         width: `${ width }px`,
         height: `${ height }px`,
         borderRadius: '50%'
       }
     
-    case ElementTypes.COIN_6:
+    case GameElements.COIN_6:
       return {
         width: `${ width }px`,
         height: `${ height }px`,
         borderRadius: '50%'
       }
     
-    case ElementTypes.BOARD:
+    case GameElements.BOARD:
       return {
         width: `${ width }px`,
         height: `${ height }px`

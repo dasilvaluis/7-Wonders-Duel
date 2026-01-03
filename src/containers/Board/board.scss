@@ -29,13 +29,13 @@
     }
 
     &::before {
-      background-image: url('../../images/wallpapper_artemis.jpg');
+      background-image: url('/images/wallpapper_artemis.jpg');
       left: 0;
       background-position: right center;
     }
 
     &::after {
-      background-image: url('../../images/wallpapper_gizeh.jpg');
+      background-image: url('/images/wallpapper_gizeh.jpg');
       right: 0;
       background-position: left bottom;
     }

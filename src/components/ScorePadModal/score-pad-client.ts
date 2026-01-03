@@ -1,22 +1,26 @@
-import { useEffect, forwardRef, useImperativeHandle } from 'react';
-import socket from '../../wsClient';
-import { SET_SCORE, GET_SCORES, SET_SCORES } from '../../contants';
-import { SetScoreAPIEvent } from '../../types';
-import { GameScores } from './score-pad';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
+import { GET_SCORES, SET_SCORE, SET_SCORES } from '../../constants';
+import { type SetScoreAPIEvent } from '../../types';
+import socket from '../../wsClient';
+import { type GameScores } from './score-pad';
 
 
-interface Props {
+type Props = {
   ref: any;
   scores: GameScores;
   onUpdateScore(data: SetScoreAPIEvent): void;
   onSetScore(data: GameScores): void;
 }
 
-export default forwardRef(({
+type RefHandle = {
+  sendScoreUpdate(apiEvent: SetScoreAPIEvent): void;
+}
+
+export default forwardRef<RefHandle, Props>(({
   scores,
   onUpdateScore,
   onSetScore
-}: Props, ref) => {
+}, ref) => {
   useEffect(() => {
     socket.emit(GET_SCORES)
 
@@ -29,19 +33,19 @@ export default forwardRef(({
     });
 
     return () => {
-      socket.off(SET_SCORES).off(SET_SCORE)
+      socket.off(SET_SCORES).off(SET_SCORE)
     }
   }, []);
 
   useEffect(() => {
-    socket
+    socket
       .off(GET_SCORES)
       .on(GET_SCORES, () => {
         socket.emit(SET_SCORES, scores);
       });
 
     return () => {
-      socket.off(GET_SCORES)
+      socket.off(GET_SCORES)
     }
   }, [ scores ]);
 

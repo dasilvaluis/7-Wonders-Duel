@@ -1,6 +1,6 @@
 import { SELECT_ELEMENT, UNSELECT_ELEMENTS } from './types';
 
-interface SelectElementAction {
+type SelectElementAction = {
   payload: {
     id: string;
     selected: boolean;
@@ -8,7 +8,7 @@ interface SelectElementAction {
   type: typeof SELECT_ELEMENT;
 }
 
-interface UnselectElementsAction {
+type UnselectElementsAction = {
   type: typeof UNSELECT_ELEMENTS;
 }
 
