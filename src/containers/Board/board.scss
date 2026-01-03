@@ -1,4 +1,4 @@
-@import '../../styles/vars.scss';
+@use '../../styles/variables.scss' as *;
 
 .board {
   padding-top: 18px;

@@ -7,9 +7,13 @@ require('dotenv').config();
 app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '../build', 'index.html')));
 
-const server = app.listen(1337);
+const server = app.listen(8080);
 
-const io = socketio(server);
+const io = socketio(server, {
+  cors: {
+    origin: "*"
+  }
+});
 
 const events = {
   FLIP_ELEMENT: 'flip_element',
