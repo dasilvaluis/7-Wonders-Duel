@@ -47,7 +47,7 @@ export const useWebSocketContext = () => {
 
 export const WebSocketProvider = ({ children }: Props) => {
   const dispatch = useDispatch();
-  const gameElements = useSelector(getElements);
+  const gameElements = useSelector(pickElements);
 
   const [age, setAge] = useState<Age | null>(null);
 

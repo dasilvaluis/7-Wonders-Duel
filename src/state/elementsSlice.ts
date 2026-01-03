@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Coordinates, ElementsMap, GameElement } from '../types';
+import { VerticalDirections, type Coordinates, type ElementsMap, type GameElement } from '../types';
 import { keyBy, moveElementBackward, reverse } from '../utils/utils';
 
 const initialState: ElementsMap = {};
@@ -43,22 +43,22 @@ const elementsSlice = createSlice({
         let shiftedState = [...stateValues];
 
         switch (direction) {
-          case 'forward':
-          case 'backward': {
+          case VerticalDirections.FORWARD:
+          case VerticalDirections.BACKWARD: {
             const shiftedTypeElements =
-              direction === 'forward'
+              direction === VerticalDirections.FORWARD
                 ? reverse(moveElementBackward(reverse(sameTypeElements), (el) => el.id === id))
                 : moveElementBackward(sameTypeElements, (el) => el.id === id);
 
             shiftedState = [...differentTypeElements, ...shiftedTypeElements];
             break;
           }
-          case 'front':
-          case 'back': {
+          case VerticalDirections.FRONT:
+          case VerticalDirections.BACK: {
             const differentIdElements = sameTypeElements.filter((el) => el.id !== id);
 
             const shiftedTypeElements =
-              direction === 'front'
+              direction === VerticalDirections.FRONT
                 ? [...differentIdElements, state[id]]
                 : [state[id], ...differentIdElements];
 

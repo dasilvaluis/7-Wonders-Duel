@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import elements from './elements-reducer';
-import selectedElements from './selected-elements-reducer';
+import elements from './elementsSlice';
+import selectedElements from './selectedElementsSlice';
 
 export const rootReducer = combineReducers({
   elements,

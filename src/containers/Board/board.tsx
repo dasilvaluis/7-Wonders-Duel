@@ -16,29 +16,21 @@ import { useWebSocketContext } from '../WebSocketProvider/WebSocketProvider';
 import './board-tools.scss';
 import './board.scss';
 
-type StateProps = {
-  selectedElements: ElementsMap;
-  coins: Array<GameElement>;
-  buildingCards: Array<GameElement>;
-  wonderCards: Array<GameElement>;
-  progressTokens: Array<GameElement>;
-  militaryTokens: Array<GameElement>;
-  conflictPawn: GameElement | null;
-};
-
-type DispatchProps = {
-  onSelectElement(elementId: string, selected: boolean): void;
-};
-
-type Props = StateProps & DispatchProps;
-
-const Board = (props: Props) => {
+export const Board = () => {
   const [visibleScorePad, setVisibleScorePad] = useState<boolean>(false);
   const wsContext = useWebSocketContext();
   const dispatch = useDispatch();
 
+  const selectedElements = useSelector(pickSelectedElements);
+  const conflictPawn = useSelector(selectConflictPawn);
+  const coins = useSelector(selectCoins);
+  const militaryTokens = useSelector(selectMilitaryTokens);
+  const progressTokens = useSelector(selectProgressTokens);
+  const buildingCards = useSelector(selectBuildingCards);
+  const wonderCards = useSelector(selectWonderCards);
+
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
-    const isSelected = !!props.selectedElements[elementId];
+    const isSelected = !!selectedElements[elementId];
 
     if (e.shiftKey) {
       dispatch(selectedElementsActions.selectElement({ id: elementId, selected: true }));
@@ -53,9 +45,7 @@ const Board = (props: Props) => {
       y: data.deltaY,
     };
 
-    const elementsIds = !!props.selectedElements[elementId]
-      ? Object.keys(props.selectedElements)
-      : [elementId];
+    const elementsIds = !!selectedElements[elementId] ? Object.keys(selectedElements) : [elementId];
 
     wsContext?.moveElement(elementsIds, delta);
     elementsIds.forEach((id) => {
@@ -113,7 +103,7 @@ const Board = (props: Props) => {
       </div>
       <div className="board__elements">
         <Element element={generateBoardElement()} />
-        {props.militaryTokens.map((el) => (
+        {militaryTokens.map((el) => (
           <Element
             key={el.id}
             element={el}
@@ -122,49 +112,49 @@ const Board = (props: Props) => {
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
           />
         ))}
-        {props.progressTokens.map((el) => (
+        {progressTokens.map((el) => (
           <Element
             key={el.id}
             element={el}
-            selected={!!props.selectedElements[el.id]}
+            selected={!!selectedElements[el.id]}
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
           />
         ))}
-        {props.conflictPawn && (
+        {conflictPawn && (
           <Element
-            key={props.conflictPawn.id}
-            element={props.conflictPawn}
+            key={conflictPawn.id}
+            element={conflictPawn}
             onMove={handleMoveElement}
-            onDoubleClick={(e) => handleDoubleClickElement(e, props.conflictPawn!.id)}
+            onDoubleClick={(e) => handleDoubleClickElement(e, conflictPawn.id)}
           />
         )}
-        {props.buildingCards.map((el) => (
+        {buildingCards.map((el) => (
           <Element
             key={el.id}
             element={el}
-            selected={!!props.selectedElements[el.id]}
+            selected={!!selectedElements[el.id]}
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
           />
         ))}
-        {props.wonderCards.map((el) => (
+        {wonderCards.map((el) => (
           <Element
             key={el.id}
             element={el}
-            selected={!!props.selectedElements[el.id]}
+            selected={!!selectedElements[el.id]}
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
           />
         ))}
-        {props.coins.map((el) => (
+        {coins.map((el) => (
           <Element
             key={el.id}
             element={el}
-            selected={!!props.selectedElements[el.id]}
+            selected={!!selectedElements[el.id]}
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
@@ -175,22 +165,3 @@ const Board = (props: Props) => {
     </div>
   );
 };
-
-const mapStateToProps = (state: AppState): StateProps => ({
-  selectedElements: getSelectedElements(state),
-  conflictPawn: getElements(state, GameElements.CONFLICT_PAWN)[0],
-  coins: [
-    ...getElements(state, GameElements.COIN_6),
-    ...getElements(state, GameElements.COIN_3),
-    ...getElements(state, GameElements.COIN_1),
-  ],
-  militaryTokens: [
-    ...getElements(state, GameElements.MILITARY_TOKEN_5),
-    ...getElements(state, GameElements.MILITARY_TOKEN_2),
-  ],
-  progressTokens: getElements(state, GameElements.PROGRESS_TOKEN),
-  buildingCards: getElements(state, GameElements.BUILDING_CARD),
-  wonderCards: getElements(state, GameElements.WONDER_CARD),
-});
-
-export default connect(mapStateToProps)(Board);
