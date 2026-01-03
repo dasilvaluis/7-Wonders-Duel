@@ -4,10 +4,10 @@ const app = express();
 const socketio = require('socket.io');
 require('dotenv').config();
 
-app.use(express.static(path.join(__dirname, '../build')));
-app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '../build', 'index.html')));
+app.use(express.static(path.join(__dirname, '../dist')));
+app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '../dist', 'index.html')));
 
-const server = app.listen(1337);
+const server = app.listen(8080);
 
 const io = socketio(server, {
   cors: {

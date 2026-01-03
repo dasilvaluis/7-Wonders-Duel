@@ -24,15 +24,15 @@ You need to run both the WebSocket server and the Vite dev server:
 **Terminal 1 - Start the WebSocket server:**
 
 ```bash
-yarn start-server
+yarn dev-server
 ```
 
-The server runs on `http://localhost:1337`
+The server runs on `http://localhost:8080` with auto-reload via nodemon
 
 **Terminal 2 - Start the Vite dev server:**
 
 ```bash
-yarn start
+yarn dev-ui
 ```
 
 The client runs on `http://localhost:5173` (default Vite port)
@@ -41,22 +41,26 @@ The client runs on `http://localhost:5173` (default Vite port)
 
 - The **Vite dev server** serves the React application with hot module replacement
 - The **WebSocket server** handles real-time game state synchronization between players
-- The client automatically connects to the WebSocket server at `localhost:1337`
+- The client automatically connects to the WebSocket server at `localhost:8080`
 - Open two browser windows to test multiplayer functionality
 
 ## Available Scripts
 
-### `yarn start`
+### `yarn dev-ui`
 
 Runs the Vite dev server with hot reload at [http://localhost:5173](http://localhost:5173)
 
+### `yarn dev-server`
+
+Starts the WebSocket server on port 8080 with auto-reload for development
+
 ### `yarn start-server`
 
-Starts the WebSocket server on port 1337 for multiplayer game state management
+Starts the WebSocket server on port 8080 for production (no auto-reload)
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder using Vite
+Builds the app for production to the `dist` folder using Vite
 
 ### `yarn preview`
 
@@ -76,7 +80,7 @@ Runs TypeScript type checking without emitting files
 yarn build
 ```
 
-The optimized production build will be in the `build` folder, ready for deployment.
+The optimized production build will be in the `dist` folder, ready for deployment.
 
 ## Learn More
 
