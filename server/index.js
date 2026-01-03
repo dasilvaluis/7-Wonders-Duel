@@ -7,7 +7,10 @@ require('dotenv').config();
 app.use(express.static(path.join(__dirname, '../dist')));
 app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '../dist', 'index.html')));
 
-const server = app.listen(8080);
+const port = process.env.PORT || 8080;
+const server = app.listen(port, () => {
+  console.log(`WebSocket server running on port ${port}`);
+});
 
 const io = socketio(server, {
   cors: {
@@ -33,7 +36,7 @@ const events = {
 };
 
 io.on('connect', (socket) => {
-  if (Object.keys(io.sockets.sockets).length > 1) {
+  if (io.sockets.sockets.size > 1) {
     socket.broadcast.emit(events.GET_STATE);
   } else {
     socket.emit(events.YOU_START);

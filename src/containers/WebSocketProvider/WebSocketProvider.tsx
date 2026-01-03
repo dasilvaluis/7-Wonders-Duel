@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addElements,
   bringElement,
@@ -7,59 +7,34 @@ import {
   moveElement,
   setElements,
 } from '../../actions/elements-actions';
-import {
-  ADD_ELEMENTS,
-  BRING_ELEMENT,
-  FLIP_ELEMENT,
-  GET_STATE,
-  MOVE_ELEMENT,
-  SET_AGE,
-  SET_ELEMENTS,
-  SET_STATE,
-  YOU_START,
-} from '../../constants';
-import type { AppState } from '../../reducers/reducers';
+import { WEBSOCKET_EVENTS } from '../../constants';
 import { getElements } from '../../reducers/selectors';
-import type {
-  AddElementsAPIEvent,
-  Age,
-  BringElementAPIEvent,
-  Coordinates,
-  FlipElementAPIEvent,
-  GameElement,
-  MoveElementAPIEvent,
-  SetAgeAPIEvent,
-  SetElementsAPIEvent,
-  SetStateAPIEvent,
-} from '../../types';
+import type { Age, Coordinates, GameElement } from '../../types';
 import { generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../../utils/board';
 import { generateCoins } from '../../utils/coins';
 import { generateWonderCards } from '../../utils/wonderCards';
 import socket from '../../wsClient';
+import {
+  emitAddElements,
+  emitBringElement,
+  emitFlipElement,
+  emitMoveElement,
+  emitSetAge,
+  emitSetElements,
+  emitSetState,
+} from './emitter';
+import { socketListeners } from './listeners';
 
-type StateProps = {
-  gameElements: Array<GameElement>;
+type Props = {
+  children: React.ReactNode;
 };
-
-type DispatchProps = {
-  onSetElements(elements: Array<GameElement>): void;
-  onAddElements(elements: Array<GameElement>): void;
-  onMoveElement(elementId: string, position: Coordinates): void;
-  onFlipElement(elementId: string): void;
-  onBringElement(elementId: string, direction: string): void;
-};
-
-type Props = StateProps &
-  DispatchProps & {
-    children: React.ReactNode;
-  };
 
 type ContextValue = {
   age: Age | null;
   changeAge: (age: Age | null) => void;
   startGame: () => void;
   flipElement: (elementId: string) => void;
-  bringElement: (elementId: string, direction: string) => void;
+  bringElement: (elementId: string, direction: 'front' | 'back') => void;
   moveElement: (elementsIds: Array<string>, delta: Coordinates) => void;
   addElements: (elements: Array<GameElement>) => void;
 };
@@ -76,94 +51,45 @@ export const useWebSocketContext = () => {
   return context;
 };
 
-const _WebSocketProvider = ({
-  children,
-  gameElements,
-  onSetElements,
-  onMoveElement,
-  onAddElements,
-  onFlipElement,
-  onBringElement,
-}: Props) => {
+export const WebSocketProvider = ({ children }: Props) => {
+  const dispatch = useDispatch();
+  const gameElements = useSelector(getElements);
+
   const [age, setAge] = useState<Age | null>(null);
 
   useEffect(() => {
-    socket.on(YOU_START, () => {
-      startGame();
+    const stopListening = socketListeners({
+      onYouStart: () => {
+        emitStartGame();
+      },
+      onSetElements: (elements) => {
+        dispatch(setElements(elements));
+      },
+      onMoveElement: (id, delta) => {
+        dispatch(moveElement(id, delta));
+      },
+      onAddElements: (data) => {
+        dispatch(addElements(data));
+      },
+      onFlipElement: (elementId) => {
+        dispatch(flipElement(elementId));
+      },
+      onBringElement: (elementId, direction) => {
+        dispatch(bringElement(elementId, direction));
+      },
+      onSetAge: setAge,
     });
 
-    socket.on(SET_STATE, (data: SetStateAPIEvent) => {
-      onSetElements(data.elements);
-      setAge(data.age);
-    });
-
-    socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
-      onSetElements(data);
-    });
-
-    socket.on(MOVE_ELEMENT, (data: MoveElementAPIEvent) => {
-      const { elementsIds, delta } = data;
-
-      elementsIds.forEach((id) => {
-        onMoveElement(id, delta);
-      });
-    });
-
-    socket.on(ADD_ELEMENTS, (data: AddElementsAPIEvent) => {
-      onAddElements(data);
-    });
-
-    socket.on(FLIP_ELEMENT, (data: FlipElementAPIEvent) => {
-      onFlipElement(data.elementId);
-    });
-
-    socket.on(BRING_ELEMENT, (data: BringElementAPIEvent) => {
-      onBringElement(data.elementId, data.direction);
-    });
-
-    socket.on(SET_AGE, (data: SetAgeAPIEvent) => {
-      setAge(data.age);
-    });
+    return stopListening;
   }, []);
 
   useEffect(() => {
-    const eventPayload: SetStateAPIEvent = { elements: gameElements, age };
-
-    socket.off(GET_STATE).on(GET_STATE, () => {
-      socket.emit(SET_STATE, eventPayload);
+    socket.off(WEBSOCKET_EVENTS.GET_STATE).on(WEBSOCKET_EVENTS.GET_STATE, () => {
+      emitSetState(gameElements, age);
     });
   }, [gameElements, age]);
 
-  const moveElement = (elementsIds: Array<string>, delta: Coordinates) => {
-    const apiEvent: MoveElementAPIEvent = { elementsIds, delta };
-
-    socket.emit(MOVE_ELEMENT, apiEvent);
-  };
-
-  const flipElement = (elementId: string) => {
-    const apiEvent: FlipElementAPIEvent = { elementId };
-
-    socket.emit(FLIP_ELEMENT, apiEvent);
-  };
-
-  const bringElement = (elementId: string, direction: string) => {
-    const apiEvent: BringElementAPIEvent = { elementId, direction };
-
-    socket.emit(BRING_ELEMENT, apiEvent);
-  };
-
-  const addElements = (elements: Array<GameElement>) => {
-    const apiEvent: AddElementsAPIEvent = elements;
-
-    socket.emit(ADD_ELEMENTS, apiEvent);
-  };
-
-  const changeAge = (age: Age | null) => {
-    setAge(age);
-    socket.emit(SET_AGE, { age });
-  };
-
-  const startGame = () => {
+  const emitStartGame = () => {
     const initialElements = [
       ...getProgressTokens(),
       ...getMilitaryTokens(),
@@ -172,37 +98,27 @@ const _WebSocketProvider = ({
       generateConflictPawn(),
     ];
 
-    socket.emit(SET_ELEMENTS, initialElements as SetElementsAPIEvent);
-    onSetElements(initialElements);
-    changeAge(null);
+    emitSetElements(initialElements);
+    dispatch(setElements(initialElements));
+    setAge(null);
+    emitSetAge(null);
   };
 
   const providerValue: ContextValue = useMemo(
     () => ({
       age,
-      changeAge,
-      startGame,
-      flipElement,
-      bringElement,
-      moveElement,
-      addElements,
+      changeAge: (age: Age | null) => {
+        setAge(age);
+        emitSetAge(age);
+      },
+      startGame: emitStartGame,
+      flipElement: emitFlipElement,
+      bringElement: emitBringElement,
+      moveElement: emitMoveElement,
+      addElements: emitAddElements,
     }),
-    [age, changeAge, startGame, flipElement, bringElement, moveElement, addElements],
+    [age, setAge, emitStartGame],
   );
 
   return <WebSocketContext.Provider value={providerValue}>{children}</WebSocketContext.Provider>;
 };
-
-const mapStateToProps = (state: AppState): StateProps => ({
-  gameElements: getElements(state),
-});
-
-const mapDispatchToProps: DispatchProps = {
-  onSetElements: (elements) => setElements(elements),
-  onAddElements: (elements) => addElements(elements),
-  onMoveElement: (elementId, position) => moveElement(elementId, position),
-  onFlipElement: (elementId) => flipElement(elementId),
-  onBringElement: (elementId, direction) => bringElement(elementId, direction),
-};
-
-export const WebSocketProvider = connect(mapStateToProps, mapDispatchToProps)(_WebSocketProvider);

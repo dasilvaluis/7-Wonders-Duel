@@ -51,7 +51,7 @@ export type FlipElementAPIEvent = {
 
 export type BringElementAPIEvent = {
   elementId: string;
-  direction: string;
+  direction: 'front' | 'back';
 };
 
 export type SetAgeAPIEvent = {

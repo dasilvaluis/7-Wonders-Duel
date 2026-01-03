@@ -1,3 +1,3 @@
 import io from 'socket.io-client';
 
-export default io();
+export default io(import.meta.env.VITE_WS_URL);

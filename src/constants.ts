@@ -5,19 +5,20 @@ export const MAX_COINS_6 = 7;
 export const MAX_COINS_3 = 9;
 export const MAX_COINS_1 = 14;
 
-// WebSocket events
-export const CONNECT = 'connect';
-export const GET_STATE = 'get_state';
-export const SET_STATE = 'set_state';
-export const GET_ELEMENTS = 'get_elements';
-export const SET_ELEMENTS = 'set_elements';
-export const MOVE_ELEMENT = 'move_element';
-export const ADD_ELEMENTS = 'add_elements';
-export const FLIP_ELEMENT = 'flip_element';
-export const BRING_ELEMENT = 'bring_element';
-export const SET_AGE = 'set_age';
-export const GET_AGE = 'get_age';
-export const YOU_START = 'you_start';
-export const SET_SCORE = 'set_score';
-export const SET_SCORES = 'set_scores';
-export const GET_SCORES = 'get_scores';
+export const WEBSOCKET_EVENTS = {
+  CONNECT: 'connect',
+  GET_STATE: 'get_state',
+  SET_STATE: 'set_state',
+  GET_ELEMENTS: 'get_elements',
+  SET_ELEMENTS: 'set_elements',
+  MOVE_ELEMENT: 'move_element',
+  ADD_ELEMENTS: 'add_elements',
+  FLIP_ELEMENT: 'flip_element',
+  BRING_ELEMENT: 'bring_element',
+  SET_AGE: 'set_age',
+  GET_AGE: 'get_age',
+  YOU_START: 'you_start',
+  SET_SCORE: 'set_score',
+  SET_SCORES: 'set_scores',
+  GET_SCORES: 'get_scores',
+};
