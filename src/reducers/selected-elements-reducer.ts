@@ -1,18 +1,21 @@
-import type { SelectElementsActionType } from '../actions/selected-elements-actions';
-import { SELECT_ELEMENT, UNSELECT_ELEMENTS } from '../actions/types';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: Array<string> = [];
+const initialState: string[] = [];
 
-export default (state = initialState, action: SelectElementsActionType) => {
-  switch (action.type) {
-    case SELECT_ELEMENT:
+const selectedElementsSlice = createSlice({
+  name: 'selectedElements',
+  initialState,
+  reducers: {
+    selectElement: (state, action: PayloadAction<{ id: string; selected: boolean }>) => {
       const filtered = state.filter((el) => el !== action.payload.id);
-
       return action.payload.selected ? [...filtered, action.payload.id] : filtered;
-    case UNSELECT_ELEMENTS:
+    },
+    unselectElements: () => {
       return initialState;
-    default: {
-      return state;
-    }
-  }
-};
+    },
+  },
+});
+
+export const selectedElementsActions = selectedElementsSlice.actions;
+
+export default selectedElementsSlice.reducer;

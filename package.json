@@ -13,6 +13,7 @@
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,md,html,yml}'"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "2.11.2",
     "classnames": "2.5.1",
     "express": "5.2.1",
     "path": "0.12.7",

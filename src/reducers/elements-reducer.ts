@@ -1,61 +1,45 @@
-import type { ElementsActionType } from '../actions/elements-actions';
-import {
-  ADD_ELEMENTS,
-  BRING_ELEMENT,
-  FLIP_ELEMENT,
-  MOVE_ELEMENT,
-  SET_ELEMENTS,
-  SET_ELEMENT_POSITION,
-} from '../actions/types';
-import type { ElementsMap } from '../types';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { Coordinates, ElementsMap, GameElement } from '../types';
 import { keyBy, moveElementBackward, reverse } from '../utils/utils';
 
 const initialState: ElementsMap = {};
 
-export default (state = initialState, action: ElementsActionType) => {
-  const _state = { ...state };
-
-  switch (action.type) {
-    case SET_ELEMENTS:
+const elementsSlice = createSlice({
+  name: 'elements',
+  initialState,
+  reducers: {
+    setElements: (_state, action: PayloadAction<GameElement[]>) => {
       return keyBy(action.payload, 'id');
-    case ADD_ELEMENTS:
+    },
+    addElements: (state, action: PayloadAction<GameElement[]>) => {
       return { ...state, ...keyBy(action.payload, 'id') };
-    case SET_ELEMENT_POSITION: {
+    },
+    setElementPosition: (state, action: PayloadAction<{ id: string; position: Coordinates }>) => {
       const { id, position } = action.payload;
-
-      if (typeof _state[id] !== 'undefined') {
-        _state[id].x = position.x;
-        _state[id].y = position.y;
+      if (state[id]) {
+        state[id].x = position.x;
+        state[id].y = position.y;
       }
-
-      return _state;
-    }
-    case MOVE_ELEMENT: {
+    },
+    moveElement: (state, action: PayloadAction<{ id: string; delta: Coordinates }>) => {
       const { id, delta } = action.payload;
-
-      if (typeof _state[id] !== 'undefined') {
-        _state[id].x += delta.x;
-        _state[id].y += delta.y;
+      if (state[id]) {
+        state[id].x += delta.x;
+        state[id].y += delta.y;
       }
-
-      return _state;
-    }
-    case FLIP_ELEMENT: {
+    },
+    flipElement: (state, action: PayloadAction<{ id: string }>) => {
       const { id } = action.payload;
-
-      if (typeof _state[id] !== 'undefined') {
-        _state[id].faceDown = !_state[id].faceDown;
+      if (state[id]) {
+        state[id].faceDown = !state[id].faceDown;
       }
-
-      return _state;
-    }
-    case BRING_ELEMENT: {
+    },
+    bringElement: (state, action: PayloadAction<{ id: string; direction: string }>) => {
       const { id, direction } = action.payload;
-
-      if (typeof _state[id] !== 'undefined') {
-        const stateValues = Object.values(_state);
-        const sameTypeElements = stateValues.filter((el) => el.type === _state[id].type);
-        const differentTypeElements = stateValues.filter((el) => el.type !== _state[id].type);
+      if (state[id]) {
+        const stateValues = Object.values(state);
+        const sameTypeElements = stateValues.filter((el) => el.type === state[id].type);
+        const differentTypeElements = stateValues.filter((el) => el.type !== state[id].type);
         let shiftedState = [...stateValues];
 
         switch (direction) {
@@ -75,23 +59,20 @@ export default (state = initialState, action: ElementsActionType) => {
 
             const shiftedTypeElements =
               direction === 'front'
-                ? [...differentIdElements, _state[id]]
-                : [_state[id], ...differentIdElements];
+                ? [...differentIdElements, state[id]]
+                : [state[id], ...differentIdElements];
 
             shiftedState = [...differentTypeElements, ...shiftedTypeElements];
             break;
           }
-          default:
-            break;
         }
 
         return keyBy(shiftedState, 'id');
       }
+    },
+  },
+});
 
-      return _state;
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export const elementsActions = elementsSlice.actions;
+
+export default elementsSlice.reducer;

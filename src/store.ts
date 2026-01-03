@@ -1,10 +1,7 @@
-import { compose, createStore } from 'redux';
-import reducers from './reducers/reducers';
+import { configureStore } from '@reduxjs/toolkit';
+import { rootReducer } from './reducers/reducers';
 
-const devToolsCompose = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-const composeEnhancers =
-  import.meta.env.DEV && window && typeof devToolsCompose === 'function'
-    ? devToolsCompose({ name: '7-Wonders-Duel' })
-    : compose;
-
-export default createStore(reducers, composeEnhancers());
+export default configureStore({
+  reducer: rootReducer,
+  devTools: import.meta.env.DEV,
+});

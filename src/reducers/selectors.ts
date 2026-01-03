@@ -8,12 +8,12 @@ export const getElement = (state: AppState, id: string) =>
   Object.values(state.elements).filter((el) => el.id === id);
 
 export const getSelectedElements = (state: AppState) =>
-  state.selectedElements.reduce((selectedElements: ElementsMap, id: string) => {
+  state.selectedElements.reduce((selectedElements, id) => {
     if (typeof state.elements[id] !== 'undefined') {
       selectedElements[id] = state.elements[id];
     }
 
     return selectedElements;
-  }, {});
+  }, {} as ElementsMap);
 
 export const getSelectedElementsIds = (state: AppState) => state.selectedElements;

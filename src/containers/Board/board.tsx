@@ -1,28 +1,15 @@
 import React, { useState } from 'react';
 import type { DraggableEvent } from 'react-draggable';
-import { connect } from 'react-redux';
-import {
-  addElements,
-  bringElement,
-  flipElement,
-  moveElement,
-  setElements,
-} from '../../actions/elements-actions';
-import { selectElement, unselectElements } from '../../actions/selected-elements-actions';
+import { connect, useDispatch } from 'react-redux';
 import AgeProgress from '../../components/AgeProgress';
 import Element from '../../components/Element';
 import ScorePadModal from '../../components/ScorePadModal';
+import { elementsActions } from '../../reducers/elements-reducer';
 import type { AppState } from '../../reducers/reducers';
+import { selectedElementsActions } from '../../reducers/selected-elements-reducer';
 import { getElements, getSelectedElements } from '../../reducers/selectors';
 import '../../styles/helpers.scss';
-import {
-  GameElements,
-  type Age,
-  type Coordinates,
-  type DraggedData,
-  type ElementsMap,
-  type GameElement,
-} from '../../types';
+import { GameElements, type Age, type DraggedData, type ElementsMap, type GameElement } from '../../types';
 import { generateBoardElement } from '../../utils/board';
 import { generateBuildingCards } from '../../utils/buildingCards';
 import { useWebSocketContext } from '../WebSocketProvider/WebSocketProvider';
@@ -40,13 +27,7 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  onSetElements(elements: Array<GameElement>): void;
-  onAddElements(elements: Array<GameElement>): void;
-  onMoveElement(elementId: string, position: Coordinates): void;
-  onFlipElement(elementId: string): void;
-  onBringElement(elementId: string, direction: string): void;
   onSelectElement(elementId: string, selected: boolean): void;
-  onUnselectElements(): void;
 };
 
 type Props = StateProps & DispatchProps;
@@ -54,14 +35,15 @@ type Props = StateProps & DispatchProps;
 const Board = (props: Props) => {
   const [visibleScorePad, setVisibleScorePad] = useState<boolean>(false);
   const wsContext = useWebSocketContext();
+  const dispatch = useDispatch();
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
     const isSelected = !!props.selectedElements[elementId];
 
     if (e.shiftKey) {
-      props.onSelectElement(elementId, true);
+      dispatch(selectedElementsActions.selectElement({ id: elementId, selected: true }));
     } else if (!isSelected) {
-      props.onUnselectElements();
+      dispatch(selectedElementsActions.unselectElements());
     }
   };
 
@@ -77,7 +59,7 @@ const Board = (props: Props) => {
 
     wsContext?.moveElement(elementsIds, delta);
     elementsIds.forEach((id) => {
-      props.onMoveElement(id, delta);
+      dispatch(elementsActions.moveElement({ id, delta }));
     });
   };
 
@@ -91,19 +73,19 @@ const Board = (props: Props) => {
           ? 'front'
           : 'back';
 
-      props.onBringElement(elementId, direction);
+      dispatch(elementsActions.bringElement({ id: elementId, direction }));
       wsContext?.bringElement(elementId, direction);
     } else {
-      props.onFlipElement(elementId);
+      dispatch(elementsActions.flipElement({ id: elementId }));
       wsContext?.flipElement(elementId);
     }
 
-    props.onUnselectElements();
+    dispatch(selectedElementsActions.unselectElements());
   };
 
   const handleBoardClick = ({ target }: React.MouseEvent) => {
     if (!(target as Element).classList.contains('element')) {
-      props.onUnselectElements();
+      dispatch(selectedElementsActions.unselectElements());
     }
   };
 
@@ -112,7 +94,7 @@ const Board = (props: Props) => {
 
     wsContext?.changeAge(age);
     wsContext?.addElements(cards);
-    props.onAddElements(cards);
+    dispatch(elementsActions.addElements(cards));
   };
 
   return (
@@ -211,14 +193,4 @@ const mapStateToProps = (state: AppState): StateProps => ({
   wonderCards: getElements(state, GameElements.WONDER_CARD),
 });
 
-const mapDispatchToProps: DispatchProps = {
-  onSetElements: (elements) => setElements(elements),
-  onAddElements: (elements) => addElements(elements),
-  onMoveElement: (elementId, position) => moveElement(elementId, position),
-  onFlipElement: (elementId) => flipElement(elementId),
-  onBringElement: (elementId, direction) => bringElement(elementId, direction),
-  onSelectElement: (elementId, selected) => selectElement(elementId, selected),
-  onUnselectElements: () => unselectElements(),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default connect(mapStateToProps)(Board);

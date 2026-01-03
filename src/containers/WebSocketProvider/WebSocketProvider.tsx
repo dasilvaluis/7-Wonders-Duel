@@ -1,15 +1,9 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addElements,
-  bringElement,
-  flipElement,
-  moveElement,
-  setElements,
-} from '../../actions/elements-actions';
 import { WEBSOCKET_EVENTS } from '../../constants';
+import { elementsActions } from '../../reducers/elements-reducer';
 import { getElements } from '../../reducers/selectors';
-import type { Age, Coordinates, GameElement } from '../../types';
+import type { Age, Coordinates, Direction, GameElement } from '../../types';
 import { generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../../utils/board';
 import { generateCoins } from '../../utils/coins';
 import { generateWonderCards } from '../../utils/wonderCards';
@@ -34,7 +28,7 @@ type ContextValue = {
   changeAge: (age: Age | null) => void;
   startGame: () => void;
   flipElement: (elementId: string) => void;
-  bringElement: (elementId: string, direction: 'front' | 'back') => void;
+  bringElement: (elementId: string, direction: Direction) => void;
   moveElement: (elementsIds: Array<string>, delta: Coordinates) => void;
   addElements: (elements: Array<GameElement>) => void;
 };
@@ -59,23 +53,21 @@ export const WebSocketProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const stopListening = socketListeners({
-      onYouStart: () => {
-        startGame();
-      },
+      onYouStart: startGame,
       onSetElements: (elements) => {
-        dispatch(setElements(elements));
+        dispatch(elementsActions.setElements(elements));
       },
       onMoveElement: (id, delta) => {
-        dispatch(moveElement(id, delta));
+        dispatch(elementsActions.moveElement({ id, delta }));
       },
       onAddElements: (data) => {
-        dispatch(addElements(data));
+        dispatch(elementsActions.addElements(data));
       },
-      onFlipElement: (elementId) => {
-        dispatch(flipElement(elementId));
+      onFlipElement: (id) => {
+        dispatch(elementsActions.flipElement({ id }));
       },
-      onBringElement: (elementId, direction) => {
-        dispatch(bringElement(elementId, direction));
+      onBringElement: (id, direction) => {
+        dispatch(elementsActions.bringElement({ id, direction }));
       },
       onSetAge: setAge,
     });
@@ -99,7 +91,7 @@ export const WebSocketProvider = ({ children }: Props) => {
     ];
 
     emitSetElements(initialElements);
-    dispatch(setElements(initialElements));
+    dispatch(elementsActions.setElements(initialElements));
     setAge(null);
     emitSetAge(null);
   };

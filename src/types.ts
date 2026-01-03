@@ -1,8 +1,8 @@
-export type ElementsMap = {
-  [key: string]: GameElement;
-};
+export type ElementsMap = Record<string, GameElement>;
 
 export type Age = 'I' | 'II' | 'III';
+
+export type Direction = 'front' | 'back' | 'forward' | 'backward';
 
 export const GameElements = {
   MOCK: 'mock',
@@ -51,7 +51,7 @@ export type FlipElementAPIEvent = {
 
 export type BringElementAPIEvent = {
   elementId: string;
-  direction: 'front' | 'back';
+  direction: Direction;
 };
 
 export type SetAgeAPIEvent = {

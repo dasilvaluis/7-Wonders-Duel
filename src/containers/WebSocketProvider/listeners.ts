@@ -2,6 +2,7 @@ import { WEBSOCKET_EVENTS } from '../../constants';
 import type {
   AddElementsAPIEvent,
   BringElementAPIEvent,
+  Direction,
   FlipElementAPIEvent,
   MoveElementAPIEvent,
   SetAgeAPIEvent,
@@ -16,7 +17,7 @@ export const socketListeners = (callbacks: {
   onMoveElement: (id: string, delta: { x: number; y: number }) => void;
   onAddElements: (data: AddElementsAPIEvent) => void;
   onFlipElement: (elementId: string) => void;
-  onBringElement: (elementId: string, direction: 'front' | 'back') => void;
+  onBringElement: (elementId: string, direction: Direction) => void;
   onSetAge: (age: null | 'I' | 'II' | 'III') => void;
 }) => {
   socket.on(WEBSOCKET_EVENTS.YOU_START, () => {

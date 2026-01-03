@@ -4,6 +4,7 @@ import type {
   Age,
   BringElementAPIEvent,
   Coordinates,
+  Direction,
   FlipElementAPIEvent,
   GameElement,
   MoveElementAPIEvent,
@@ -25,7 +26,7 @@ export const emitFlipElement = (elementId: string) => {
   socket.emit(WEBSOCKET_EVENTS.FLIP_ELEMENT, apiEvent);
 };
 
-export const emitBringElement = (elementId: string, direction: 'front' | 'back') => {
+export const emitBringElement = (elementId: string, direction: Direction) => {
   const apiEvent: BringElementAPIEvent = { elementId, direction };
 
   socket.emit(WEBSOCKET_EVENTS.BRING_ELEMENT, apiEvent);
