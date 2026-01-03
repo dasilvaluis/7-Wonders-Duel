@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { DraggableEvent } from 'react-draggable';
-import { connect, useDispatch } from 'react-redux';
-import AgeProgress from '../../components/AgeProgress';
-import Element from '../../components/Element';
-import ScorePadModal from '../../components/ScorePadModal';
-import { elementsActions } from '../../reducers/elements-reducer';
-import type { AppState } from '../../reducers/reducers';
-import { selectedElementsActions } from '../../reducers/selected-elements-reducer';
-import { getElements, getSelectedElements } from '../../reducers/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { AgeProgress } from '../../components/AgeProgress/age-progress';
+import { Element } from '../../components/Element/element';
+import { ScorePadModal } from '../../components/ScorePadModal/score-pad-modal';
+import { elementsActions } from '../../state/elementsSlice';
+import { selectedElementsActions } from '../../state/selectedElementsSlice';
+import {
+  pickSelectedElements,
+  selectBuildingCards,
+  selectCoins,
+  selectConflictPawn,
+  selectMilitaryTokens,
+  selectProgressTokens,
+  selectWonderCards,
+} from '../../state/selectors';
 import '../../styles/helpers.scss';
-import { GameElements, type Age, type DraggedData, type ElementsMap, type GameElement } from '../../types';
-import { generateBoardElement } from '../../utils/board';
+import { VerticalDirections, type Age, type DraggedData } from '../../types';
+import { boardElement } from '../../utils/board';
 import { generateBuildingCards } from '../../utils/buildingCards';
 import { useWebSocketContext } from '../WebSocketProvider/WebSocketProvider';
 import './board-tools.scss';
@@ -20,6 +27,7 @@ export const Board = () => {
   const [visibleScorePad, setVisibleScorePad] = useState<boolean>(false);
   const wsContext = useWebSocketContext();
   const dispatch = useDispatch();
+  const lastTapRef = useRef<{ time: number; elementId: string | null }>({ time: 0, elementId: null });
 
   const selectedElements = useSelector(pickSelectedElements);
   const conflictPawn = useSelector(selectConflictPawn);
@@ -28,6 +36,39 @@ export const Board = () => {
   const progressTokens = useSelector(selectProgressTokens);
   const buildingCards = useSelector(selectBuildingCards);
   const wonderCards = useSelector(selectWonderCards);
+
+  const handleDoubleAction = (elementId: string, shiftKey: boolean, altKey: boolean, capsLock: boolean) => {
+    if (shiftKey) {
+      const direction = capsLock
+        ? !altKey
+          ? VerticalDirections.FORWARD
+          : VerticalDirections.BACKWARD
+        : !altKey
+          ? VerticalDirections.FRONT
+          : VerticalDirections.BACK;
+
+      dispatch(elementsActions.bringElement({ id: elementId, direction }));
+      wsContext?.bringElement(elementId, direction);
+    } else {
+      dispatch(elementsActions.flipElement({ id: elementId }));
+      wsContext?.flipElement(elementId);
+    }
+
+    dispatch(selectedElementsActions.unselectElements());
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent, elementId: string) => {
+    const now = Date.now();
+    const timeDiff = now - lastTapRef.current.time;
+    const isSameElement = lastTapRef.current.elementId === elementId;
+
+    if (timeDiff < 300 && isSameElement) {
+      e.preventDefault();
+      handleDoubleAction(elementId, false, false, false);
+    }
+
+    lastTapRef.current = { time: now, elementId };
+  };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, elementId: string) => {
     const isSelected = !!selectedElements[elementId];
@@ -54,23 +95,7 @@ export const Board = () => {
   };
 
   const handleDoubleClickElement = (e: React.MouseEvent, elementId: string) => {
-    if (e.shiftKey) {
-      const direction = e.getModifierState('CapsLock')
-        ? !e.altKey
-          ? 'forward'
-          : 'backward'
-        : !e.altKey
-          ? 'front'
-          : 'back';
-
-      dispatch(elementsActions.bringElement({ id: elementId, direction }));
-      wsContext?.bringElement(elementId, direction);
-    } else {
-      dispatch(elementsActions.flipElement({ id: elementId }));
-      wsContext?.flipElement(elementId);
-    }
-
-    dispatch(selectedElementsActions.unselectElements());
+    handleDoubleAction(elementId, e.shiftKey, e.altKey, e.getModifierState('CapsLock'));
   };
 
   const handleBoardClick = ({ target }: React.MouseEvent) => {
@@ -102,7 +127,7 @@ export const Board = () => {
         <AgeProgress age={wsContext?.age} onChange={handleChangeAge} />
       </div>
       <div className="board__elements">
-        <Element element={generateBoardElement()} />
+        <Element disabled element={boardElement} />
         {militaryTokens.map((el) => (
           <Element
             key={el.id}
@@ -110,6 +135,7 @@ export const Board = () => {
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            onTouchEnd={(e) => handleTouchEnd(e, el.id)}
           />
         ))}
         {progressTokens.map((el) => (
@@ -120,6 +146,7 @@ export const Board = () => {
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            onTouchEnd={(e) => handleTouchEnd(e, el.id)}
           />
         ))}
         {conflictPawn && (
@@ -128,6 +155,7 @@ export const Board = () => {
             element={conflictPawn}
             onMove={handleMoveElement}
             onDoubleClick={(e) => handleDoubleClickElement(e, conflictPawn.id)}
+            onTouchEnd={(e) => handleTouchEnd(e, conflictPawn.id)}
           />
         )}
         {buildingCards.map((el) => (
@@ -138,6 +166,7 @@ export const Board = () => {
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            onTouchEnd={(e) => handleTouchEnd(e, el.id)}
           />
         ))}
         {wonderCards.map((el) => (
@@ -148,6 +177,7 @@ export const Board = () => {
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            onTouchEnd={(e) => handleTouchEnd(e, el.id)}
           />
         ))}
         {coins.map((el) => (
@@ -158,6 +188,7 @@ export const Board = () => {
             onMove={handleMoveElement}
             onMouseDown={(e) => handleMouseDown(e, el.id)}
             onDoubleClick={(e) => handleDoubleClickElement(e, el.id)}
+            onTouchEnd={(e) => handleTouchEnd(e, el.id)}
           />
         ))}
       </div>
