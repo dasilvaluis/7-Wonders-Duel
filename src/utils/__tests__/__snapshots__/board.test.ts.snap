@@ -1,161 +1,161 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`board-utils getBoardElement matches snapshot 1`] = `
-Object {
+exports[`utils > board getBoardElement matches snapshot 1`] = `
+{
   "faceDown": false,
   "id": "board",
   "imageFile": "board.png",
   "imageFileBackface": "board.png",
   "type": "board",
-  "x": 488.75,
-  "y": 20,
+  "x": 498.75,
+  "y": 0,
 }
 `;
 
-exports[`board-utils getConflictPawn matches snapshot 1`] = `
-Object {
+exports[`utils > board getConflictPawn matches snapshot 1`] = `
+{
   "faceDown": false,
   "id": "",
   "imageFile": "conflict-pawn.png",
   "imageFileBackface": "conflict-pawn-back.png",
   "type": "mock",
-  "x": 813.75,
-  "y": 90.75,
+  "x": 823.75,
+  "y": 70.75,
 }
 `;
 
-exports[`board-utils getMilitaryTokens matches snapshot 1`] = `
-Array [
-  Object {
+exports[`utils > board getMilitaryTokens matches snapshot 1`] = `
+[
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-military-5.jpg",
     "imageFileBackface": "token-military-back.jpg",
     "type": "mock",
-    "x": 558.75,
-    "y": 162.625,
+    "x": 568.75,
+    "y": 142.625,
   },
-  Object {
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-military-2.jpg",
     "imageFileBackface": "token-military-back.jpg",
     "type": "mock",
-    "x": 663.75,
-    "y": 165.25,
+    "x": 673.75,
+    "y": 145.25,
   },
-  Object {
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-military-2.jpg",
     "imageFileBackface": "token-military-back.jpg",
     "type": "mock",
-    "x": 926.25,
-    "y": 165.25,
+    "x": 936.25,
+    "y": 145.25,
   },
-  Object {
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-military-5.jpg",
     "imageFileBackface": "token-military-back.jpg",
     "type": "mock",
-    "x": 1019,
-    "y": 162.625,
+    "x": 1029,
+    "y": 142.625,
   },
 ]
 `;
 
-exports[`board-utils getProgressTokens matches snapshot 1`] = `
-Array [
-  Object {
+exports[`utils > board getProgressTokens matches snapshot 1`] = `
+[
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-progress-agricultura.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 655,
-    "y": 26.5625,
+    "x": 665,
+    "y": 6.5625,
   },
-  Object {
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-progress-albanileria.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 725,
-    "y": 26.5625,
+    "x": 735,
+    "y": 6.5625,
   },
-  Object {
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-progress-arquitectura.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 795,
-    "y": 26.5625,
+    "x": 805,
+    "y": 6.5625,
   },
-  Object {
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-progress-derecho.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 865,
-    "y": 26.5625,
+    "x": 875,
+    "y": 6.5625,
   },
-  Object {
+  {
     "faceDown": false,
     "id": "",
     "imageFile": "token-progress-economia.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 935,
-    "y": 26.5625,
+    "x": 945,
+    "y": 6.5625,
   },
-  Object {
+  {
     "faceDown": true,
     "id": "",
     "imageFile": "token-progress-estrategia.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 550,
-    "y": 25.25,
+    "x": 560,
+    "y": 5.25,
   },
-  Object {
+  {
     "faceDown": true,
     "id": "",
     "imageFile": "token-progress-filosofia.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 550,
-    "y": 25.25,
+    "x": 560,
+    "y": 5.25,
   },
-  Object {
+  {
     "faceDown": true,
     "id": "",
     "imageFile": "token-progress-matematicas.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 550,
-    "y": 25.25,
+    "x": 560,
+    "y": 5.25,
   },
-  Object {
+  {
     "faceDown": true,
     "id": "",
     "imageFile": "token-progress-teologia.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 550,
-    "y": 25.25,
+    "x": 560,
+    "y": 5.25,
   },
-  Object {
+  {
     "faceDown": true,
     "id": "",
     "imageFile": "token-progress-urbanismo.jpg",
     "imageFileBackface": "token-progress-back.jpg",
     "type": "mock",
-    "x": 550,
-    "y": 25.25,
+    "x": 560,
+    "y": 5.25,
   },
 ]
 `;

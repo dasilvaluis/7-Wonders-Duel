@@ -1,4 +1,4 @@
-import { movePositions, getRandomElements } from '../utils';
+import { getRandomElements, movePositions } from '../utils';
 
 describe('utils', () => {
   describe('movePositions', () => {
@@ -37,8 +37,19 @@ describe('utils', () => {
     });
 
     it('returns randomized array if limit is equal to arrays length', () => {
-      expect(getRandomElements(array, array.length)).not.toEqual(array);
-      expect(getRandomElements(array, array.length)).toHaveLength(array.length);
+      const results = [
+        getRandomElements(array, array.length),
+        getRandomElements(array, array.length),
+        getRandomElements(array, array.length)
+      ];
+
+      const hasShuffled = results.some(result => JSON.stringify(result) !== JSON.stringify(array));
+      expect(hasShuffled).toBe(true);
+      
+      results.forEach(result => {
+        expect(result).toHaveLength(array.length);
+        expect(result.sort()).toEqual(array);
+      });
     });
 
     it('same input does snot create the same output twice', () => {

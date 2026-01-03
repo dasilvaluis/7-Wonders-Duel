@@ -7,7 +7,8 @@
     "start-server": "nodemon server/index.js",
     "build": "vite build",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "jest"
   },
   "dependencies": {
     "classnames": "2.3.2",
@@ -30,7 +31,7 @@
     "@testing-library/user-event": "14.4.3",
     "@types/classnames": "2.3.1",
     "@types/express": "4.17.17",
-    "@types/jest": "29.5.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "24",
     "@types/react": "^18",
     "@types/react-dom": "18",
@@ -40,9 +41,12 @@
     "@types/socket.io-client": "3.0.0",
     "@vitejs/plugin-react": "5.1.2",
     "dotenv": "16.3.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "29",
+    "jest-environment-jsdom": "^30.2.0",
     "react-test-renderer": "16.14.0",
     "sass": "1.97.1",
+    "ts-jest": "^29.4.6",
     "vite": "7.3.0"
   }
 }

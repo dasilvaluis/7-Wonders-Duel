@@ -1,4 +1,3 @@
-import { GameElements } from '../../types';
 import { generateBoardElement, generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../board';
 import * as utils from '../utils';
 
@@ -10,7 +9,7 @@ describe('utils > board', () => {
         id: '',
         x: 0,
         y: 0,
-        type: GameElements.MOCK,
+        type: 'mock',
         faceDown: false,
         imageFile: '',
         imageFileBackface: ''
