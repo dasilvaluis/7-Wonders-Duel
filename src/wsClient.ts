@@ -1,3 +1,3 @@
 import io from 'socket.io-client';
 
-export default io('http://localhost:8080');
+export default io('http://localhost:1337');

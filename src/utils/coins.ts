@@ -3,7 +3,9 @@ import { BOARD_WIDTH, ELEMENT_MARGIN, MAX_COINS_1, MAX_COINS_3, MAX_COINS_6 } fr
 import { GameElements, type GameElement } from '../types';
 import { getElementSize, injectPositions, movePositions } from './utils';
 
-export const getCoinElement = (value: 1 | 3 | 6): GameElement => {
+type CoinValues = 1 | 3 | 6;
+
+export const getCoinElement = (value: CoinValues): GameElement => {
   const base = {
     id: uuidv4(),
     x: 0,
@@ -32,7 +34,7 @@ export const getCoinElement = (value: 1 | 3 | 6): GameElement => {
   }
 };
 
-export const getCoinElements = (value: 1 | 3 | 6): Array<GameElement> => {
+export const getCoinElements = (value: CoinValues): Array<GameElement> => {
   let maxCoins = 0;
   switch (value) {
     case 6:
@@ -54,7 +56,7 @@ export const getCoinElements = (value: 1 | 3 | 6): Array<GameElement> => {
   return elements;
 };
 
-export const getCoinsPlacement = (value: 1 | 3 | 6) => {
+export const getCoinsPlacement = (value: CoinValues) => {
   const getRandomPositions = (variation: number, maxCoins: number) => {
     const positions = [];
     for (let index = 0; index < maxCoins; index++) {
@@ -85,9 +87,9 @@ export const getCoinsPlacement = (value: 1 | 3 | 6) => {
 };
 
 export const generateCoins = (): Array<GameElement> => {
-  const coindWidth6 = getElementSize(GameElements.COIN_6).width;
-  const coindWidth3 = getElementSize(GameElements.COIN_3).width;
-  const coindWidth1 = getElementSize(GameElements.COIN_1).width;
+  const coinsWidth6 = getElementSize(GameElements.COIN_6).width;
+  const coinsWidth3 = getElementSize(GameElements.COIN_3).width;
+  const coinsWidth1 = getElementSize(GameElements.COIN_1).width;
 
   const coinElements6 = getCoinElements(6);
   const coinElements3 = getCoinElements(3);
@@ -98,15 +100,15 @@ export const generateCoins = (): Array<GameElement> => {
   const coinPlacements1 = getCoinsPlacement(1);
 
   const coinPlacements6Shifted = movePositions(coinPlacements6, {
-    x: BOARD_WIDTH - (coindWidth6 * 2) - ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coinsWidth6 * 2) - ELEMENT_MARGIN
   });
 
   const coinPlacements3Shifted = movePositions(coinPlacements3, {
-    x: BOARD_WIDTH - (coindWidth3 + coindWidth6 * 2) - ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coinsWidth3 + coinsWidth6 * 2) - ELEMENT_MARGIN
   });
 
   const coinPlacements1Shifted = movePositions(coinPlacements1, {
-    x: BOARD_WIDTH - (coindWidth1 + coindWidth3 + coindWidth6 * 2) - ELEMENT_MARGIN
+    x: BOARD_WIDTH - (coinsWidth1 + coinsWidth3 + coinsWidth6 * 2) - ELEMENT_MARGIN
   });
 
   const coins6 = injectPositions(coinElements6, coinPlacements6Shifted);

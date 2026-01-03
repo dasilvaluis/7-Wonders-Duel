@@ -1,14 +1,22 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
-import { addElements, bringElement, flipElement, moveElement, setElements } from '../../actions/elements-actions';
+import {
+  addElements,
+  bringElement,
+  flipElement,
+  moveElement,
+  setElements
+} from '../../actions/elements-actions';
 import {
   ADD_ELEMENTS,
   BRING_ELEMENT,
   FLIP_ELEMENT,
   GET_STATE,
-  MOVE_ELEMENT, SET_AGE,
+  MOVE_ELEMENT,
+  SET_AGE,
   SET_ELEMENTS,
-  SET_STATE, YOU_START
+  SET_STATE,
+  YOU_START
 } from '../../constants';
 import type { AppState } from '../../reducers/reducers';
 import { getElements } from '../../reducers/selectors';
@@ -41,11 +49,32 @@ type DispatchProps = {
   onBringElement(elementId: string, direction: string): void;
 };
 
-type Props = StateProps & DispatchProps & {
-  children: React.ReactNode;
+type Props = StateProps &
+  DispatchProps & {
+    children: React.ReactNode;
+  };
+
+type ContextValue = {
+  age: Age | null;
+  changeAge: (age: Age | null) => void;
+  startGame: () => void;
+  flipElement: (elementId: string) => void;
+  bringElement: (elementId: string, direction: string) => void;
+  moveElement: (elementsIds: Array<string>, delta: Coordinates) => void;
+  addElements: (elements: Array<GameElement>) => void;
 };
 
-export const WebSocketContext = createContext(null);
+export const WebSocketContext = createContext<ContextValue | null>(null);
+
+export const useWebSocketContext = () => {
+  const context = useContext(WebSocketContext);
+
+  if (!context) {
+    throw new Error('useWebSocketContext must be used within a WebSocketProvider');
+  }
+
+  return context;
+};
 
 const _WebSocketProvider = ({
   children,
@@ -54,9 +83,9 @@ const _WebSocketProvider = ({
   onMoveElement,
   onAddElements,
   onFlipElement,
-  onBringElement,
+  onBringElement
 }: Props) => {
-  const [ age, setAge ] = useState<Age | null>(null);
+  const [age, setAge] = useState<Age | null>(null);
 
   useEffect(() => {
     socket.on(YOU_START, () => {
@@ -67,7 +96,7 @@ const _WebSocketProvider = ({
       onSetElements(data.elements);
       setAge(data.age);
     });
-    
+
     socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
       onSetElements(data);
     });
@@ -91,21 +120,19 @@ const _WebSocketProvider = ({
     socket.on(BRING_ELEMENT, (data: BringElementAPIEvent) => {
       onBringElement(data.elementId, data.direction);
     });
-    
+
     socket.on(SET_AGE, (data: SetAgeAPIEvent) => {
       setAge(data.age);
     });
   }, []);
-  
+
   useEffect(() => {
     const eventPayload: SetStateAPIEvent = { elements: gameElements, age };
 
-    socket
-      .off(GET_STATE)
-      .on(GET_STATE, () => {
-        socket.emit(SET_STATE, eventPayload);
-      });
-  }, [ gameElements, age ]);
+    socket.off(GET_STATE).on(GET_STATE, () => {
+      socket.emit(SET_STATE, eventPayload);
+    });
+  }, [gameElements, age]);
 
   const moveElement = (elementsIds: Array<string>, delta: Coordinates) => {
     const apiEvent: MoveElementAPIEvent = { elementsIds, delta };
@@ -148,23 +175,22 @@ const _WebSocketProvider = ({
     socket.emit(SET_ELEMENTS, initialElements as SetElementsAPIEvent);
     onSetElements(initialElements);
     changeAge(null);
-  }
-
-  const providerValue = {
-    age,
-    changeAge,
-    startGame,
-    flipElement,
-    bringElement,
-    moveElement,
-    addElements
   };
 
-  return (
-    <WebSocketContext.Provider value={ providerValue }>
-      { children }
-    </WebSocketContext.Provider>
-  )
+  const providerValue: ContextValue = useMemo(
+    () => ({
+      age,
+      changeAge,
+      startGame,
+      flipElement,
+      bringElement,
+      moveElement,
+      addElements
+    }),
+    [age, changeAge, startGame, flipElement, bringElement, moveElement, addElements]
+  );
+
+  return <WebSocketContext.Provider value={providerValue}>{children}</WebSocketContext.Provider>;
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
@@ -179,7 +205,4 @@ const mapDispatchToProps: DispatchProps = {
   onBringElement: (elementId, direction) => bringElement(elementId, direction)
 };
 
-export const WebSocketProvider = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(_WebSocketProvider);
+export const WebSocketProvider = connect(mapStateToProps, mapDispatchToProps)(_WebSocketProvider);
