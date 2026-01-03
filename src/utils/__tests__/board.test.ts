@@ -1,16 +1,16 @@
-import { generateConflictPawn, getMilitaryTokens, getProgressTokens, generateBoardElement } from '../board-utils';
+import { GameElements } from '../../types';
+import { generateBoardElement, generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../board';
 import * as utils from '../utils';
-import { ElementTypes } from '../../types';
 
-describe('board-utils', () => {
+describe('utils > board', () => {
   beforeAll(() => {
     jest
       .spyOn(utils, 'createElement')
-      .mockImplementation((el) => ({ 
+      .mockImplementation(() => ({ 
         id: '',
         x: 0,
         y: 0,
-        type: ElementTypes.MOCK,
+        type: GameElements.MOCK,
         faceDown: false,
         imageFile: '',
         imageFileBackface: ''

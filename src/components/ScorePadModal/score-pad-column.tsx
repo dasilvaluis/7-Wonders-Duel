@@ -1,9 +1,8 @@
-import { PlayerScore } from './score-pad';
-import React from 'react';
-import ScorePadInput from './score-pad-input';
+import { type PlayerScore } from './score-pad';
 import ScorePadCheckbox from './score-pad-checkbox';
+import ScorePadInput from './score-pad-input';
 
-interface Props {
+type Props = {
   score: PlayerScore;
   onUpdate(type: string, value: number | boolean): void;
 }
@@ -25,7 +24,7 @@ export default ({
 
   return (
     <div className="score-pad__column">
-      <ScorePadInput type="civilisation" value={score.civilisation} onChange={handleInputChange('civilisation')} />
+      <ScorePadInput type="civilization" value={score.civilization} onChange={handleInputChange('civilization')} />
       <ScorePadInput type="science" value={score.science} onChange={handleInputChange('science')} />
       <ScorePadInput type="commerce" value={score.commerce} onChange={handleInputChange('commerce')} />
       <ScorePadInput type="guild" value={score.guild} onChange={handleInputChange('guild')} />
@@ -34,8 +33,8 @@ export default ({
       <ScorePadInput type="money" value={score.money} onChange={handleInputChange('money')} />
       <ScorePadInput type="military" value={score.military} onChange={handleInputChange('military')} />
       <ScorePadInput type="total" value={total as number} disabled={true} />
-      <ScorePadCheckbox type="suddendeathMilitary" checked={score.suddendeathMilitary} onChange={handleCheckboxChange('suddendeathMilitary')} />
-      <ScorePadCheckbox type="suddendeathScience" checked={score.suddendeathScience} onChange={handleCheckboxChange('suddendeathScience')} />
+      <ScorePadCheckbox type="suddenDeathMilitary" checked={score.suddenDeathMilitary} onChange={handleCheckboxChange('suddenDeathMilitary')} />
+      <ScorePadCheckbox type="suddenDeathScience" checked={score.suddenDeathScience} onChange={handleCheckboxChange('suddenDeathScience')} />
     </div>
   )
 }

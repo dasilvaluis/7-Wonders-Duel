@@ -1,17 +1,17 @@
-import { GameElement, ElementTypes, Coordinates } from '../types';
+import { BOARD_WIDTH } from '../constants';
 import { tokens as tokensDb } from '../data/progress-tokens.json';
-import { getRandomElements, createElement, getElementScale, getElementSize, movePositions } from './utils';
-import { BOARD_WIDTH } from '../contants';
+import { GameElements, type Coordinates, type GameElement } from '../types';
+import { createElement, getElementScale, getElementSize, getRandomElements, movePositions } from './utils';
 
 const boardPosition = {
-  x: (BOARD_WIDTH - getElementSize(ElementTypes.BOARD).width) / 2,
+  x: (BOARD_WIDTH - getElementSize(GameElements.BOARD).width) / 2,
   y: 0,
 };
 
 export const generateBoardElement = (): GameElement => ({
   ...boardPosition,
   id: 'board',
-  type: ElementTypes.BOARD,
+  type: GameElements.BOARD,
   faceDown: false,
   imageFile: 'board.png',
   imageFileBackface: 'board.png'
@@ -19,9 +19,9 @@ export const generateBoardElement = (): GameElement => ({
 
 export const getProgressTokens = (): Array<GameElement> => {
   const boardTokensCount = 5;
-  const tokenWidth = getElementSize(ElementTypes.PROGRESS_TOKEN).width;
-  const tokenScale = getElementScale(ElementTypes.PROGRESS_TOKEN);
-  const boardScale = getElementScale(ElementTypes.BOARD);
+  const tokenWidth = getElementSize(GameElements.PROGRESS_TOKEN).width;
+  const tokenScale = getElementScale(GameElements.PROGRESS_TOKEN);
+  const boardScale = getElementScale(GameElements.BOARD);
   const shuffledTokens = getRandomElements(tokensDb);
   const boardTokens = shuffledTokens.slice(0, boardTokensCount);
   const hiddenTokens = shuffledTokens.slice(boardTokensCount);
@@ -32,7 +32,7 @@ export const getProgressTokens = (): Array<GameElement> => {
   }));
 
   const placedBoardTokens: Array<GameElement> = boardTokens.map((token , index) => ({
-    ...createElement(ElementTypes.PROGRESS_TOKEN),
+    ...createElement(GameElements.PROGRESS_TOKEN),
     x: boardPosition.x + 95 * boardScale + boardTokensPlacement[index].x,
     y: boardPosition.y + 3.75 * boardScale,
     imageFile: token.file,
@@ -40,7 +40,7 @@ export const getProgressTokens = (): Array<GameElement> => {
   }));
 
   const placedHiddenTokens: Array<GameElement> = hiddenTokens.map((token , index) => ({
-    ...createElement(ElementTypes.PROGRESS_TOKEN),
+    ...createElement(GameElements.PROGRESS_TOKEN),
     faceDown: true,
     x: boardPosition.x + tokenWidth,
     y: boardPosition.y + 3 * boardScale,
@@ -52,23 +52,23 @@ export const getProgressTokens = (): Array<GameElement> => {
 };
 
 export const getMilitaryTokens = (): Array<GameElement> => {
-  const boardScale = getElementScale(ElementTypes.BOARD);
-  const token5Height = getElementSize(ElementTypes.MILITARY_TOKEN_5).height;
-  const token2Height = getElementSize(ElementTypes.MILITARY_TOKEN_2).height;
+  const boardScale = getElementScale(GameElements.BOARD);
+  const token5Height = getElementSize(GameElements.MILITARY_TOKEN_5).height;
+  const token2Height = getElementSize(GameElements.MILITARY_TOKEN_2).height;
 
-  const getMilitaryToken = (value) => {
+  const getMilitaryToken = (value: number) => {
     const imageFileBackface = 'token-military-back.jpg';
 
     switch (value) {
       case 5:
         return {
-          ...createElement(ElementTypes.MILITARY_TOKEN_5),
+          ...createElement(GameElements.MILITARY_TOKEN_5),
           imageFileBackface,
           imageFile: 'token-military-5.jpg'
         };
       default:
         return {
-          ...createElement(ElementTypes.MILITARY_TOKEN_2),
+          ...createElement(GameElements.MILITARY_TOKEN_2),
           imageFileBackface,
           imageFile: 'token-military-2.jpg'
         };
@@ -108,11 +108,11 @@ export const getMilitaryTokens = (): Array<GameElement> => {
 };
 
 export const generateConflictPawn = (): GameElement => {
-  const { width: pawnWidth, height: pawnHeight } = getElementSize(ElementTypes.CONFLICT_PAWN);
-  const boardWidth  = getElementSize(ElementTypes.BOARD).width;
+  const { width: pawnWidth, height: pawnHeight } = getElementSize(GameElements.CONFLICT_PAWN);
+  const boardWidth  = getElementSize(GameElements.BOARD).width;
 
  return {
-    ...createElement(ElementTypes.CONFLICT_PAWN),
+    ...createElement(GameElements.CONFLICT_PAWN),
     x: boardPosition.x + (boardWidth - pawnWidth) / 2 - 4,
     y: boardPosition.y + pawnHeight - 8,
     imageFile: 'conflict-pawn.png',

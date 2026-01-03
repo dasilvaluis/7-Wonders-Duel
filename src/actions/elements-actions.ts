@@ -1,20 +1,23 @@
+import type { Coordinates, GameElement } from '../types';
 import {
-  SET_ELEMENTS, SET_ELEMENT_POSITION, ADD_ELEMENTS,
-  FLIP_ELEMENT, BRING_ELEMENT, MOVE_ELEMENT
+  ADD_ELEMENTS,
+  BRING_ELEMENT,
+  FLIP_ELEMENT,
+  MOVE_ELEMENT,
+  SET_ELEMENTS, SET_ELEMENT_POSITION
 } from './types';
-import { Coordinates, GameElement } from '../types';
 
-interface SetElementsAction {
+type SetElementsAction = {
   payload: Array<GameElement>;
   type: typeof SET_ELEMENTS;
 }
 
-interface AddElementsAction {
+type AddElementsAction = {
   payload: Array<GameElement>;
   type: typeof ADD_ELEMENTS;
 }
 
-interface SetElementPositionAction {
+type SetElementPositionAction = {
   payload: {
     id: string,
     position: Coordinates
@@ -22,7 +25,7 @@ interface SetElementPositionAction {
   type: typeof SET_ELEMENT_POSITION;
 }
 
-interface MoveElementAction {
+type MoveElementAction = {
   payload: {
     id: string,
     delta: Coordinates
@@ -30,14 +33,14 @@ interface MoveElementAction {
   type: typeof MOVE_ELEMENT;
 }
 
-interface FlipElementAction {
+type FlipElementAction = {
   payload: {
     id: string
   };
   type: typeof FLIP_ELEMENT;
 }
 
-interface BringElementAction {
+type BringElementAction = {
   payload: {
     id: string,
     direction: string

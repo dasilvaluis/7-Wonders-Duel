@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from 'react';
+import { type ChangeEvent } from 'react';
 
-interface Props {
+type Props = {
   type: string;
   checked: boolean;
   onChange: (checked: boolean) => void;

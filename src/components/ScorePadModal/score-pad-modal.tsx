@@ -1,11 +1,11 @@
-import Modal from '../Modal';
-import React, { useState } from 'react';
-import ScorePad from './score-pad';
-import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
-import { Coordinates, ElementTypes } from '../../types';
-import { BOARD_WIDTH, ELEMENT_MARGIN } from '../../contants';
-import { getElementSize } from '../../utils/utils';
 import cn from 'classnames';
+import { useState } from 'react';
+import Draggable, { type DraggableData, type DraggableEvent } from 'react-draggable';
+import { BOARD_WIDTH, ELEMENT_MARGIN } from '../../constants';
+import { type Coordinates, GameElements } from '../../types';
+import { getElementSize } from '../../utils/utils';
+import Modal from '../Modal';
+import ScorePad from './score-pad';
 
 type Props = {
   open: boolean;
@@ -19,7 +19,7 @@ export default ({
   const [ dragging, setDragging ] = useState<boolean>(false);
   const [ { x, y }, setPosition ] = useState<Coordinates>({
     x: (BOARD_WIDTH - 400) / 2,
-    y: getElementSize(ElementTypes.BOARD).height + ELEMENT_MARGIN
+    y: getElementSize(GameElements.BOARD).height + ELEMENT_MARGIN
   });
 
   const handleDrag = (

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import { ElementsMap } from '../types';
+import type { ElementsMap } from '../types';
 import elements from './elements-reducer';
 import selectedElements from './selected-elements-reducer';
 
-export interface AppState {
+export type AppState = {
   elements: ElementsMap;
   selectedElements: Array<string>;
 }

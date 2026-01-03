@@ -1,22 +1,25 @@
 import React, { useContext, useState } from 'react';
+import type { DraggableEvent } from 'react-draggable';
 import { connect } from 'react-redux';
-import { DraggableEvent } from 'react-draggable';
-import {
-  Coordinates, GameElement, ElementTypes, Age, DraggedData, ElementsMap
-} from '../../types';
-import { getElements, getSelectedElements } from '../../reducers/selectors';
-import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
-import { AppState } from '../../reducers/reducers';
-import { generateBuildingCards } from '../../utils/buildingcards-utils';
-import { generateBoardElement } from '../../utils/board-utils';
-import Element from '../../components/Element';
+import { addElements, bringElement, flipElement, moveElement, setElements } from '../../actions/elements-actions';
 import { selectElement, unselectElements } from '../../actions/selected-elements-actions';
 import AgeProgress from '../../components/AgeProgress';
+import Element from '../../components/Element';
 import ScorePadModal from '../../components/ScorePadModal';
-import { WebSocketContext } from '../WebSocketProvider/websocket-provider';
-import './board.scss';
-import './board-tools.scss';
+import type { AppState } from '../../reducers/reducers';
+import { getElements, getSelectedElements } from '../../reducers/selectors';
 import '../../styles/helpers.scss';
+import {
+  GameElements, type Age,
+  type Coordinates,
+  type DraggedData, type ElementsMap,
+  type GameElement
+} from '../../types';
+import { generateBoardElement } from '../../utils/board';
+import { generateBuildingCards } from '../../utils/buildingCards';
+import { WebSocketContext } from '../WebSocketProvider/websocket-provider';
+import './board-tools.scss';
+import './board.scss';
 
 type StateProps = {
   selectedElements: ElementsMap;
@@ -165,19 +168,19 @@ const Board = (props: Props) => {
 
 const mapStateToProps = (state: AppState): StateProps => ({
   selectedElements: getSelectedElements(state),
-  conflictPawn: getElements(state, ElementTypes.CONFLICT_PAWN)[0],
+  conflictPawn: getElements(state, GameElements.CONFLICT_PAWN)[0],
   coins: [ 
-    ...getElements(state, ElementTypes.COIN_6),
-    ...getElements(state, ElementTypes.COIN_3),
-    ...getElements(state, ElementTypes.COIN_1)
+    ...getElements(state, GameElements.COIN_6),
+    ...getElements(state, GameElements.COIN_3),
+    ...getElements(state, GameElements.COIN_1)
   ],
   militaryTokens: [
-    ...getElements(state, ElementTypes.MILITARY_TOKEN_5),
-    ...getElements(state, ElementTypes.MILITARY_TOKEN_2)
+    ...getElements(state, GameElements.MILITARY_TOKEN_5),
+    ...getElements(state, GameElements.MILITARY_TOKEN_2)
   ],
-  progressTokens: getElements(state, ElementTypes.PROGRESS_TOKEN),
-  buildingCards: getElements(state, ElementTypes.BUILDING_CARD),
-  wonderCards: getElements(state, ElementTypes.WONDER_CARD)
+  progressTokens: getElements(state, GameElements.PROGRESS_TOKEN),
+  buildingCards: getElements(state, GameElements.BUILDING_CARD),
+  wonderCards: getElements(state, GameElements.WONDER_CARD)
 });
 
 const mapDispatchToProps: DispatchProps = {

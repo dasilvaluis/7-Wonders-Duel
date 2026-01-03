@@ -1,20 +1,33 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { addElements, bringElement, flipElement, moveElement, setElements } from '../../actions/elements-actions';
 import {
-  SET_ELEMENTS, BRING_ELEMENT, ADD_ELEMENTS, FLIP_ELEMENT, MOVE_ELEMENT, SET_AGE, GET_STATE, SET_STATE, YOU_START
-} from '../../contants';
-import {
-  Coordinates, GameElement, Age, MoveElementAPIEvent, FlipElementAPIEvent, 
-  AddElementsAPIEvent, SetElementsAPIEvent, BringElementAPIEvent,
-  SetAgeAPIEvent, SetStateAPIEvent
-} from '../../types';
+  ADD_ELEMENTS,
+  BRING_ELEMENT,
+  FLIP_ELEMENT,
+  GET_STATE,
+  MOVE_ELEMENT, SET_AGE,
+  SET_ELEMENTS,
+  SET_STATE, YOU_START
+} from '../../constants';
+import type { AppState } from '../../reducers/reducers';
 import { getElements } from '../../reducers/selectors';
-import { setElements, flipElement, addElements, bringElement, moveElement } from '../../actions/elements-actions';
-import { AppState } from '../../reducers/reducers';
-import { getProgressTokens, getMilitaryTokens, generateConflictPawn } from '../../utils/board-utils';
-import { generateCoins } from '../../utils/coins-utils';
-import socket  from '../../wsClient';
-import { generateWonderCards } from '../../utils/wondercards-utils';
+import type {
+  AddElementsAPIEvent,
+  Age,
+  BringElementAPIEvent,
+  Coordinates,
+  FlipElementAPIEvent,
+  GameElement,
+  MoveElementAPIEvent,
+  SetAgeAPIEvent,
+  SetElementsAPIEvent,
+  SetStateAPIEvent
+} from '../../types';
+import { generateConflictPawn, getMilitaryTokens, getProgressTokens } from '../../utils/board';
+import { generateCoins } from '../../utils/coins';
+import { generateWonderCards } from '../../utils/wonderCards';
+import socket from '../../wsClient';
 
 type StateProps = {
   gameElements: Array<GameElement>;
@@ -28,11 +41,13 @@ type DispatchProps = {
   onBringElement(elementId: string, direction: string): void;
 };
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & {
+  children: React.ReactNode;
+};
 
 export const WebSocketContext = createContext(null);
 
-const _WebSocketProvider: React.FC<Props> = ({
+const _WebSocketProvider = ({
   children,
   gameElements,
   onSetElements,
@@ -40,7 +55,7 @@ const _WebSocketProvider: React.FC<Props> = ({
   onAddElements,
   onFlipElement,
   onBringElement,
-}) => {
+}: Props) => {
   const [ age, setAge ] = useState<Age | null>(null);
 
   useEffect(() => {
@@ -48,16 +63,16 @@ const _WebSocketProvider: React.FC<Props> = ({
       startGame();
     });
 
-    socket.on(SET_STATE, (data: SetStateAPIEvent) => {
+    socket.on(SET_STATE, (data: SetStateAPIEvent) => {
       onSetElements(data.elements);
       setAge(data.age);
     });
     
-    socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
+    socket.on(SET_ELEMENTS, (data: SetElementsAPIEvent) => {
       onSetElements(data);
     });
 
-    socket.on(MOVE_ELEMENT, (data: MoveElementAPIEvent) => {
+    socket.on(MOVE_ELEMENT, (data: MoveElementAPIEvent) => {
       const { elementsIds, delta } = data;
 
       elementsIds.forEach((id) => {
@@ -65,19 +80,19 @@ const _WebSocketProvider: React.FC<Props> = ({
       });
     });
 
-    socket.on(ADD_ELEMENTS, (data: AddElementsAPIEvent) => {
+    socket.on(ADD_ELEMENTS, (data: AddElementsAPIEvent) => {
       onAddElements(data);
     });
 
-    socket.on(FLIP_ELEMENT, (data: FlipElementAPIEvent) => {
+    socket.on(FLIP_ELEMENT, (data: FlipElementAPIEvent) => {
       onFlipElement(data.elementId);
     });
 
-    socket.on(BRING_ELEMENT, (data: BringElementAPIEvent) => {
+    socket.on(BRING_ELEMENT, (data: BringElementAPIEvent) => {
       onBringElement(data.elementId, data.direction);
     });
     
-    socket.on(SET_AGE, (data: SetAgeAPIEvent) => {
+    socket.on(SET_AGE, (data: SetAgeAPIEvent) => {
       setAge(data.age);
     });
   }, []);
@@ -85,7 +100,7 @@ const _WebSocketProvider: React.FC<Props> = ({
   useEffect(() => {
     const eventPayload: SetStateAPIEvent = { elements: gameElements, age };
 
-    socket
+    socket
       .off(GET_STATE)
       .on(GET_STATE, () => {
         socket.emit(SET_STATE, eventPayload);

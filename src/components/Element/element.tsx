@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import cn from 'classnames';
-import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
-import { GameElement, DraggedData } from '../../types';
+import React, { useState } from 'react';
+import Draggable, { type DraggableData, type DraggableEvent } from 'react-draggable';
+import { type DraggedData, type GameElement } from '../../types';
 import { getElementStyles } from '../../utils/utils';
 import './element.scss';
 
@@ -12,6 +12,8 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   onStartMove?(event: DraggableEvent, data: DraggedData, id: string): void;
   onStopMove?(event: DraggableEvent, data: DraggedData, id: string): void;
 }
+
+const getImageUrl = (imageFile: string) => `url(/images/${imageFile})`;
 
 export default ({
   element,
@@ -46,11 +48,12 @@ export default ({
     onMove(e, { ...data }, element.id);
   };
 
+
   const elementStyle = {
     ...getElementStyles(element.type),
     backgroundImage: !element.faceDown
-      ? element.imageFile ? `url(${ require(`../../images/${ element.imageFile }`) })` : ''
-      : element.imageFileBackface ? `url(${ require(`../../images/${ element.imageFileBackface }`) })` : ''
+      ? element.imageFile ? getImageUrl(element.imageFile) : ''
+      : element.imageFileBackface ? getImageUrl(element.imageFileBackface) : ''
   }
 
   const elementClasses = cn(
