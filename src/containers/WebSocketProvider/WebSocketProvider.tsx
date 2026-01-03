@@ -60,7 +60,7 @@ export const WebSocketProvider = ({ children }: Props) => {
   useEffect(() => {
     const stopListening = socketListeners({
       onYouStart: () => {
-        emitStartGame();
+        startGame();
       },
       onSetElements: (elements) => {
         dispatch(setElements(elements));
@@ -89,7 +89,7 @@ export const WebSocketProvider = ({ children }: Props) => {
     });
   }, [gameElements, age]);
 
-  const emitStartGame = () => {
+  const startGame = () => {
     const initialElements = [
       ...getProgressTokens(),
       ...getMilitaryTokens(),
@@ -111,13 +111,13 @@ export const WebSocketProvider = ({ children }: Props) => {
         setAge(age);
         emitSetAge(age);
       },
-      startGame: emitStartGame,
+      startGame,
       flipElement: emitFlipElement,
       bringElement: emitBringElement,
       moveElement: emitMoveElement,
       addElements: emitAddElements,
     }),
-    [age, setAge, emitStartGame],
+    [age, setAge, startGame],
   );
 
   return <WebSocketContext.Provider value={providerValue}>{children}</WebSocketContext.Provider>;
