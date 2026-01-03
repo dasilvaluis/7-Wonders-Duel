@@ -1,68 +1,85 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 7 Wonders Duel
+
+A digital implementation of the board game 7 Wonders Duel built with React, Redux, and WebSocket multiplayer support.
+
+## Prerequisites
+
+- Node.js 24 or higher
+- Yarn package manager
+
+## Installation
+
+```bash
+yarn install
+```
+
+## Development
+
+This project uses Vite for fast development and WebSocket for real-time multiplayer.
+
+### Starting the Application
+
+You need to run both the WebSocket server and the Vite dev server:
+
+**Terminal 1 - Start the WebSocket server:**
+
+```bash
+yarn start-server
+```
+
+The server runs on `http://localhost:1337`
+
+**Terminal 2 - Start the Vite dev server:**
+
+```bash
+yarn start
+```
+
+The client runs on `http://localhost:5173` (default Vite port)
+
+### How It Works
+
+- The **Vite dev server** serves the React application with hot module replacement
+- The **WebSocket server** handles real-time game state synchronization between players
+- The client automatically connects to the WebSocket server at `localhost:1337`
+- Open two browser windows to test multiplayer functionality
 
 ## Available Scripts
 
-In the project directory, you can run:
-
 ### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the Vite dev server with hot reload at [http://localhost:5173](http://localhost:5173)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### `yarn start-server`
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Starts the WebSocket server on port 1337 for multiplayer game state management
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder using Vite
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### `yarn preview`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Preview the production build locally
 
-### `yarn eject`
+### `yarn test`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Runs the test suite with Jest
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `yarn type-check`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Runs TypeScript type checking without emitting files
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Production Build
+
+```bash
+yarn build
+```
+
+The optimized production build will be in the `build` folder, ready for deployment.
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [Vite Documentation](https://vitejs.dev/)
+- [React Documentation](https://reactjs.org/)
+- [Socket.IO Documentation](https://socket.io/)
