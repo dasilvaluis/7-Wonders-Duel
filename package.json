@@ -48,7 +48,7 @@
     "prettier": "3.8.1",
     "react-test-renderer": "19.2.4",
     "sass": "1.97.3",
-    "ts-jest": "^29.4.6",
+    "ts-jest": "^29.4.9",
     "vite": "7.3.1"
   }
 }
